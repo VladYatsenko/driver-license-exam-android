@@ -1,14 +1,14 @@
-package com.android.testdai;
+package com.android.testdai.application.view;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.android.testdai.R;
 import com.squareup.picasso.Picasso;
 
 public class DialogImage extends DialogFragment {
@@ -46,12 +46,11 @@ public class DialogImage extends DialogFragment {
                 .setView(v)
                 .create();
     }
-
+/*
     private void sendResult(int resultCode){
         Intent intent = new Intent();
-
         ((MainActivity)getActivity()).onActivityResult(4,resultCode,intent);
     }
-
+*/
 
 }

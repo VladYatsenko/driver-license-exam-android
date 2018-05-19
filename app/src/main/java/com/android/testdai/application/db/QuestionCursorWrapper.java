@@ -1,11 +1,10 @@
-package com.android.testdai.Database;
+package com.android.testdai.application.db;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import android.util.Log;
 
-import com.android.testdai.Model.Question;
-import com.android.testdai.Model.Question.Answer;
+import com.android.testdai.application.model.Question;
+import com.android.testdai.application.model.Question.Answer;
 
 import java.util.List;
 

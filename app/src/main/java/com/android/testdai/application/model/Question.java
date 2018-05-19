@@ -1,4 +1,4 @@
-package com.android.testdai.Model;
+package com.android.testdai.application.model;
 
 import android.graphics.Bitmap;
 
@@ -78,10 +78,6 @@ public class Question implements Serializable {
 
     public void setImage(Bitmap mImage) {
         this.mImage = mImage;
-    }
-
-    public String getPhotoFilename() {
-        return "IMG_" + String.valueOf(getId()) + ".png";
     }
 
     public static class Answer implements Serializable{

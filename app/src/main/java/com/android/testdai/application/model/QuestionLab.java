@@ -1,15 +1,15 @@
-package com.android.testdai.Model;
+package com.android.testdai.application.model;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Parcelable;
 
-import com.android.testdai.Database.AnswerCursorWrapper;
-import com.android.testdai.Database.QuestionBaseHelper;
-import com.android.testdai.Database.QuestionCursorWrapper;
-import com.android.testdai.Database.QuestionDbSchema;
-import com.android.testdai.Model.Question.Answer;
+import com.android.testdai.application.db.AnswerCursorWrapper;
+import com.android.testdai.application.db.QuestionBaseHelper;
+import com.android.testdai.application.db.QuestionCursorWrapper;
+import com.android.testdai.application.db.QuestionDbSchema;
+import com.android.testdai.application.model.Question.Answer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -418,6 +418,5 @@ public class QuestionLab extends ArrayList<Parcelable> {
 
         //return 0;
     }
-
 
 }

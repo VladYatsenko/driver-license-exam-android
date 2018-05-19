@@ -1,4 +1,4 @@
-package com.android.testdai;
+package com.android.testdai.application.view;
 
 
 
@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class RatingFragment extends DialogFragment {
+import com.android.testdai.R;
+
+public class DialogRating extends DialogFragment {
 
     private SeekBar mAppearance, mUseful, mInteresting;
     private TextView mAppearanceText, mUsefulText, mInterestingText;
@@ -29,13 +31,13 @@ public class RatingFragment extends DialogFragment {
             "com.example.android.testdai.interesting";
 
 
-    public static RatingFragment newInstance(int appearance, int useful, int interesting){
+    public static DialogRating newInstance(int appearance, int useful, int interesting){
         Bundle args = new Bundle();
         args.putSerializable(ARG_appearance, appearance);
         args.putSerializable(ARG_useful, useful);
         args.putSerializable(ARG_interesting, interesting);
 
-        RatingFragment fragment = new RatingFragment();
+        DialogRating fragment = new DialogRating();
         fragment.setArguments(args);
         return fragment;
     }

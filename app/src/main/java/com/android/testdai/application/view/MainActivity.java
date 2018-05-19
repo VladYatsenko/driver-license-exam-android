@@ -1,4 +1,4 @@
-package com.android.testdai;
+package com.android.testdai.application.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import com.android.testdai.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CategoryFragment dialog = CategoryFragment
+                DialogCategory dialog = DialogCategory
                         .newInstance(mCategory.getText().toString());
                 //dialog.setTargetFragment(dialog, 1);
                 dialog.show(getFragmentManager(), DIALOG_CATEGORY);
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQUEST_CATEGORY) {
             String cat = (String) intent
-                    .getSerializableExtra(CategoryFragment.EXTRA_CATEGORY);
+                    .getSerializableExtra(DialogCategory.EXTRA_CATEGORY);
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putString(APP_PREFERENCES_CATEGORY, cat);
             editor.apply();

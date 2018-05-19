@@ -1,4 +1,4 @@
-package com.android.testdai;
+package com.android.testdai.application.view;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.android.testdai.R;
 
-public class CategoryFragment extends DialogFragment {
+
+public class DialogCategory extends DialogFragment {
 
     CheckBox mCategoryA1, mCategoryB1, mCategoryC1, mCategoryD1,
             mCategoryC1E, mCategoryD1E,
@@ -35,10 +37,10 @@ public class CategoryFragment extends DialogFragment {
     public static final String EXTRA_CATEGORY =
             "com.example.android.testdai.category";
 
-    public static CategoryFragment newInstance(String category){
+    public static DialogCategory newInstance(String category){
         Bundle args = new Bundle();
         args.putSerializable(ARG_CATEGORY, category);
-        CategoryFragment fragment = new CategoryFragment();
+        DialogCategory fragment = new DialogCategory();
         fragment.setArguments(args);
         return fragment;
     }

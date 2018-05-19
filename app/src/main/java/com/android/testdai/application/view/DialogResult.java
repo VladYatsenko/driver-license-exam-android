@@ -1,7 +1,6 @@
-package com.android.testdai;
+package com.android.testdai.application.view;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -15,7 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ResultFragment extends DialogFragment {
+import com.android.testdai.R;
+
+public class DialogResult extends DialogFragment {
 
     private static final String ARG_RESULT = "result";
     public static final String EXTRA_RESULT =
@@ -23,11 +24,11 @@ public class ResultFragment extends DialogFragment {
     private TextView mResultText, mResult;
     private ImageView mResultImage;
 
-    public static ResultFragment newInstance(int result){
+    public static DialogResult newInstance(int result){
         Bundle args = new Bundle();
         args.putSerializable(ARG_RESULT, result);
 
-        ResultFragment fragment = new ResultFragment();
+        DialogResult fragment = new DialogResult();
         fragment.setArguments(args);
         return fragment;
     }

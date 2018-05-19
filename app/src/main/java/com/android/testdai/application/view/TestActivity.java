@@ -1,4 +1,4 @@
-package com.android.testdai;
+package com.android.testdai.application.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,9 +21,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.testdai.Model.Question;
-import com.android.testdai.Model.Question.Answer;
-import com.android.testdai.Model.QuestionLab;
+import com.android.testdai.R;
+
+import com.android.testdai.application.model.Question;
+import com.android.testdai.application.model.Question.Answer;
+import com.android.testdai.application.model.QuestionLab;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -341,15 +343,15 @@ public class TestActivity extends AppCompatActivity{
                 if(mAnswer.isWasChoosen()) {
                     if (mAnswer.isAnswerTrue()) {
                         mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_true);
-                        mAnswerTextView.setTextColor(Color.WHITE);//Color.rgb(0, 102, 0)
+                        mAnswerTextView.setTextColor(Color.WHITE);
                     } else if (!mAnswer.isAnswerTrue()) {
                         mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_false);
-                        mAnswerTextView.setTextColor(Color.WHITE);//rgb(230, 0, 0)
+                        mAnswerTextView.setTextColor(Color.WHITE);
                     }
                 } else {
                     if(mAnswer.isAnswerTrue()){
                         mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_true);
-                        mAnswerTextView.setTextColor(Color.WHITE);//Color.rgb(0, 102, 0)
+                        mAnswerTextView.setTextColor(Color.WHITE);
                     }
                 }
             }
@@ -501,7 +503,7 @@ public class TestActivity extends AppCompatActivity{
             mIsResume = true;
             mCountDownTimer.cancel();
 
-            ResultFragment dialog = ResultFragment.newInstance(answerIsTrueCount);
+            DialogResult dialog = DialogResult.newInstance(answerIsTrueCount);
             dialog.show(getFragmentManager(), DIALOG_RESULT);
             return false;
         }

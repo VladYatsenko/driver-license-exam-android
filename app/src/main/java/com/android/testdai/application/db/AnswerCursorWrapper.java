@@ -1,11 +1,12 @@
-package com.android.testdai.Database;
+package com.android.testdai.application.db;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-import com.android.testdai.Model.Question;
+import com.android.testdai.application.model.Question;
 
 public class AnswerCursorWrapper  extends CursorWrapper{
+
     public AnswerCursorWrapper(Cursor cursor) {
         super(cursor);
     }
