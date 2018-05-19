@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Іспит ДАІ</string>
+    <string name="result_title">Результат іспиту</string>
+    <string name="start">Розпочати іспит</string>
+    <string name="category">Оберіть категорію</string>
+    <string name="first">ІСПИТ</string>
+    <string name="second">ДАІ</string>
+    <string name="restart">Заново</string>
+    <string name="banner_ad_unit_id1">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id2">ca-app-pub-5104532168407959/5399900370</string>
+
+    <string name="enable">#535353</string>
+    <string name="disable">#CBCBCB</string>
+    <string name="selected">#ffffff</string>
+</resources>

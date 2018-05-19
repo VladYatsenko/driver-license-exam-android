@@ -1,0 +1,285 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/categoryA1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected_true"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="A1" />
+
+        <CheckBox
+            android:id="@+id/categoryB1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="B1" />
+
+        <CheckBox
+            android:id="@+id/categoryC1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="C1" />
+
+        <CheckBox
+            android:id="@+id/categoryD1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="D1" />
+        <Space
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"/>
+        <Space
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"/>
+
+        <CheckBox
+            android:id="@+id/categoryC1E"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="C1E" />
+
+        <CheckBox
+            android:id="@+id/categoryD1E"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="D1E" />
+
+        <Space
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/categoryA"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="A" />
+
+        <CheckBox
+            android:id="@+id/categoryB"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="B" />
+
+        <CheckBox
+            android:id="@+id/categoryC"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="C" />
+
+        <CheckBox
+            android:id="@+id/categoryD"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="D" />
+
+        <CheckBox
+            android:id="@+id/categoryT"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="T" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"/>
+
+        <CheckBox
+            android:id="@+id/categoryBE"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="BE" />
+
+        <CheckBox
+            android:id="@+id/categoryCE"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="CE" />
+
+        <CheckBox
+            android:id="@+id/categoryDE"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:button="@drawable/not_selected"
+            android:background="@drawable/not_selected"
+            android:textAlignment="center"
+            android:text="DE" />
+
+        <Space
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"/>
+
+    </LinearLayout>
+
+
+    <!--RadioGroup
+        android:id="@+id/radioCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/categoryA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:drawableLeft="@drawable/category_a"
+            android:background="@drawable/background"
+            android:button="@android:color/transparent"
+            android:text="Категорія A"/>
+        <RadioButton
+            android:id="@+id/categoryB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/background"
+            android:drawableLeft="@drawable/category_b"
+            android:text="Категорія B" />
+        <RadioButton
+            android:id="@+id/categoryC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/background"
+            android:drawableLeft="@drawable/category_c"
+            android:text="Категорія C" />
+        <RadioButton
+            android:id="@+id/categoryD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/background"
+            android:drawableLeft="@drawable/category_d"
+            android:text="Категорія D" />
+        <RadioButton
+            android:id="@+id/categoryT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Категорія T" />
+    </RadioGroup-->
+
+</LinearLayout>
