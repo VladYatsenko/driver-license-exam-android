@@ -1,7 +1,5 @@
 package com.android.testdai.application.model;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,18 +9,17 @@ public class Question implements Serializable {
     private String mTextQuestion;
     private List<Answer> mAnswer;
     private String mImageSource;
-    private Bitmap mImage;
-    private Boolean mWasAnswered;
-    private boolean mWasSelected;
+    private Boolean mAnswered;
+    private boolean mSelected;
 
     public Question(){}
 
-    public List<Answer> getAnswer() {
-        return mAnswer;
+    public int getId() {
+        return mId;
     }
 
-    public void setAnswer(List<Answer> mAnswer) {
-        this.mAnswer = mAnswer;
+    public void setId(int mId) {
+        this.mId = mId;
     }
 
     public String getTextQuestion() {
@@ -33,20 +30,20 @@ public class Question implements Serializable {
         this.mTextQuestion = mTextQuestion;
     }
 
-    public int getId() {
-        return mId;
+    public List<Answer> getAnswers() {
+        return mAnswer;
     }
 
-    public void setId(int mId) {
-        this.mId = mId;
+    public void setAnswers(List<Answer> mAnswer) {
+        this.mAnswer = mAnswer;
     }
 
-    public Boolean isWasAnswered() {
-        return mWasAnswered;
+    public Boolean isAnswered() {
+        return mAnswered;
     }
 
-    public void setWasAnswered(Boolean mWasAnswered) {
-        this.mWasAnswered = mWasAnswered;
+    public void setAnswered(Boolean mWasAnswered) {
+        this.mAnswered = mWasAnswered;
     }
 
     public String getImageSource() {
@@ -57,34 +54,25 @@ public class Question implements Serializable {
         this.mImageSource = mImageSource;
     }
 
-    public boolean isWasSelected() {
-        return mWasSelected;
+    public boolean isSelected() {
+        return mSelected;
     }
 
-    public void setWasSelected(boolean mWasSelected) {
-        this.mWasSelected = mWasSelected;
+    public void setSelected(boolean mSelected) {
+        this.mSelected = mSelected;
     }
 
     public boolean isImageEmpty(){
-        if (mImageSource.length()>2){
-            return false;
-        }
-        return true;
-    }
-
-    public Bitmap getImage() {
-        return mImage;
-    }
-
-    public void setImage(Bitmap mImage) {
-        this.mImage = mImage;
+        return mImageSource.length() > 2;
     }
 
     public static class Answer implements Serializable{
 
         private String mTextAnswer;
         private boolean mAnswerTrue;
-        private Boolean mWasChoosen;
+        private Boolean mSelected;
+
+        public Answer(){}
 
         public String getTextAnswer() {
             return mTextAnswer;
@@ -94,8 +82,6 @@ public class Question implements Serializable {
             this.mTextAnswer = mTextAnswer;
         }
 
-        public Answer(){}
-
         public Boolean isAnswerTrue() {
             return mAnswerTrue;
         }
@@ -104,12 +90,13 @@ public class Question implements Serializable {
             this.mAnswerTrue = mAnswerTrue;
         }
 
-        public boolean isWasChoosen() {
-            return mWasChoosen;
+        public boolean isSelected() {
+            return mSelected;
         }
 
-        public void setWasChoosen(Boolean mWasChoosed) {
-            this.mWasChoosen = mWasChoosed;
+        public void setSelected(Boolean mSelected) {
+            this.mSelected = mSelected;
         }
     }
+
 }

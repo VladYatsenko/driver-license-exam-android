@@ -1,6 +1,6 @@
 package com.android.testdai.application.db;
 
-public class QuestionDbSchema {
+public class DbSchema {
 
     public static final class QuestionTable{
         public static final String NAME = "question";
@@ -9,6 +9,7 @@ public class QuestionDbSchema {
             public static final String ID = "_id";
             public static final String TEXTQUESTION = "name_question";
             public static final String IMAGESOURCE = "source_image";
+            public static final String TOPIC = "fk_topic";
         }
     }
 

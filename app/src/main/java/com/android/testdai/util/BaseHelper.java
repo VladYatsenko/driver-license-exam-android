@@ -1,4 +1,4 @@
-package com.android.testdai.application.db;
+package com.android.testdai.util;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class QuestionBaseHelper extends SQLiteOpenHelper{
+public class BaseHelper extends SQLiteOpenHelper{
 
     private static String DB_PATH = null;
     private static final int VERSION = 1;
@@ -20,7 +20,7 @@ public class QuestionBaseHelper extends SQLiteOpenHelper{
     private SQLiteDatabase mDataBase;
     private final Context mContext;
 
-    public QuestionBaseHelper(Context context){
+    public BaseHelper(Context context){
         super(context, DATABASE_NAME, null, VERSION);
         this.mContext = context;
         this.DB_PATH = "/data/data/" + context.getPackageName() + "/" + "databases/";

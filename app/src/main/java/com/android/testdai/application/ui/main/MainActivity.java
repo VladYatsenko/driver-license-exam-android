@@ -1,4 +1,4 @@
-package com.android.testdai.application.view;
+package com.android.testdai.application.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.testdai.R;
+import com.android.testdai.application.ui.test.TestActivity;
+import com.android.testdai.application.ui.dialog.DialogCategory;
 
 public class MainActivity extends AppCompatActivity {
 
