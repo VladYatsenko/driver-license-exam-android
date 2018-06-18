@@ -28,16 +28,16 @@
             app:layout_constraintVertical_bias="0.513"
             android:layout_marginLeft="16dp" />
 
-        <Button xmlns:app="http://schemas.android.com/apk/res-auto"
+        <Button
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="B"
             android:textColor="@color/colorGrayText"
-
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView"
@@ -109,7 +109,7 @@
             android:layout_margin="8dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:background="@drawable/button"
+            android:background="@drawable/start_button"
             android:text="@string/start"
             android:textColor="#ffffff"
             android:textSize="17sp"

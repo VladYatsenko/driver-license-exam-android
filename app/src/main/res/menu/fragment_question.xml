@@ -10,6 +10,5 @@
     <item
         android:id="@+id/countdown"
         app:showAsAction="always"
-        android:title="@null"
-        />
+        android:title="@null"/>
 </menu>

@@ -117,7 +117,7 @@
             android:layout_margin="8dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:background="@drawable/button"
+            android:background="@drawable/start_button"
             android:text="@string/start"
             android:textColor="#ffffff"
             android:textSize="17sp"

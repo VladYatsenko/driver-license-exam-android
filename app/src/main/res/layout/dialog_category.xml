@@ -242,7 +242,7 @@
             android:layout_margin="5dp"
             android:drawableLeft="@drawable/category_a"
             android:background="@drawable/background"
-            android:button="@android:color/transparent"
+            android:start_button="@android:color/transparent"
             android:text="Категорія A"/>
         <RadioButton
             android:id="@+id/categoryB"
@@ -250,7 +250,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="5dp"
-            android:button="@android:color/transparent"
+            android:start_button="@android:color/transparent"
             android:background="@drawable/background"
             android:drawableLeft="@drawable/category_b"
             android:text="Категорія B" />
@@ -260,7 +260,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="5dp"
-            android:button="@android:color/transparent"
+            android:start_button="@android:color/transparent"
             android:background="@drawable/background"
             android:drawableLeft="@drawable/category_c"
             android:text="Категорія C" />
@@ -270,7 +270,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="5dp"
-            android:button="@android:color/transparent"
+            android:start_button="@android:color/transparent"
             android:background="@drawable/background"
             android:drawableLeft="@drawable/category_d"
             android:text="Категорія D" />

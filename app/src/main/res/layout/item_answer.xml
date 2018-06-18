@@ -1,15 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative_layout_answer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:padding="3pt"
     android:background="@drawable/regular">
+
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/answer_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="Answer text"
+        tools:text="Answer text"
         android:textSize="14sp" />
+
 </RelativeLayout>

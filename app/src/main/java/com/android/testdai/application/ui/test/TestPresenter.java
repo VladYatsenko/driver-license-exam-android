@@ -1,72 +1,64 @@
 package com.android.testdai.application.ui.test;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.CountDownTimer;
 
 import com.android.testdai.application.db.DaiRepository;
 import com.android.testdai.application.model.Question;
-import com.android.testdai.application.model.QuestionLab;
 import com.android.testdai.application.ui.test.abstraction.ITestView;
-import com.android.testdai.application.ui.test.model.AnswerItemFactory;
-import com.android.testdai.application.ui.test.model.Item;
-import com.android.testdai.application.ui.test.model.ItemFactory;
-import com.android.testdai.application.ui.test.model.QuestionItemFactory;
 
 import java.util.List;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 
 public class TestPresenter {
 
     private Context context;
     private List<Question> questions;
     private ITestView iTestView;
-    private int questionPosition;
-    private CountDownTimer mCountDownTimer;
-    private int mTimerLast = 1200000;
-    boolean mTime = true;
+    private CountDownTimer countdownTimer;
+    private int timeLast = 1200000;
+    private boolean time = true;
+    private boolean testState = true;
 
-    private boolean state;
 
-    public TestPresenter (Context context, String category){
+    @SuppressLint("CheckResult")
+    TestPresenter(Context context, String category) {
 
         this.context = context;
         iTestView = (ITestView) context;
         iTestView.startLoading();
-        databaseRequest(category);
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                databaseRequest(category);
+            }
+        }).subscribeOn(Schedulers.io()).andThen(afterRequest()).subscribe();
 
     }
 
-    public void attachView() {
-
-        iTestView.updateListQuestion(0, questions);
-        selectQuestion(0);
-        iTestView.stopLoading();
-        countdownTimer();
-        state = true;
-
-    }
+    public void attachView() {}
 
     private void databaseRequest(String category) {
 
-        //questions = QuestionLab.get(context).getQuestions(category);
         questions = DaiRepository.get(context).getQuestionsList(category);
 
     }
 
-    public int drawableSelector(Object itemClass) {
+    private Completable afterRequest() {
 
-        ItemFactory itemFactory = null;
-
-        if (itemClass.getClass().equals(Question.class))
-            itemFactory = new QuestionItemFactory();
-        else if (itemClass.getClass().equals(Question.Answer.class))
-            itemFactory = new AnswerItemFactory();
-
-        assert itemFactory != null;
-        Item item = itemFactory.createItem();
-
-        return item.selectDrawable(itemClass);
+        return Completable.fromAction(() -> {
+            iTestView.stopLoading();
+            countdownTimer();
+            selectQuestion(0);
+        }).subscribeOn(AndroidSchedulers.mainThread());
 
     }
+
 
     public void selectQuestion(int position) {
 
@@ -74,28 +66,30 @@ public class TestPresenter {
             question.setSelected(false);
         }
         questions.get(position).setSelected(true);
-        //question.setSelected(true);
 
         iTestView.updateListQuestion(position, questions);
-        this.questionPosition = position;
 
     }
 
     public void selectAnswer(int position) {
 
-        Question question = questions.get(questionPosition);
+        Question question = null;
+        for (Question q : questions) {
+            if (q.isSelected())
+                question = q;
+        }
+        assert question != null;
         Question.Answer answer = question.getAnswers().get(position);
-        if (!question.isAnswered()) {
-            if (!question.isAnswered()) {
-                question.setAnswered(true);
-                answer.setSelected(true);
-                if (testResult()) {
-                    nextQuestion();
-                } else {
-                    iTestView.updateListQuestion(questions.indexOf(question), questions);
-                }
+        if (!question.isAnswered() && testState) {
+            question.setAnswered(true);
+            answer.setSelected(true);
+            if (testResult()) {
+                nextQuestion();
+            } else {
+                iTestView.updateListQuestion(questions.indexOf(question), questions);
             }
         }
+
 
     }
 
@@ -130,6 +124,7 @@ public class TestPresenter {
         int questionCount = 0;
         int answerIsTrueCount = 0;
         int answerIsFalseCount = 0;
+
         List<Question.Answer> answers;
 
         for (Question question : questions) {
@@ -146,10 +141,9 @@ public class TestPresenter {
                 }
             }
         }
-        if (questionCount == questions.size() || !mTime || answerIsFalseCount > 2) {
-            state = true;
-            mCountDownTimer.cancel();
-
+        if (questionCount == questions.size() || !time || answerIsFalseCount > 2) {
+            countdownTimer.cancel();
+            testState = false;
             iTestView.showResultDialog(answerIsTrueCount);
             return false;
         }
@@ -159,25 +153,29 @@ public class TestPresenter {
 
     private void countdownTimer() {
 
-        mCountDownTimer = new CountDownTimer(mTimerLast, 1000) {
+        countdownTimer = new CountDownTimer(timeLast, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if (!mTime) {
-                    mCountDownTimer.cancel();
-                    iTestView.updateTimer(mTimerLast);
+                if (!time) {
+                    countdownTimer.cancel();
+                    iTestView.updateTimer(timeLast);
                 } else {
-                    mTimerLast = (int) millisUntilFinished;
+                    timeLast = (int) millisUntilFinished;
                     iTestView.updateTimer((int) millisUntilFinished);
                 }
             }
 
             public void onFinish() {
                 iTestView.updateTimer(0);
-                mTime = false;
+                time = false;
+                testState = false;
                 testResult();
             }
 
         }.start();
     }
 
+    public void onDestroy() {
+        countdownTimer.cancel();
+    }
 }

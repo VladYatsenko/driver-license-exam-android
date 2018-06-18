@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class BaseHelper extends SQLiteOpenHelper{
+public class DatabaseUtil extends SQLiteOpenHelper{
 
     private static String DB_PATH = null;
     private static final int VERSION = 1;
@@ -20,7 +20,7 @@ public class BaseHelper extends SQLiteOpenHelper{
     private SQLiteDatabase mDataBase;
     private final Context mContext;
 
-    public BaseHelper(Context context){
+    public DatabaseUtil(Context context){
         super(context, DATABASE_NAME, null, VERSION);
         this.mContext = context;
         this.DB_PATH = "/data/data/" + context.getPackageName() + "/" + "databases/";

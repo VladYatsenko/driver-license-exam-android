@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,6 +43,8 @@ import java.util.List;
 
 public class TestActivity extends AppCompatActivity implements ITestView{
 
+    public static final String TAG = "TestActivity";
+
     private static final int SEND_RESULT = 0;
     private static final int RESTART = 1;
     private static final String DIALOG_RESULT = "DialogResult";
@@ -53,10 +54,10 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     private RecyclerView mAnswerRecycler;
     private TextView mQuestionTextView;
     private ImageView mQuestionImage;
+    private LinearLayoutManager mLinearLayoutManager;
     private AdView mAdView;
 
     private TestPresenter presenter;
-    private String category;
     private Handler handler;
     private ProgressUtil progressUtil;
 
@@ -75,11 +76,12 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
         progressUtil = new ProgressUtil(this);
 
-        category = (String) getIntent().getSerializableExtra(EXTRA_CATEGORY);
+        String category = (String) getIntent().getSerializableExtra(EXTRA_CATEGORY);
         presenter = new TestPresenter(this, category);
 
         mQuestionRecycler = (RecyclerView) findViewById(R.id.question_recycler_view);
-        mQuestionRecycler.setLayoutManager(new LinearLayoutManager(TestActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        mLinearLayoutManager = new LinearLayoutManager(TestActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        mQuestionRecycler.setLayoutManager(mLinearLayoutManager);
 
         mAnswerRecycler = (RecyclerView) findViewById(R.id.answer_recycler_view);
         mAnswerRecycler.setLayoutManager(new LinearLayoutManager(TestActivity.this));
@@ -103,6 +105,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.fragment_question, menu);
         final MenuItem mCountdown = menu.findItem(R.id.countdown);
@@ -112,8 +115,9 @@ public class TestActivity extends AppCompatActivity implements ITestView{
                 mCountdown.setTitle(new SimpleDateFormat("mm:ss").format(new Date(message)));
             };
         };
-        //countdownTimer();
+
         return true;
+
     }
 
     @Override
@@ -125,23 +129,13 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     @Override
     protected void onPause() {
         super.onPause();
-        //mCountDownTimer.cancel();
         mAdView.pause();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //presenter.countdownTimer();
-        /*if(!mIsResume){
-            countdownTimer();
-        }*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //mCountDownTimer.cancel();
+        presenter.onDestroy();
         mAdView.destroy();
     }
 
@@ -174,7 +168,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
 
         public ListQuestionHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_question, parent, false));
+            super(inflater.inflate(R.layout.item_question, parent, false));
             mQuestionCount = (TextView) itemView.findViewById(R.id.number_question);
             mRelativeLayoutQuestion = (RelativeLayout) itemView.findViewById(R.id.relative_layout_question);
             itemView.setOnClickListener(this);
@@ -227,6 +221,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
         public void onClick(View view) {
             presenter.selectQuestion(this.getAdapterPosition());
         }
+
     }
 
     private class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionHolder>{
@@ -264,7 +259,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_answer, parent, false));
+            super(inflater.inflate(R.layout.item_answer, parent, false));
             mAnswerTextView = (TextView) itemView.findViewById(R.id.answer_text);
             mRelativeLayoutAnswer = (RelativeLayout) itemView.findViewById(R.id.relative_layout_answer);
             itemView.setOnClickListener(this);
@@ -346,11 +341,22 @@ public class TestActivity extends AppCompatActivity implements ITestView{
         ListQuestionAdapter mAdapterQuestion = new ListQuestionAdapter(questions);
         mQuestionRecycler.setAdapter(mAdapterQuestion);
 
-        //mQuestionRecycler.scrollToPosition(position);
-        //recycler to center
-//        mQuestionRecycler.scrollToPositionWithOffset(int position, int offset);
+        scrollToCenter(position);
 
         updateQuestion(questions.get(position));
+
+    }
+
+    private void scrollToCenter(int position){
+
+        int centerOfScreen = mQuestionRecycler.getWidth()/2;
+        centerOfScreen=centerOfScreen-64;
+
+        if (position == 0) {
+            mLinearLayoutManager.scrollToPosition(position);
+        } else {
+            mLinearLayoutManager.scrollToPositionWithOffset(position, centerOfScreen);//52
+        }
 
     }
 

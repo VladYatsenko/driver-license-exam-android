@@ -40,6 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="175dp"
                 android:paddingTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 tools:srcCompat="@drawable/empty" />
 
             <android.support.v7.widget.RecyclerView

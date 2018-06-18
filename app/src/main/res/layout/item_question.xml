@@ -1,17 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative_layout_question"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginRight="7dp"
     android:layout_marginLeft="7dp"
-    android:padding="4pt"
-    android:background="#444444">
+    android:padding="3pt"
+    android:background="@drawable/background">
     <TextView
         android:id="@+id/number_question"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:text="20"
+        tools:text="20"
         android:textAlignment="center"
-        android:textColor="#ffffff"
+        android:textColor="#000"
         android:textSize="15sp" />
 </RelativeLayout>
