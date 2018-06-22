@@ -13,4 +13,23 @@
     <string name="enable">#535353</string>
     <string name="disable">#CBCBCB</string>
     <string name="selected">#ffffff</string>
+    
+    <string name="A1">A1</string>
+    <string name="B1">B1</string>
+    <string name="C1">C1</string>
+    <string name="D1">D1</string>
+    <string name="A">A</string>
+    <string name="B">B</string>
+    <string name="C">C</string>
+    <string name="D">D</string>
+    <string name="C1E">C1E</string>
+    <string name="D1E">D1E</string>
+    <string name="BE">BE</string>
+    <string name="CE">CE</string>
+    <string name="DE">DE</string>
+    <string name="T">T</string>
+    <string name="empty"/>
+
+
+
 </resources>

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import com.android.testdai.application.ui.dialog.DialogCategory;
+import com.android.testdai.application.ui.category.DialogCategory;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
 import com.android.testdai.application.ui.test.TestActivity;
 import com.android.testdai.util.Constants;
