@@ -22,8 +22,6 @@ public class DialogResult extends DialogFragment {
     private static final String ARG_RESULT = "result";
     public static final String EXTRA_RESULT =
             "com.example.android.testdai.result";
-    private TextView mResultText, mResult;
-    private ImageView mResultImage;
 
     public static DialogResult newInstance(int result){
         Bundle args = new Bundle();
@@ -42,8 +40,8 @@ public class DialogResult extends DialogFragment {
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_result, null);
 
-        mResult = (TextView) v.findViewById(R.id.result);
-        mResultImage = (ImageView) v.findViewById(R.id.result_image);
+        TextView mResult = (TextView) v.findViewById(R.id.result);
+        ImageView mResultImage = (ImageView) v.findViewById(R.id.result_image);
         if (result<18){
             mResult.setText("Іспит не складений");
             mResultImage.setImageResource(R.drawable.cat);
@@ -51,7 +49,7 @@ public class DialogResult extends DialogFragment {
             mResult.setText("Іспит складений");
             mResultImage.setImageResource(R.drawable.prize);
         }
-        mResultText = (TextView) v.findViewById(R.id.result_text);
+        TextView mResultText = (TextView) v.findViewById(R.id.result_text);
         mResultText.setText("Правильних відповідей: "+result + "/20");
 
         return new AlertDialog.Builder(getActivity())

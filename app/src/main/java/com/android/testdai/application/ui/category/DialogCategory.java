@@ -3,10 +3,9 @@ package com.android.testdai.application.ui.category;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import com.android.testdai.R;
 import com.android.testdai.application.ui.category.abstraction.ICategoryView;
 import com.android.testdai.application.ui.category.model.Category;
 import com.android.testdai.application.ui.category.model.GroupEnum;
+import com.android.testdai.application.ui.main.MainActivity;
 
 import java.util.List;
 
@@ -29,10 +29,6 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
     private CategoryPresenter presenter;
     private RecyclerView categoryRecyclervView;
     private CategoryAdapter categoryAdapter;
-
-    String enable = "#000000";
-    String disable = "#CBCBCB";
-    String selected = "#ffffff";
 
     private AlertDialog dialog;
 
@@ -48,7 +44,6 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -69,7 +64,7 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
-                                    presenter.sendResult();
+                                    presenter.getResult();
                             }
                         });
 
@@ -80,7 +75,6 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onResume() {
         super.onResume();
@@ -110,7 +104,7 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
                 categoryText.setText(getActivity().getString(category.getName()));
                 if(category.getGroup().isEnabled()) {
                     if(category.isSelected()){
-                        linearLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.selected_true));
+                        linearLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.selected_category));
                         categoryText.setTextColor(getResources().getColor(R.color.selected));
                     }else{
                         linearLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.not_selected));
@@ -161,17 +155,27 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
 
     }
 
+    @Override
+    public void updateUI(List<Category> categories, boolean okState) {
+
+        categoryAdapter = new CategoryAdapter(categories);
+        categoryRecyclervView.setAdapter(categoryAdapter);
+        setButtonEnabled(okState);
+
+    }
+
     private void setButtonEnabled(boolean state){
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(state);
 
     }
 
-
     @Override
-    public void updateUI(List<Category> categories) {
-        categoryAdapter = new CategoryAdapter(categories);
-        categoryRecyclervView.setAdapter(categoryAdapter);
+    public void sendResult(String categorys) {
+
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_CATEGORY, categorys);
+        ((MainActivity)getActivity()).onActivityResult(1,1,intent);
 
     }
 

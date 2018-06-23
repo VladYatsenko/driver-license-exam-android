@@ -13,8 +13,6 @@ import com.squareup.picasso.Picasso;
 
 public class DialogImage extends DialogFragment {
 
-    private ImageView mImageView;
-
     private static final String ARG_IMAGE = "imageSource";
 
     public static DialogImage newInstance(String source){
@@ -35,22 +33,22 @@ public class DialogImage extends DialogFragment {
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_image, null);
 
-        mImageView = (ImageView) v.findViewById(R.id.imageQuestion);
+        ImageView mImageView = (ImageView) v.findViewById(R.id.imageQuestion);
         Picasso.get()
                 .load(source)
                 .placeholder(R.drawable.empty)
                 .into(mImageView);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDialog().dismiss();
+            }
+        });
 
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .create();
     }
-/*
-    private void sendResult(int resultCode){
-        Intent intent = new Intent();
-        ((MainActivity)getActivity()).onActivityResult(4,resultCode,intent);
-    }
-*/
 
 }

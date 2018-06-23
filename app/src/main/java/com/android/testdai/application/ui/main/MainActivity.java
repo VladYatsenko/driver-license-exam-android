@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity  implements IMainView {
         });
 
         mCategory = (Button) findViewById(R.id.category);
-//        if (mSettings.contains(APP_PREFERENCES_CATEGORY)) {
-//            updateUI();
-//        }
         mCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

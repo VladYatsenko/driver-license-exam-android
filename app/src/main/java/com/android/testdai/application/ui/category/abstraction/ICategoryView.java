@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ICategoryView {
 
-    void updateUI(List<Category> categories);
+    void updateUI(List<Category> categories, boolean okState);
+
+    void sendResult(String categorys);
 
 }
