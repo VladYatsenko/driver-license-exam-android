@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginStart="16dp"
-            android:text="Категорія"
+            android:text="@string/category"
             android:textSize="20sp"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -88,21 +88,13 @@
 
     </LinearLayout>
 
-
-    <!--ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/text_big"/-->
-
     <ImageView
         android:id="@+id/cop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/city"/>
+        app:srcCompat="@mipmap/city"/>
 
 
     <android.support.constraint.ConstraintLayout

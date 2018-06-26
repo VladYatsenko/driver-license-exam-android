@@ -59,7 +59,7 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
 
         AlertDialog.Builder builder =  new  AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle(R.string.category)
+                .setTitle(R.string.select_category)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override

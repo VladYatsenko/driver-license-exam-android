@@ -30,4 +30,7 @@ public class Constants {
     //
     public static final int SEND_CATEGORY = 0;
     public static final int REQUEST_CATEGORY = 1;
+
+    //Permissions
+    public static final int NETWORK_PERMISSION_REQUEST = 101;
 }

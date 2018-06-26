@@ -10,6 +10,7 @@ import com.android.testdai.R;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
 import com.android.testdai.application.ui.category.DialogCategory;
 import com.android.testdai.util.Constants;
+import com.android.testdai.util.PermissionUtil;
 
 public class MainActivity extends AppCompatActivity  implements IMainView {
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity  implements IMainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(this, this);
 
         Button mStartTest = (Button) findViewById(R.id.start_test);
         mStartTest.setOnClickListener(new View.OnClickListener() {

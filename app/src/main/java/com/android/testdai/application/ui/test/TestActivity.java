@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.testdai.R;
 
@@ -34,6 +36,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -96,7 +99,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
         mAdView.setVisibility(View.VISIBLE);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("5265E0E103CEDC51B6E5157D84578C60")
+                //.addTestDevice("5265E0E103CEDC51B6E5157D84578C60")
                 .build();
         mAdView.loadAd(adRequest);
 
@@ -155,7 +158,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
             public void run() {
                 twice = false;
             }
-        }, 3000);//3000
+        }, 3000);
 
     }
 
@@ -380,7 +383,20 @@ public class TestActivity extends AppCompatActivity implements ITestView{
             Picasso.get()
                     .load(question.getImageSource())
                     .placeholder(R.drawable.empty)
-                    .into(mQuestionImage);
+                    .into(mQuestionImage, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.error_img_loading, Toast.LENGTH_LONG);
+                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+                    if( v != null) v.setGravity(Gravity.CENTER);
+                    toast.show();
+                }
+            });
         }
 
         QuestionAdapter mAdapterAnswer = new QuestionAdapter(question);

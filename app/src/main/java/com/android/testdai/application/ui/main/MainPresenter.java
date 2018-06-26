@@ -1,5 +1,6 @@
 package com.android.testdai.application.ui.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,19 +10,22 @@ import com.android.testdai.application.ui.category.DialogCategory;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
 import com.android.testdai.application.ui.test.TestActivity;
 import com.android.testdai.util.Constants;
+import com.android.testdai.util.PermissionUtil;
 
 import static com.android.testdai.util.Constants.APP_PREFERENCES_CATEGORY;
 
 public class MainPresenter  {
 
     private Context context;
+    private Activity activity;
     private IMainView iMainView;
     private SharedPreferences settings;
     private String category;
 
-    MainPresenter(Context context){
+    MainPresenter(Activity activity, Context context){
 
         this.context = context;
+        this.activity = activity;
         iMainView = (IMainView) context;
         settings = context.getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE);
         category = settings.getString(APP_PREFERENCES_CATEGORY, "B");
@@ -29,17 +33,17 @@ public class MainPresenter  {
     }
 
     public void attachView() {
-//        if (settings.contains(APP_PREFERENCES_CATEGORY)) {
             iMainView.updateUI(category);
-//        }
     }
 
     public void startTest(){
 
-        Intent intent = TestActivity.newIntent(context, category);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            context.startActivity(intent);
-        }
+        //if(PermissionUtil.isNetworkGranted(activity)){
+            Intent intent = TestActivity.newIntent(context, category);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                context.startActivity(intent);
+            }
+        //}
 
     }
 
