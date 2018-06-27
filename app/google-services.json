@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "735141615271",
+    "firebase_url": "https://testdai-a8287.firebaseio.com",
+    "project_id": "testdai-a8287",
+    "storage_bucket": "testdai-a8287.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735141615271:android:e7f4f667a2b66715",
+        "android_client_info": {
+          "package_name": "com.testdai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735141615271-id5g9joq5vob6ma0qbekvvh2hiht7nmu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.testdai",
+            "certificate_hash": "cffa67b7063d4affe206dfa0ea39545cb6cdb875"
+          }
+        },
+        {
+          "client_id": "735141615271-78r15ingqau8ll2tj3rdl5n8tusu3qci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWblRqy3kDRT83Ko3hpkgUQFr-68qrvdY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735141615271-78r15ingqau8ll2tj3rdl5n8tusu3qci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

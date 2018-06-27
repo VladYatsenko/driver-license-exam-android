@@ -92,14 +92,11 @@ public class TestActivity extends AppCompatActivity implements ITestView{
         mQuestionTextView = (TextView) findViewById(R.id.text_question);
         mQuestionImage = (ImageView) findViewById(R.id.question_image);
 
-        MobileAds.initialize(this,
-                "ca-app-pub-5104532168407959~6750661013");
-
+        MobileAds.initialize(this, getString(R.string.app_id));
         mAdView = (AdView) findViewById(R.id.adView);
         mAdView.setVisibility(View.VISIBLE);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                //.addTestDevice("5265E0E103CEDC51B6E5157D84578C60")
+                .addTestDevice("9489E98FDC7D70F02084422B7D2B18C3")
                 .build();
         mAdView.loadAd(adRequest);
 
