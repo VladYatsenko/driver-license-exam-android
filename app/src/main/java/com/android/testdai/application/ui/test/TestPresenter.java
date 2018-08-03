@@ -2,11 +2,15 @@ package com.android.testdai.application.ui.test;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 
 import com.android.testdai.application.db.DaiRepository;
 import com.android.testdai.application.model.Question;
 import com.android.testdai.application.ui.test.abstraction.ITestView;
+import com.android.testdai.util.AnalyticUtil;
+import com.android.testdai.util.Constants;
+import com.android.testdai.util.PreferencesUtil;
 
 import java.util.List;
 
@@ -14,6 +18,11 @@ import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.android.testdai.util.Constants.APP_PREFERENCES_CATEGORY;
+import static com.android.testdai.util.Constants.APP_PREFERENCES_DOUBLE_CLICK;
+import static com.android.testdai.util.Constants.APP_PREFERENCES_ERROR_LIMIT;
+import static com.android.testdai.util.Constants.APP_PREFERENCES_TIME_LIMIT;
 
 public class TestPresenter {
 
@@ -23,19 +32,25 @@ public class TestPresenter {
     private CountDownTimer countdownTimer;
     private int timeLast = 1200000;
     private boolean time = true;
+    private boolean timeLimit, errorLimit, doubleClick;
     private boolean testState = true;
 
 
     @SuppressLint("CheckResult")
-    TestPresenter(Context context, String category) {
+    TestPresenter(Context context) {
 
         this.context = context;
+        AnalyticUtil.getInstance(context).logScreenEvent(context);
+        timeLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_TIME_LIMIT);
+        errorLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_ERROR_LIMIT);
+        doubleClick = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_DOUBLE_CLICK);
+
         iTestView = (ITestView) context;
         iTestView.startLoading();
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                databaseRequest(category);
+                databaseRequest(PreferencesUtil.getInstance(context).getCategory());
             }
         }).subscribeOn(Schedulers.io()).andThen(afterRequest()).subscribe();
 
@@ -53,7 +68,9 @@ public class TestPresenter {
 
         return Completable.fromAction(() -> {
             iTestView.stopLoading();
-            countdownTimer();
+            if(timeLimit){
+                countdownTimer();
+            }
             selectQuestion(0);
         }).subscribeOn(AndroidSchedulers.mainThread());
 
@@ -64,6 +81,10 @@ public class TestPresenter {
 
         for (Question question : questions) {
             question.setSelected(false);
+            for(Question.Answer answer : question.getAnswers()){
+                answer.setChosen(false);
+            }
+
         }
         questions.get(position).setSelected(true);
 
@@ -81,12 +102,20 @@ public class TestPresenter {
         assert question != null;
         Question.Answer answer = question.getAnswers().get(position);
         if (!question.isAnswered() && testState) {
-            question.setAnswered(true);
-            answer.setSelected(true);
-            if (testResult()) {
-                nextQuestion();
-            } else {
+            if(!answer.isChosen() && doubleClick){
+                for(Question.Answer answerl : question.getAnswers())
+                    answerl.setChosen(false);
+                answer.setChosen(true);
                 iTestView.updateListQuestion(questions.indexOf(question), questions);
+            }else {
+                question.setAnswered(true);
+                answer.setSelected(true);
+                answer.setChosen(false);
+                if (testResult()) {
+                    nextQuestion();
+                } else {
+                    iTestView.updateListQuestion(questions.indexOf(question), questions);
+                }
             }
         }
 
@@ -141,12 +170,14 @@ public class TestPresenter {
                 }
             }
         }
-        if (questionCount == questions.size() || !time || answerIsFalseCount > 2) {
-            countdownTimer.cancel();
+
+        if (questionCount == questions.size() || timerState() || isErrorLimit(answerIsFalseCount) ) {
+            stopCountdownTimer();
             testState = false;
             iTestView.showResultDialog(answerIsTrueCount);
             return false;
         }
+
         return true;
 
     }
@@ -175,7 +206,29 @@ public class TestPresenter {
         }.start();
     }
 
+    private boolean timerState(){
+
+        if (timeLimit)
+            return false;
+        else return !time;
+
+    }
+
+    private boolean isErrorLimit(int answerIsFalseCount){
+
+        if(errorLimit && answerIsFalseCount>2)
+            return true;
+        else return false;
+
+    }
+
+    private void stopCountdownTimer(){
+        if(timeLimit){
+            countdownTimer.cancel();
+        }
+    }
+
     public void onDestroy() {
-        countdownTimer.cancel();
+        stopCountdownTimer();
     }
 }

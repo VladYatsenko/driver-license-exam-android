@@ -23,6 +23,9 @@ public class Constants {
     //  Shared preferences
     public static final String APP_PREFERENCES = "settings";
     public static final String APP_PREFERENCES_CATEGORY = "category";
+    public static final String APP_PREFERENCES_TIME_LIMIT = "time_limit";
+    public static final String APP_PREFERENCES_ERROR_LIMIT = "error_limit";
+    public static final String APP_PREFERENCES_DOUBLE_CLICK = "double_click";
 
     //  Dialogs
     public static final String DIALOG_CATEGORY = "DialogCategory";

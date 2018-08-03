@@ -70,6 +70,7 @@ public class Question implements Serializable {
 
         private String mTextAnswer;
         private boolean mAnswerTrue;
+        private Boolean mChosen;
         private Boolean mSelected;
 
         public Answer(){}
@@ -88,6 +89,14 @@ public class Question implements Serializable {
 
         public void setAnswerTrue(boolean mAnswerTrue) {
             this.mAnswerTrue = mAnswerTrue;
+        }
+
+        public boolean isChosen() {
+            return mChosen;
+        }
+
+        public void setChosen(Boolean mChosen) {
+            this.mChosen = mChosen;
         }
 
         public boolean isSelected() {

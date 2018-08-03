@@ -20,6 +20,7 @@ public class AnswerCursorWrapper  extends CursorWrapper{
         answer.setTextAnswer(textAnswer);
         answer.setAnswerTrue(correct!=0);
         answer.setSelected(false);
+        answer.setChosen(false);
         return answer;
 
     }

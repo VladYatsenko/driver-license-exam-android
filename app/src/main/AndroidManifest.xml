@@ -32,6 +32,18 @@
                 android:value="@integer/google_play_services_version" />
         </activity>
 
+        <activity android:name=".application.ui.settings.SettingsActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            android:label="@string/settings">
+            <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e8bbae4666f2c6b957d369de7404a3292fd8a722" />
     </application>
 
 </manifest>

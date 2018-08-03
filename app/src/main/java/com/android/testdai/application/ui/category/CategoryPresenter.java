@@ -6,6 +6,8 @@ import com.android.testdai.R;
 import com.android.testdai.application.ui.category.abstraction.ICategoryView;
 import com.android.testdai.application.ui.category.model.Category;
 import com.android.testdai.application.ui.category.model.Group;
+import com.android.testdai.util.AnalyticUtil;
+import com.android.testdai.util.PreferencesUtil;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,8 @@ public class CategoryPresenter {
     CategoryPresenter(DialogCategory context){
 
         this.context = context;
+        AnalyticUtil.getInstance(context.getActivity().getApplicationContext()).logScreenEvent(context.getActivity().getApplicationContext());
+
         categoryView = (ICategoryView) context;
 
         groups = new ArrayList<>();
@@ -191,6 +195,8 @@ public class CategoryPresenter {
             category += "T;";
         }
 
+        AnalyticUtil.getInstance(context.getActivity().getApplicationContext()).logButtonEvent(category);
+        PreferencesUtil.getInstance(context.getActivity().getApplicationContext()).setCategory(category);
         categoryView.sendResult(category);
 
     }

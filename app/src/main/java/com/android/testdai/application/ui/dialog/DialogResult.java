@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.testdai.R;
 import com.android.testdai.application.ui.test.TestActivity;
+import com.android.testdai.util.AnalyticUtil;
 
 public class DialogResult extends DialogFragment {
 
@@ -39,6 +40,8 @@ public class DialogResult extends DialogFragment {
 
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_result, null);
+        AnalyticUtil.getInstance(this.getActivity().getApplicationContext()).logScreenEvent(this.getActivity().getApplicationContext());
+
 
         TextView mResult = (TextView) v.findViewById(R.id.result);
         ImageView mResultImage = (ImageView) v.findViewById(R.id.result_image);

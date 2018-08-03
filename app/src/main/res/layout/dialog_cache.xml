@@ -1,45 +1,35 @@
-<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="24dp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="TODO" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ProgressBar
-            android:id="@+id/currentImage"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_progress"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            />
-
+            android:padding="16dp"
+            android:layout_weight="1"
+            tools:text="Clear 50/250" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ProgressBar
-            android:id="@+id/allImage"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            />
-
-    </LinearLayout>
-
-
-
 
 </LinearLayout>
