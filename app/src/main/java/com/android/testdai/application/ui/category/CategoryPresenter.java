@@ -31,7 +31,6 @@ public class CategoryPresenter {
     CategoryPresenter(DialogCategory context){
 
         this.context = context;
-        AnalyticUtil.getInstance(context.getActivity().getApplicationContext()).logScreenEvent(context.getActivity().getApplicationContext());
 
         categoryView = (ICategoryView) context;
 

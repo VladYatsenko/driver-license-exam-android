@@ -1,5 +1,6 @@
 package com.android.testdai.application.ui.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -53,6 +54,21 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 PreferencesUtil.getInstance(getActivity()).setPreference(APP_PREFERENCES_DOUBLE_CLICK, doubleClick.isChecked());
+                return true;
+            }
+        });
+
+        Preference shareIt = (Preference) findPreference("share_it");
+        shareIt.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Intent i = new Intent (Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text)+getString(R.string.app_source));
+                i = Intent.createChooser(i, getString(R.string.send_share));
+                startActivity(i);
+
                 return true;
             }
         });

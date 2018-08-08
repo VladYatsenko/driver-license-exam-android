@@ -40,7 +40,6 @@ public class TestPresenter {
     TestPresenter(Context context) {
 
         this.context = context;
-        AnalyticUtil.getInstance(context).logScreenEvent(context);
         timeLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_TIME_LIMIT);
         errorLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_ERROR_LIMIT);
         doubleClick = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_DOUBLE_CLICK);

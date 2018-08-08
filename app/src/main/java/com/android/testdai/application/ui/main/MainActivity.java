@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.android.testdai.R;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
 import com.android.testdai.application.ui.category.DialogCategory;
+import com.android.testdai.util.AnalyticUtil;
 import com.android.testdai.util.Constants;
 import com.android.testdai.util.PermissionUtil;
 
@@ -22,8 +23,9 @@ public class MainActivity extends AppCompatActivity  implements IMainView {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(this, this);
 
         Button mStartTest = (Button) findViewById(R.id.start_test);
         mStartTest.setOnClickListener(new View.OnClickListener() {

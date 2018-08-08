@@ -29,9 +29,9 @@ public class AnalyticUtil {
         mFirebaseAnalytics.logEvent(Constants.BUTTON_CLICK, params);
     }
 
-    public void logScreenEvent(Context context) {
+    public void logScreenEvent(String className) {
         Bundle params = new Bundle();
-        params.putString("name", context.getClass().getSimpleName());
+        params.putString("name", className);
         mFirebaseAnalytics.logEvent(Constants.OPEN_SCREEN, params);
     }
 

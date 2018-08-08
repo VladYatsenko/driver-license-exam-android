@@ -40,7 +40,7 @@ public class DialogResult extends DialogFragment {
 
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_result, null);
-        AnalyticUtil.getInstance(this.getActivity().getApplicationContext()).logScreenEvent(this.getActivity().getApplicationContext());
+        AnalyticUtil.getInstance(getActivity().getApplicationContext()).logScreenEvent(getClass().getSimpleName());
 
 
         TextView mResult = (TextView) v.findViewById(R.id.result);

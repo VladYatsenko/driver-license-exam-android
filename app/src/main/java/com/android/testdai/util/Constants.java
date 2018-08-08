@@ -35,5 +35,6 @@ public class Constants {
     public static final int REQUEST_CATEGORY = 1;
 
     //Permissions
-    public static final int NETWORK_PERMISSION_REQUEST = 101;
+    static final int NETWORK_PERMISSION_REQUEST = 101;
+    static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 102;
 }

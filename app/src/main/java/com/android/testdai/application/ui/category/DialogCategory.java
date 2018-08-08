@@ -52,6 +52,8 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
 
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_category, null);
+        AnalyticUtil.getInstance(getActivity().getApplicationContext()).logScreenEvent(getClass().getSimpleName());
+
 
         presenter = new CategoryPresenter(this);
 

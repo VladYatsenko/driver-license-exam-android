@@ -32,6 +32,7 @@ import com.android.testdai.application.model.Question.Answer;
 import com.android.testdai.application.ui.dialog.DialogImage;
 import com.android.testdai.application.ui.dialog.DialogResult;
 import com.android.testdai.application.ui.test.abstraction.ITestView;
+import com.android.testdai.util.AnalyticUtil;
 import com.android.testdai.util.ProgressUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -73,6 +74,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
         progressUtil = new ProgressUtil(this);
         presenter = new TestPresenter(this);
@@ -284,6 +286,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
             }else {
                 if(answer.isChosen()){
                     mRelativeLayoutAnswer.setBackgroundResource(R.drawable.selected);
+                    mAnswerTextView.setTextColor(Color.BLACK);
                 }
             }
 

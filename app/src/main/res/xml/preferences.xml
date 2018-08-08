@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Налаштування тесту">
+    <PreferenceCategory android:title="@string/test_settings">
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="time_limit"
-            android:title="Ліміт часу" />
+            android:title="@string/time_limit" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="error_limit"
-            android:title="Ліміт помилок"/>
+            android:title="@string/error_limit"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="double_click"
-            android:title="Подвійний натиск для відповіді" />
+            android:title="@string/double_click" />
 
     </PreferenceCategory>
 
@@ -31,18 +31,15 @@
             android:key="clear_cache"
             android:title="Очистити кеш зображень" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Авторизація">
-
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@android:array/config_keySystemUuidMapping"
-            android:entryValues="@android:array/config_keySystemUuidMapping"
-            android:key="list_preference"
-            android:title="Вихід" />
-
     </PreferenceCategory-->
+
+    <PreferenceCategory android:title="@string/other">
+
+        <Preference
+            android:key="share_it"
+            android:title="@string/send_share" />
+
+    </PreferenceCategory>
 
 
 
