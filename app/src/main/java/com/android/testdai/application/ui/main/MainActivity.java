@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity  implements IMainView {
         setContentView(R.layout.activity_main);
         AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
-        presenter = new MainPresenter(this, this);
+        presenter = new MainPresenter(this);
 
         Button mStartTest = (Button) findViewById(R.id.start_test);
         mStartTest.setOnClickListener(new View.OnClickListener() {

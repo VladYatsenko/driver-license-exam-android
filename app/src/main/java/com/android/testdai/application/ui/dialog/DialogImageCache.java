@@ -1,5 +1,6 @@
 package com.android.testdai.application.ui.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -97,6 +98,7 @@ public class DialogImageCache extends DialogFragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadImage(int imageIndex) {
 
         textProgress.setText(imageIndex + "/" + sourceList.size());

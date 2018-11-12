@@ -13,14 +13,9 @@ public class SettingPresenter {
     private Context context;
     private ISettingsView iSettingsView;
 
-    SettingPresenter(){
-
-    }
-
     public void attachView(Context context){
 
         this.context = context;
-
         iSettingsView = (ISettingsView) context;
 
     }

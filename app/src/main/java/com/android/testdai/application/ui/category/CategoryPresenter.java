@@ -1,7 +1,5 @@
 package com.android.testdai.application.ui.category;
 
-import android.content.Intent;
-
 import com.android.testdai.R;
 import com.android.testdai.application.ui.category.abstraction.ICategoryView;
 import com.android.testdai.application.ui.category.model.Category;
@@ -21,16 +19,12 @@ public class CategoryPresenter {
 
     private ArrayList<Category> categories;
     private ArrayList<Group> groups;
-    private String preferencesCategory;
-    private DialogCategory context;
+    private DialogCategory view;
     private ICategoryView categoryView;
-
-    public static final String EXTRA_CATEGORY =
-            "com.example.android.testdai.categories";
 
     CategoryPresenter(DialogCategory context){
 
-        this.context = context;
+        this.view = context;
 
         categoryView = (ICategoryView) context;
 
@@ -69,7 +63,7 @@ public class CategoryPresenter {
 
     }
 
-    public void attachView(String categories){
+    void attachView(String categories){
 
         loadCategories(categories);
         updateUI(true);
@@ -82,7 +76,7 @@ public class CategoryPresenter {
 
         for(String category: arrayCategory){
             for(Category c: this.categories) {
-                if (category.equals(context.getActivity().getString(c.getName()))){
+                if (category.equals(view.getActivity().getString(c.getName()))){
                     c.setSelected(true);
                 }
             }
@@ -143,14 +137,16 @@ public class CategoryPresenter {
         categoryView.updateUI(this.categories, okState);
     }
 
-    public void getResult(){
+    void getResult(){
 
         String category = "";
 //        for(Category c:categories){
 //            if(c.isSelected()){
-//                category += context.getActivity().getString(c.getName())+";";
+//                category += view.getActivity().getString(c.getName())+";";
 //            }
 //        }
+
+        //сделал так, чтоб соблюдалась последовательность (A1;A;B1;B; и тд)
         if(categories.get(0).isSelected()){
             category += "A1;";
         }
@@ -194,8 +190,8 @@ public class CategoryPresenter {
             category += "T;";
         }
 
-        AnalyticUtil.getInstance(context.getActivity().getApplicationContext()).logButtonEvent(category);
-        PreferencesUtil.getInstance(context.getActivity().getApplicationContext()).setCategory(category);
+        AnalyticUtil.getInstance(view.getActivity().getApplicationContext()).logButtonEvent(category);
+        PreferencesUtil.getInstance(view.getActivity().getApplicationContext()).setCategory(category);
         categoryView.sendResult(category);
 
     }
