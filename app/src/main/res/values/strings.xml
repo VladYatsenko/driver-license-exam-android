@@ -13,6 +13,16 @@
     <string name="app_id">ca-app-pub-9843587739295513~8480241007</string>
     <string name="banner_ad_unit_id">ca-app-pub-9843587739295513/3858469710</string>
 
+    <!--Settings-->
+    <string name="settings">Налаштування</string>
+    <string name="test_settings">Налаштування тесту</string>
+    <string name="time_limit">Ліміт часу</string>
+    <string name="error_limit">Ліміт помилок</string>
+    <string name="double_click">Подвійний натиск для відповіді</string>
+    <string name="other">Інше</string>
+    <string name="send_share">Поділитися</string>
+
+    <!--Category-->
     <string name="A1">A1</string>
     <string name="B1">B1</string>
     <string name="C1">C1</string>
@@ -29,5 +39,9 @@
     <string name="T">T</string>
     <string name="empty"/>
     <string name="category">Категорія</string>
+
+    <!--Share-->
+    <string name="app_source">https://play.google.com/store/apps/details?id=com.testdai</string>
+    <string name="share_text">Проходьте іспит ПДР за новими питаннями на вашому смартфоні \n</string>
 
 </resources>

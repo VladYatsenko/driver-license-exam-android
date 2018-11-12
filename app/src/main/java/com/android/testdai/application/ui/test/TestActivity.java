@@ -1,5 +1,6 @@
 package com.android.testdai.application.ui.test;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.android.testdai.application.model.Question.Answer;
 import com.android.testdai.application.ui.dialog.DialogImage;
 import com.android.testdai.application.ui.dialog.DialogResult;
 import com.android.testdai.application.ui.test.abstraction.ITestView;
+import com.android.testdai.util.AnalyticUtil;
 import com.android.testdai.util.ProgressUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -64,23 +66,18 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     private Handler handler;
     private ProgressUtil progressUtil;
 
-    private static final String EXTRA_CATEGORY = "category";
-
-    public static Intent newIntent (Context packageContext, String category){
-        Intent intent = new Intent(packageContext, TestActivity.class);
-        intent.putExtra(EXTRA_CATEGORY, category);
-        return intent;
+    public static Intent newIntent (Context packageContext){
+        return new Intent(packageContext, TestActivity.class);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
         progressUtil = new ProgressUtil(this);
-
-        String category = (String) getIntent().getSerializableExtra(EXTRA_CATEGORY);
-        presenter = new TestPresenter(this, category);
+        presenter = new TestPresenter(this);
 
         mQuestionRecycler = (RecyclerView) findViewById(R.id.question_recycler_view);
         mLinearLayoutManager = new LinearLayoutManager(TestActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -102,6 +99,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
     }
 
+    @SuppressLint("HandlerLeak")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -110,6 +108,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
         inflater.inflate(R.menu.fragment_question, menu);
         final MenuItem mCountdown = menu.findItem(R.id.countdown);
         handler = new Handler() {
+            @SuppressLint("SimpleDateFormat")
             public void handleMessage(Message msg) {
                 int message = msg.getData().getInt("data");
                 mCountdown.setTitle(new SimpleDateFormat("mm:ss").format(new Date(message)));
@@ -284,6 +283,11 @@ public class TestActivity extends AppCompatActivity implements ITestView{
                         mAnswerTextView.setTextColor(Color.WHITE);
                     }
                 }
+            }else {
+                if(answer.isChosen()){
+                    mRelativeLayoutAnswer.setBackgroundResource(R.drawable.selected);
+                    mAnswerTextView.setTextColor(Color.BLACK);
+                }
             }
 
         }
@@ -431,7 +435,5 @@ public class TestActivity extends AppCompatActivity implements ITestView{
             startActivity(intent);
         }
     }
-
-
 
 }

@@ -23,6 +23,9 @@ public class Constants {
     //  Shared preferences
     public static final String APP_PREFERENCES = "settings";
     public static final String APP_PREFERENCES_CATEGORY = "category";
+    public static final String APP_PREFERENCES_TIME_LIMIT = "time_limit";
+    public static final String APP_PREFERENCES_ERROR_LIMIT = "error_limit";
+    public static final String APP_PREFERENCES_DOUBLE_CLICK = "double_click";
 
     //  Dialogs
     public static final String DIALOG_CATEGORY = "DialogCategory";
@@ -32,5 +35,6 @@ public class Constants {
     public static final int REQUEST_CATEGORY = 1;
 
     //Permissions
-    public static final int NETWORK_PERMISSION_REQUEST = 101;
+    static final int NETWORK_PERMISSION_REQUEST = 101;
+    static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 102;
 }

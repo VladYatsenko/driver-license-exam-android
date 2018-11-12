@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.testdai.R;
+import com.android.testdai.util.AnalyticUtil;
 import com.squareup.picasso.Picasso;
 
 public class DialogImage extends DialogFragment {
@@ -30,8 +31,10 @@ public class DialogImage extends DialogFragment {
 
         String source = (String) getArguments().getSerializable(ARG_IMAGE);
 
-        View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_image, null);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_image, null);
+
+        AnalyticUtil.getInstance(getActivity().getApplicationContext()).logScreenEvent(getClass().getSimpleName());
+
 
         ImageView mImageView = (ImageView) v.findViewById(R.id.imageQuestion);
         Picasso.get()

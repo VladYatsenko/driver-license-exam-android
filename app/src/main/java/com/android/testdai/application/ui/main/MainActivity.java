@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.android.testdai.R;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
 import com.android.testdai.application.ui.category.DialogCategory;
+import com.android.testdai.util.AnalyticUtil;
 import com.android.testdai.util.Constants;
 import com.android.testdai.util.PermissionUtil;
 
@@ -21,8 +23,9 @@ public class MainActivity extends AppCompatActivity  implements IMainView {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
-        presenter = new MainPresenter(this, this);
+        presenter = new MainPresenter(this);
 
         Button mStartTest = (Button) findViewById(R.id.start_test);
         mStartTest.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +40,14 @@ public class MainActivity extends AppCompatActivity  implements IMainView {
             @Override
             public void onClick(View v) {
                 presenter.startDialogCategory();
+            }
+        });
+
+        ImageButton mSettings = (ImageButton) findViewById(R.id.settings);
+        mSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.startSettings();
             }
         });
 

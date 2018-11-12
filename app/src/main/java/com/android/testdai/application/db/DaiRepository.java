@@ -155,6 +155,26 @@ public class DaiRepository {
         return question;
     }
 
+    public List<Question> getQuestionsWithImage(){
+
+        List<Question> questions = new ArrayList<>();
+
+        QuestionCursorWrapper cursor = queryQuestion(DbSchema.QuestionTable.Cols.IMAGESOURCE + "!=?", new String[]{""});
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                questions.add(cursor.getQuestion(null));
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+
+        return questions;
+
+    }
+
     private int random(int size) {
 
         Random random = new Random(System.currentTimeMillis());

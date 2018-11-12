@@ -20,6 +20,7 @@ import com.android.testdai.application.ui.category.abstraction.ICategoryView;
 import com.android.testdai.application.ui.category.model.Category;
 import com.android.testdai.application.ui.category.model.GroupEnum;
 import com.android.testdai.application.ui.main.MainActivity;
+import com.android.testdai.util.AnalyticUtil;
 
 import java.util.List;
 
@@ -51,6 +52,8 @@ public class DialogCategory extends DialogFragment implements ICategoryView {
 
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_category, null);
+        AnalyticUtil.getInstance(getActivity().getApplicationContext()).logScreenEvent(getClass().getSimpleName());
+
 
         presenter = new CategoryPresenter(this);
 

@@ -1,65 +1,58 @@
 package com.android.testdai.application.ui.main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 
 import com.android.testdai.application.ui.category.DialogCategory;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
+import com.android.testdai.application.ui.settings.SettingsActivity;
 import com.android.testdai.application.ui.test.TestActivity;
 import com.android.testdai.util.Constants;
 import com.android.testdai.util.PermissionUtil;
+import com.android.testdai.util.PreferencesUtil;
 
-import static com.android.testdai.util.Constants.APP_PREFERENCES_CATEGORY;
+class MainPresenter  {
 
-public class MainPresenter  {
-
-    private Context context;
     private Activity activity;
     private IMainView iMainView;
-    private SharedPreferences settings;
     private String category;
 
-    MainPresenter(Activity activity, Context context){
+    MainPresenter(Activity activity){
 
-        this.context = context;
         this.activity = activity;
-        iMainView = (IMainView) context;
-        settings = context.getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE);
-        category = settings.getString(APP_PREFERENCES_CATEGORY, "B");
+        iMainView = (IMainView) activity;
+        category = PreferencesUtil.getInstance(activity).getCategory();
 
     }
 
-    public void attachView() {
-            iMainView.updateUI(category);
+    void attachView() {
+
+        iMainView.updateUI(category);
     }
 
-    public void startTest(){
+    void startTest(){
 
-        //if(PermissionUtil.isNetworkGranted(activity)){
-            Intent intent = TestActivity.newIntent(context, category);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                context.startActivity(intent);
-            }
-        //}
+        if(PermissionUtil.isNetworkGranted(activity) && PermissionUtil.isExternalStorageGranted(activity)){
+            Intent intent = TestActivity.newIntent(activity);
+            activity.startActivity(intent);
+        }
 
     }
 
-    public void startDialogCategory(){
+    void startDialogCategory(){
         iMainView.startDialogCategory(category);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+    void onActivityResult(int requestCode, int resultCode, Intent intent){
+
         if (requestCode == Constants.REQUEST_CATEGORY) {
-            category = (String) intent
-                    .getSerializableExtra(DialogCategory.EXTRA_CATEGORY);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(APP_PREFERENCES_CATEGORY, category);
-            editor.apply();
-            iMainView.updateUI(category);
+            iMainView.updateUI((String) intent.getSerializableExtra(DialogCategory.EXTRA_CATEGORY));
         }
+
     }
 
+    void startSettings() {
+        Intent intent = SettingsActivity.newIntent(activity);
+        activity.startActivity(intent);
+    }
 }

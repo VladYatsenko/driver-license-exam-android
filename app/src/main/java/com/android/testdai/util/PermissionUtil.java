@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import java.util.ArrayList;
 
 import static com.android.testdai.util.Constants.NETWORK_PERMISSION_REQUEST;
+import static com.android.testdai.util.Constants.READ_STORAGE_PERMISSION_REQUEST_CODE;
 
 public class PermissionUtil {
 
@@ -17,8 +18,17 @@ public class PermissionUtil {
             Manifest.permission.ACCESS_NETWORK_STATE
     };
 
+    private static String[] externalStorage = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     public static boolean isNetworkGranted(Activity activity) {
         return checkForGrant(activity, networkPermissions, NETWORK_PERMISSION_REQUEST);
+    }
+
+    public static boolean isExternalStorageGranted(Activity activity) {
+        return checkForGrant(activity, externalStorage, READ_STORAGE_PERMISSION_REQUEST_CODE);
     }
 
     private static boolean checkForGrant(Activity activity, String[] grantStr, int resultCode) {
