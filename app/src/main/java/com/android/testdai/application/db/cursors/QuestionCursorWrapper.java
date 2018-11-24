@@ -4,8 +4,8 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.android.testdai.application.db.DbSchema;
-import com.android.testdai.application.model.Question;
-import com.android.testdai.application.model.Question.Answer;
+import com.android.testdai.application.ui.activities.test.model.Answer;
+import com.android.testdai.application.ui.activities.test.model.Question;
 
 import java.util.List;
 

@@ -2,11 +2,11 @@ package com.android.testdai.application.db;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 
 import com.android.testdai.application.db.cursors.AnswerCursorWrapper;
 import com.android.testdai.application.db.cursors.QuestionCursorWrapper;
-import com.android.testdai.application.model.Question;
+import com.android.testdai.application.ui.activities.test.model.Answer;
+import com.android.testdai.application.ui.activities.test.model.Question;
 import com.android.testdai.util.DatabaseUtil;
 
 import java.io.IOException;
@@ -28,11 +28,7 @@ public class DaiRepository {
         } catch (IOException ioe) {
             throw new Error("Unable to create database");
         }
-        try {
-            database.openDataBase();
-        } catch (SQLException sqle) {
-            throw sqle;
-        }
+        database.openDataBase();
 
     }
 
@@ -87,8 +83,8 @@ public class DaiRepository {
     }
 
     //cursor to List
-    private List<Question.Answer> getAnswers(String[] whereArgs) {
-        List<Question.Answer> answers = new ArrayList<>();
+    private List<Answer> getAnswers(String[] whereArgs) {
+        List<Answer> answers = new ArrayList<>();
 
         AnswerCursorWrapper cursor = queryAnswer(whereArgs);
         try {

@@ -8,10 +8,10 @@ import android.support.v4.app.ActivityCompat;
 
 import java.util.ArrayList;
 
-import static com.android.testdai.util.Constants.NETWORK_PERMISSION_REQUEST;
-import static com.android.testdai.util.Constants.READ_STORAGE_PERMISSION_REQUEST_CODE;
-
 public class PermissionUtil {
+
+    private static final int NETWORK_PERMISSION_REQUEST = 101;
+    private static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 102;
 
     private static String[] networkPermissions = new String[]{
             Manifest.permission.INTERNET,
