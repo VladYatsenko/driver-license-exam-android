@@ -1,12 +1,12 @@
-package com.android.testdai.application.domain.question.model;
+package com.android.testdai.application.domain.category.model;
 
 public class Category {
 
-    private int name;
+    private String name;
     private boolean selected;
     private Group group;
 
-    public Category(int name, Group group) {
+    public Category(String name, Group group) {
 
         this.name = name;
         this.selected = false;
@@ -14,7 +14,7 @@ public class Category {
 
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 

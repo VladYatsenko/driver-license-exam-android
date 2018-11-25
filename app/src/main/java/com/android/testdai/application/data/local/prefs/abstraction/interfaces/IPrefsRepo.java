@@ -7,10 +7,10 @@ public interface IPrefsRepo {
 
     Completable updateSetting(String key, boolean state);
 
-    Single<Boolean> getSetting(String key);
+    boolean getSetting(String key);
 
-    Completable updateCategory(String category);
+    void updateCategory(String category);
 
-    Single<String> getCategory();
+    String getCategory();
 
 }

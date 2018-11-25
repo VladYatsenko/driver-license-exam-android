@@ -10,8 +10,6 @@ import com.android.testdai.tools.RxTool;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-import static com.android.testdai.util.Constants.APP_PREFERENCES_DOUBLE_CLICK;
-
 public class PrefsRepo implements IPrefsRepo {
 
     //  Shared preferences
@@ -67,19 +65,19 @@ public class PrefsRepo implements IPrefsRepo {
     }
 
     @Override
-    public Single<Boolean> getSetting(String key) {
+    public boolean getSetting(String key) {
         if (key.equals(APP_PREFERENCES_DOUBLE_CLICK))
-            return Single.just(sPrefs.getBoolean(key, false));
-        else return Single.just(sPrefs.getBoolean(key, true));
+            return sPrefs.getBoolean(key, false);
+        else return sPrefs.getBoolean(key, true);
     }
 
     @Override
-    public Completable updateCategory(String category) {
-        return put(APP_PREFERENCES_CATEGORY, category);
+    public void updateCategory(String category) {
+        put(APP_PREFERENCES_CATEGORY, category);
     }
 
     @Override
-    public Single<String> getCategory() {
-        return Single.just(sPrefs.getString(APP_PREFERENCES_CATEGORY, "B"));
+    public String getCategory() {
+        return sPrefs.getString(APP_PREFERENCES_CATEGORY, "B");
     }
 }

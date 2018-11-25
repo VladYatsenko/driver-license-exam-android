@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.testdai.R;
-import com.android.testdai.application.db.DaiRepository;
+import com.android.testdai.application.data.local.db.DaiRepository;
 import com.android.testdai.application.ui.activities.test.model.Question;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;

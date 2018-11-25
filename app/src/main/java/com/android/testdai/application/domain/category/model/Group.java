@@ -1,4 +1,4 @@
-package com.android.testdai.application.domain.question.model;
+package com.android.testdai.application.domain.category.model;
 
 public class Group {
 

@@ -1,4 +1,4 @@
-package com.android.testdai.di.app.ui;
+package com.android.testdai.di.app.ui.activities;
 
 import android.support.annotation.NonNull;
 

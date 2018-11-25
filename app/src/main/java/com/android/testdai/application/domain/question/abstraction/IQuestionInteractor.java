@@ -4,8 +4,6 @@ import io.reactivex.Completable;
 
 public interface IQuestionInteractor {
 
-    Completable selectCategory();
 
-    Completable saveCategory();
 
 }

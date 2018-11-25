@@ -1,4 +1,4 @@
-package com.android.testdai.application.db;
+package com.android.testdai.application.data.local.db;
 
 public class DbSchema {
 

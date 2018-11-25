@@ -1,5 +1,6 @@
 package com.android.testdai.di.app.data.abstractions.interfaces;
 
+import com.android.testdai.application.domain.category.CategoryInteractor;
 import com.android.testdai.application.domain.question.QuestionInteractor;
 import com.android.testdai.di.app.AppScope;
 import com.android.testdai.di.app.data.LocalModule;
@@ -11,6 +12,8 @@ import dagger.Component;
 @Component(dependencies = ICoreComponent.class, modules = LocalModule.class)
 public interface IDataComponent {
 
-
     void inject(QuestionInteractor questionInteractor);
+
+    void inject(CategoryInteractor categoryInteractor);
+
 }

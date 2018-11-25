@@ -3,7 +3,8 @@ package com.android.testdai.application.ui.activities.test;
 import android.content.Context;
 import android.os.CountDownTimer;
 
-import com.android.testdai.application.db.DaiRepository;
+import com.android.testdai.application.data.local.db.DaiRepository;
+import com.android.testdai.application.data.local.prefs.abstraction.interfaces.IPrefsRepo;
 import com.android.testdai.application.ui.activities.test.model.Answer;
 import com.android.testdai.application.ui.activities.test.model.Question;
 import com.android.testdai.application.ui.abstractions.AbstractPresenter;
@@ -12,6 +13,8 @@ import com.android.testdai.di.DIProvider;
 import com.android.testdai.util.PreferencesUtil;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,7 +26,9 @@ import static com.android.testdai.util.Constants.APP_PREFERENCES_TIME_LIMIT;
 
 public class TestPresenter extends AbstractPresenter<ITestView> {
 
-    private Context context;
+    @Inject
+    protected IPrefsRepo prefsRepo;
+
     private List<Question> questions;
     private CountDownTimer countdownTimer;
     private int timeLast = 1200000;
@@ -41,20 +46,20 @@ public class TestPresenter extends AbstractPresenter<ITestView> {
         super.attachView(view);
         view.startLoading();
 
-        timeLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_TIME_LIMIT);
-        errorLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_ERROR_LIMIT);
-        doubleClick = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_DOUBLE_CLICK);
+        timeLimit = prefsRepo.getSetting(APP_PREFERENCES_TIME_LIMIT);
+        errorLimit = prefsRepo.getSetting(APP_PREFERENCES_ERROR_LIMIT);
+        doubleClick = prefsRepo.getSetting(APP_PREFERENCES_DOUBLE_CLICK);
 
-        Completable.fromAction(() -> databaseRequest(PreferencesUtil.getInstance(context).getCategory()))
+        Completable.fromAction(this::databaseRequest)
                 .subscribeOn(Schedulers.io())
                 .andThen(afterRequest())
                 .subscribe();
 
     }
 
-    private void databaseRequest(String category) {
+    private void databaseRequest() {
 
-        questions = DaiRepository.get(context).getQuestionsList(category);
+        //questions = DaiRepository.get(context).getQuestionsList(prefsRepo.getCategory());
 
     }
 

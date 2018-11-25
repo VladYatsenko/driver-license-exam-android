@@ -1,9 +1,9 @@
-package com.android.testdai.application.db.cursors;
+package com.android.testdai.application.data.local.db.cursors;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-import com.android.testdai.application.db.DbSchema;
+import com.android.testdai.application.data.local.db.DbSchema;
 import com.android.testdai.application.ui.activities.test.model.Answer;
 
 public class AnswerCursorWrapper  extends CursorWrapper{

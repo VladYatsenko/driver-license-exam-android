@@ -2,6 +2,8 @@ package com.android.testdai.application.ui.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -29,7 +31,6 @@ public class MainActivity extends AbstractActivity<MainPresenter> implements IMa
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
         Button startTestButton = findViewById(R.id.start_test);
         startTestButton.setOnClickListener(view -> presenter.startTest());
@@ -48,39 +49,37 @@ public class MainActivity extends AbstractActivity<MainPresenter> implements IMa
         presenter.attachView(this);
     }
 
-
     @Override
     public void updateCategory(String category) {
+
         categoryButton.setText(category);
+
     }
 
     @Override
     public void startDialogCategory() {
 
-        DialogCategory dialog = new DialogCategory();
-                //.newInstance(category);
-        dialog.show(getFragmentManager(), Constants.DIALOG_CATEGORY);
+        DialogFragment dialog = new DialogCategory();
+        dialog.show(getSupportFragmentManager(), Constants.DIALOG_CATEGORY);
 
     }
 
     @Override
     public void startTestActivity() {
+
         if(PermissionUtil.isNetworkGranted(this) && PermissionUtil.isExternalStorageGranted(this)){
-            Intent intent = new Intent(this, TestActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, TestActivity.class));
         }
+
     }
 
     @Override
     public void startSettingActivity() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+
+        startActivity(new Intent(this, SettingsActivity.class));
+
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        presenter.onActivityResult(requestCode, resultCode, intent);
-    }
+
 
 }

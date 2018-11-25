@@ -1,10 +1,10 @@
-package com.android.testdai.application.db;
+package com.android.testdai.application.data.local.db;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.android.testdai.application.db.cursors.AnswerCursorWrapper;
-import com.android.testdai.application.db.cursors.QuestionCursorWrapper;
+import com.android.testdai.application.data.local.db.cursors.AnswerCursorWrapper;
+import com.android.testdai.application.data.local.db.cursors.QuestionCursorWrapper;
 import com.android.testdai.application.ui.activities.test.model.Answer;
 import com.android.testdai.application.ui.activities.test.model.Question;
 import com.android.testdai.util.DatabaseUtil;
