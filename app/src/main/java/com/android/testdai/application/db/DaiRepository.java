@@ -23,11 +23,7 @@ public class DaiRepository {
 
         database = new DatabaseUtil(context);
 
-        try {
-            database.createDataBase();
-        } catch (IOException ioe) {
-            throw new Error("Unable to create database");
-        }
+
         try {
             database.openDataBase();
         } catch (SQLException sqle) {
