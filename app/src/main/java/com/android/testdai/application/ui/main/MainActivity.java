@@ -2,10 +2,11 @@ package com.android.testdai.application.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.testdai.R;
 import com.android.testdai.application.ui.main.abstraction.IMainView;
@@ -14,7 +15,7 @@ import com.android.testdai.util.AnalyticUtil;
 import com.android.testdai.util.Constants;
 import com.android.testdai.util.PermissionUtil;
 
-public class MainActivity extends AppCompatActivity  implements IMainView {
+public class MainActivity extends AppCompatActivity implements IMainView {
 
     private Button mCategory;
     private MainPresenter presenter;

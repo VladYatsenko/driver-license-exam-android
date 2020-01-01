@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.android.testdai.R;
-import com.android.testdai.application.ui.dialog.DialogImage;
-import com.android.testdai.application.ui.dialog.DialogImageCache;
 import com.android.testdai.util.PreferencesUtil;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.PicassoProvider;
 
 import static com.android.testdai.util.Constants.APP_PREFERENCES_DOUBLE_CLICK;
 import static com.android.testdai.util.Constants.APP_PREFERENCES_ERROR_LIMIT;

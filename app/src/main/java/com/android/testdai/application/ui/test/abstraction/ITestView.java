@@ -1,6 +1,7 @@
 package com.android.testdai.application.ui.test.abstraction;
 
-import android.arch.lifecycle.LifecycleOwner;
+
+import androidx.lifecycle.LifecycleOwner;
 
 import com.android.testdai.application.model.Question;
 
