@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".application.TestApplication"
+        android:name=".application.TestDaiApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
@@ -18,25 +18,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".application.ui.main.MainActivity"
-            android:theme="@style/NoActionBar"
-            android:screenOrientation="portrait">
+        <activity android:name=".ui.activities.MainActivity"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".application.ui.test.TestActivity"
+        <activity android:name=".ui.activities.TestActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         </activity>
 
-        <activity android:name=".application.ui.settings.SettingsActivity"
+        <activity android:name=".ui.activities.SettingsActivity"
             android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"
             android:label="@string/settings">
             <meta-data
                 android:name="com.google.android.gms.version"
@@ -44,8 +42,8 @@
         </activity>
 
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="e8bbae4666f2c6b957d369de7404a3292fd8a722" />
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
     </application>
 
 </manifest>

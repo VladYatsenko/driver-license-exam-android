@@ -3,40 +3,31 @@
 
     <PreferenceCategory android:title="@string/test_settings">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="time_limit"
+            android:icon="@drawable/ic_timer"
             android:title="@string/time_limit" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="error_limit"
+            android:icon="@drawable/ic_error"
             android:title="@string/error_limit"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="double_click"
+            android:icon="@drawable/ic_done"
             android:title="@string/double_click" />
 
     </PreferenceCategory>
-
-    <!--PreferenceCategory android:title="Зображення">
-
-        <Preference
-            android:key="image_cache"
-            android:title="Кешування зображень"
-            android:summary="Об'єм кешу ~200Mb"/>
-
-        <Preference
-            android:key="clear_cache"
-            android:title="Очистити кеш зображень" />
-
-    </PreferenceCategory-->
 
     <PreferenceCategory android:title="@string/other">
 
         <Preference
             android:key="share_it"
+            android:icon="@drawable/ic_share"
             android:title="@string/send_share" />
 
     </PreferenceCategory>

@@ -6,10 +6,9 @@ import android.database.SQLException;
 
 import com.android.testdai.application.db.cursors.AnswerCursorWrapper;
 import com.android.testdai.application.db.cursors.QuestionCursorWrapper;
-import com.android.testdai.application.model.Question;
-import com.android.testdai.util.DatabaseUtil;
+import com.android.testdai.model.QuestionEntity;
+import com.android.testdai.utils.DatabaseUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -71,56 +70,56 @@ public class DaiRepository {
     }
 
     //cursor to List
-    public List<Question> getQuestionsList(String category) {
+    public List<QuestionEntity> getQuestionsList(String category) {
 
-        List<Question> questions = new ArrayList<>();
+        List<QuestionEntity> questionEntities = new ArrayList<>();
 
         for (int i = 0; i < 20; i++)
-            questions.add(randomQuestion(i, category));
+            questionEntities.add(randomQuestion(i, category));
 
-        return questions;
+        return questionEntities;
 
     }
 
     //cursor to List
-    private List<Question.Answer> getAnswers(String[] whereArgs) {
-        List<Question.Answer> answers = new ArrayList<>();
+//    private List<QuestionEntity.Answer> getAnswers(String[] whereArgs) {
+//        List<QuestionEntity.Answer> answers = new ArrayList<>();
+//
+//        AnswerCursorWrapper cursor = queryAnswer(whereArgs);
+//        try {
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//                answers.add(cursor.getAnswer());
+//                cursor.moveToNext();
+//            }
+//        } finally {
+//            cursor.close();
+//        }
+//        return answers;
+//    }
 
-        AnswerCursorWrapper cursor = queryAnswer(whereArgs);
-        try {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                answers.add(cursor.getAnswer());
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-        return answers;
-    }
-
-    private Question randomQuestion(int questionNumber, String category) {
+    private QuestionEntity randomQuestion(int questionNumber, String category) {
 
         List<Integer> topicsQuestion = listTopics(questionNumber, category);
         int randTopicId = topicsQuestion.get(random(topicsQuestion.size()));
 
-        List<Question> questions = getQuestionsByTopic(randTopicId);
+        List<QuestionEntity> questionEntities = getQuestionsByTopic(randTopicId);
 
-        int randQuestionId = questions.get(random(questions.size())).getId();
+        int randQuestionId = questionEntities.get(random(questionEntities.size())).getId();
 
         return getQuestionById(randQuestionId);
 
     }
 
-    private List<Question> getQuestionsByTopic(int topicId) {
+    private List<QuestionEntity> getQuestionsByTopic(int topicId) {
 
-        List<Question> questions = new ArrayList<>();
+        List<QuestionEntity> questionEntities = new ArrayList<>();
 
         QuestionCursorWrapper cursor = queryQuestion(DbSchema.QuestionTable.Cols.TOPIC + "=?", new String[]{String.valueOf(topicId)});
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                questions.add(cursor.getQuestion(null));
+//                questionEntities.add(cursor.getQuestion(null));
                 cursor.moveToNext();
             }
         } finally {
@@ -128,12 +127,12 @@ public class DaiRepository {
         }
 
 
-        return questions;
+        return questionEntities;
     }
 
-    private Question getQuestionById(int id) {
+    private QuestionEntity getQuestionById(int id) {
 
-        Question question = null;
+        QuestionEntity questionEntity = null;
 
         QuestionCursorWrapper cursor = queryQuestion(DbSchema.QuestionTable.Cols.ID + "=?",
                 new String[]{String.valueOf(id)});
@@ -141,25 +140,25 @@ public class DaiRepository {
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                question = (cursor.getQuestion(getAnswers(new String[]{String.valueOf(id)})));
+//                questionEntity = (cursor.getQuestion(getAnswers(new String[]{String.valueOf(id)})));
                 cursor.moveToNext();
             }
         } finally {
             cursor.close();
         }
 
-        return question;
+        return questionEntity;
     }
 
-    public List<Question> getQuestionsWithImage(){
+    public List<QuestionEntity> getQuestionsWithImage(){
 
-        List<Question> questions = new ArrayList<>();
+        List<QuestionEntity> questionEntities = new ArrayList<>();
 
         QuestionCursorWrapper cursor = queryQuestion(DbSchema.QuestionTable.Cols.IMAGESOURCE + "!=?", new String[]{""});
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                questions.add(cursor.getQuestion(null));
+//                questionEntities.add(cursor.getQuestion(null));
                 cursor.moveToNext();
             }
         } finally {
@@ -167,7 +166,7 @@ public class DaiRepository {
         }
 
 
-        return questions;
+        return questionEntities;
 
     }
 

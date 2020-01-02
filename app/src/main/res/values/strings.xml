@@ -22,7 +22,7 @@
     <string name="other">Інше</string>
     <string name="send_share">Поділитися</string>
 
-    <!--Category-->
+    <!--CategoryEntity-->
     <string name="A1">A1</string>
     <string name="B1">B1</string>
     <string name="C1">C1</string>

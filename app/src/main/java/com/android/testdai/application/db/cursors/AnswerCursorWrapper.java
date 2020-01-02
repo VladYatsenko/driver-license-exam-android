@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.android.testdai.application.db.DbSchema;
-import com.android.testdai.application.model.Question;
+import com.android.testdai.model.QuestionEntity;
 
 public class AnswerCursorWrapper  extends CursorWrapper{
 
@@ -12,16 +12,16 @@ public class AnswerCursorWrapper  extends CursorWrapper{
         super(cursor);
     }
 
-    public Question.Answer getAnswer(){
-        String textAnswer = getString(getColumnIndex(DbSchema.AnswerTable.Cols.TEXTANSWER));
-        int correct = getInt(getColumnIndex(DbSchema.AnswerTable.Cols.ANSWERTRUE));
-
-        Question.Answer answer = new Question.Answer();
-        answer.setTextAnswer(textAnswer);
-        answer.setAnswerTrue(correct!=0);
-        answer.setSelected(false);
-        answer.setChosen(false);
-        return answer;
-
-    }
+//    public Answer getAnswer(){
+//        String textAnswer = getString(getColumnIndex(DbSchema.AnswerTable.Cols.TEXTANSWER));
+//        int correct = getInt(getColumnIndex(DbSchema.AnswerTable.Cols.ANSWERTRUE));
+//
+//        QuestionEntity.Answer answer = new QuestionEntity.Answer();
+//        answer.setTextAnswer(textAnswer);
+//        answer.setAnswerTrue(correct!=0);
+//        answer.setSelected(false);
+//        answer.setChosen(false);
+//        return answer;
+//
+//    }
 }

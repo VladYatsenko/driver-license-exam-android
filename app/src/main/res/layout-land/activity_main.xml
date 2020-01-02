@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.testdai.application.ui.main.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
 
-    <androidx.constraintlayout.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
@@ -20,59 +20,57 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/category"
-            android:textSize="20sp"
 
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.513"
-            android:layout_marginLeft="16dp" />
+            app:layout_constraintVertical_bias="0.513" />
 
-        <android.support.v7.widget.AppCompatButton xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/category"
+        <Button
+            android:id="@+id/categoryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="B"
             android:textColor="@color/colorGrayText"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginLeft="8dp" />
+            app:layout_constraintVertical_bias="0.0" />
 
-        <!--ImageButton
-            android:id="@+id/menu"
+        <ImageView
+            android:id="@+id/settingsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/ic_more_vert_black_24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_settings_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" /-->
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-
-    </androidx.constraintlayout.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Roboto"
-            android:paddingHorizontal="4dp"
+            android:paddingEnd="4dp"
             android:text="@string/first"
             android:textSize="45sp"
             android:textStyle="normal" />
@@ -81,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Roboto"
-            android:paddingHorizontal="4dp"
+            android:paddingStart="4dp"
             android:text="@string/second"
             android:textSize="45sp"
             android:textStyle="bold" />
@@ -94,22 +92,22 @@
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:scaleType="centerInside"
-        app:srcCompat="@mipmap/city"/>
+        app:srcCompat="@mipmap/city" />
 
 
-    <androidx.constraintlayout.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3">
 
         <Button
-            android:id="@+id/start_test"
+            android:id="@+id/startTestBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:background="@drawable/start_button"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:background="@drawable/start_button"
             android:text="@string/start"
             android:textColor="#ffffff"
             android:textSize="17sp"
@@ -119,21 +117,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.4" />
 
-        <!--android.support.v7.widget.AppCompatButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/start_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#99C571"
-            android:text="@string/start"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" /-->
-
-    </androidx.constraintlayout.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
