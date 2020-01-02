@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activities.TestActivity"
+        <activity android:name=".ui.test.TestActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="com.google.android.gms.version"

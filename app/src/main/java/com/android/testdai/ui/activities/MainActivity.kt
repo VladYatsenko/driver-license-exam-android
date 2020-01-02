@@ -8,6 +8,7 @@ import com.android.testdai.interfaces.OnCategorySelectedListener
 import com.android.testdai.managers.SharedPreferencesManager
 import com.android.testdai.model.CategoryEntity
 import com.android.testdai.ui.dialogs.CategoryDialog
+import com.android.testdai.ui.test.TestActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList

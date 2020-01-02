@@ -1,4 +1,4 @@
-package com.android.testdai.ui.activities;
+package com.android.testdai.ui.test;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,13 +29,10 @@ import com.android.testdai.model.QuestionEntity;
 
 import com.android.testdai.ui.dialogs.DialogImage;
 import com.android.testdai.ui.dialogs.DialogResult;
-import com.android.testdai.ui.test.TestPresenter;
 import com.android.testdai.ui.test.abstraction.ITestView;
 import com.android.testdai.utils.AnalyticUtil;
 import com.android.testdai.utils.ProgressUtil;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import com.google.android.material.snackbar.Snackbar;
 

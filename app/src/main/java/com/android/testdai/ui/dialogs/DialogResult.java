@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.android.testdai.R;
-import com.android.testdai.ui.activities.TestActivity;
+import com.android.testdai.ui.test.TestActivity;
 import com.android.testdai.utils.AnalyticUtil;
 
 public class DialogResult extends DialogFragment {
