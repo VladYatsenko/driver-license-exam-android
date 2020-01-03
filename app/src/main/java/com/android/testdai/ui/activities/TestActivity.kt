@@ -14,14 +14,19 @@ import com.android.testdai.R
 import com.android.testdai.databinding.ActivityTestBinding
 import com.android.testdai.di.components.DaggerScreenComponent
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
+import com.android.testdai.managers.SharedPreferencesManager
 import com.android.testdai.model.AnswerEntity
-import com.android.testdai.model.QuestionEntity
 import com.android.testdai.model.QuestionWithAnswers
 import com.android.testdai.ui.adapters.recyclerview.AnswerAdapter
 import com.android.testdai.ui.adapters.recyclerview.QuestionAdapter
+import com.android.testdai.utils.CenterLayoutManager
+import com.android.testdai.utils.glide.GlideApp
 import com.android.testdai.viewmodel.TestViewModel
 import com.android.testdai.viewmodel.ViewModelFactory
+import com.bumptech.glide.GenericTransitionOptions
 import com.google.android.material.snackbar.Snackbar
+import com.leochuan.CenterSnapHelper
+import com.leochuan.ScrollHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_test.*
@@ -40,6 +45,8 @@ class TestActivity : BaseActivity() {
     lateinit var answerAdapter: AnswerAdapter
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     private lateinit var binding: ActivityTestBinding
     private lateinit var viewModel: TestViewModel
@@ -77,10 +84,11 @@ class TestActivity : BaseActivity() {
                 }
             })
 
-            questions.observe(this@TestActivity, Observer {
-                it?.let {
-                    this@TestActivity.questions?.addAll(it)
-                    questionAdapter.notifyDataSetChanged()
+            questions.observe(this@TestActivity, Observer { it ->
+                it?.let { list ->
+                    this@TestActivity.questions?.clear()
+                    this@TestActivity.questions?.addAll(list)
+                    onQuestionSelected(this@TestActivity.questions?.indexOfFirst { it.questionEntity?.isSelected == true } ?: 0, false)
                 }
             })
 
@@ -96,6 +104,7 @@ class TestActivity : BaseActivity() {
     }
 
     private fun initAdMob() {
+        //todo admob
 //        MobileAds.initialize(this, getString(R.string.app_id));
 //        mAdView = (AdView) findViewById(R.id.adView);
 //        mAdView.setVisibility(View.VISIBLE);
@@ -109,26 +118,114 @@ class TestActivity : BaseActivity() {
     private fun setupRV() {
         questions = ArrayList()
         questionAdapter.questions = questions
-        questionAdapter.listener = object : OnRecyclerItemClickListener{
+        questionAdapter.listener = object : OnRecyclerItemClickListener {
             override fun onRecyclerItemClick(position: Int) {
-                questions?.forEachIndexed { index, questionWithAnswers ->
-                    questionWithAnswers.questionEntity?.isSelected = position == index
-                }
-                questionAdapter.notifyDataSetChanged()
+                onQuestionSelected(position)
             }
         }
-        questionRV.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        questionRV.layoutManager = CenterLayoutManager(this, RecyclerView.HORIZONTAL, false)
         questionRV.adapter = questionAdapter
+        CenterSnapHelper().attachToRecyclerView(questionRV)
 
         answers = ArrayList()
         answerAdapter.answers = answers
-        answerAdapter.listener = object : OnRecyclerItemClickListener{
+        answerAdapter.listener = object : OnRecyclerItemClickListener {
             override fun onRecyclerItemClick(position: Int) {
-
+                onAnswerSelected(position)
             }
         }
         answerRV.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         answerRV.adapter = answerAdapter
+    }
+
+    private fun onQuestionSelected(position: Int, needScroll: Boolean = false) {
+        if (position == -1) {
+            onQuestionSelected(0, false)
+            return
+        }
+
+        this.questions?.forEachIndexed { index, questionWithAnswers ->
+            questionWithAnswers.questionEntity?.isSelected = position == index
+        }
+        questionAdapter.notifyDataSetChanged()
+
+        this.questions?.firstOrNull { it.questionEntity?.isSelected == true }?.let { questionWithAnswers ->
+
+            questionWithAnswers.questionEntity?.let {
+                questionTxt.text = it.text
+                questionImg.visibility = if (it.image.isNullOrBlank()) View.GONE else View.VISIBLE
+                GlideApp.with(this)
+                        .load(it.image)
+                        .placeholder(R.drawable.empty)
+                        .error(R.drawable.empty)
+                        .into(questionImg)
+            }
+            questionWithAnswers.answers?.let {
+                this.answers?.clear()
+                this.answers?.addAll(it)
+                answerAdapter.notifyDataSetChanged()
+            }
+        }
+
+        if (needScroll)
+            (questionRV.layoutManager as CenterLayoutManager).smoothScrollToPosition(questionRV, RecyclerView.State(), position)
+
+    }
+
+
+    private fun onAnswerSelected(position: Int) {
+        if (answers?.firstOrNull { it.isAnswered == true } != null)
+            return
+
+        this.questions?.firstOrNull { it.questionEntity?.isSelected == true }?.let {
+            it.questionEntity?.isAnswered = true
+            it.answers?.get(position).let { answer ->
+                if (sharedPreferencesManager.isDoubleClick) {
+                    answers?.forEachIndexed { index, answerEntity ->
+                        if (index == position) {
+                            if (answerEntity.isSelected != true) {
+                                answerEntity.isSelected = true
+                            } else answerEntity.isAnswered = true
+                        } else {
+                            answerEntity.isSelected = false
+                        }
+                    }
+                } else {
+                    answers?.get(position)?.isAnswered = true
+                }
+            }
+
+            questionAdapter.notifyDataSetChanged()
+            answerAdapter.notifyDataSetChanged()
+
+            goToNextQuestion()
+
+        }
+    }
+
+    private fun goToNextQuestion() {
+        if (questions?.firstOrNull { it.answers?.firstOrNull { it.isAnswered == true } == null } == null) {
+            showResultDialog()
+            return
+        }
+
+        var current = questions?.indexOfFirst { it.questionEntity?.isSelected == true } ?: 0
+        for (i in 0 until (questions?.size ?: 0) - 1) {
+
+            if (current >= (questions?.size ?: 0) - 1)
+                current = 0
+            else
+                current++
+
+            if (questions?.get(current)?.questionEntity?.isAnswered != true) {
+                onQuestionSelected(current)
+                break
+            }
+        }
+    }
+
+    private fun showResultDialog() {
+        //todo result dialog
     }
 
     override fun onResume() {

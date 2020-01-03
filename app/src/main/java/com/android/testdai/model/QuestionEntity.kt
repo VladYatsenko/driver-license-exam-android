@@ -20,16 +20,10 @@ class QuestionEntity constructor(
         var text: String?,
         @ColumnInfo(name = "source_image")
         var image: String?,
-//        @ColumnInfo(name = "bitmap_image")
-//        var bitmap: String?,
+
         @ColumnInfo(name = "fk_topic")
         var topicId: Int?,
 
-//        @ColumnInfo(name = "fk_topic")
-//        var topicId: Int?,
-
-//        @Relation(parentColumn = "_id", entityColumn = "fk_question", entity = AnswerEntity::class)
-//        var answers: List<AnswerEntity>,
         @ColumnInfo(name = "isSelected")
         var isSelected: Boolean? = false,
         @ColumnInfo(name = "isAnswered")

@@ -2,28 +2,31 @@ package com.android.testdai.utils.db
 
 import com.android.testdai.model.CategoryEntity
 import com.android.testdai.model.QuestionWithAnswers
+import io.reactivex.Observable
 import io.reactivex.Single
 
 class DataRepository(private val questionDao: QuestionDao) {
 
-    fun loadQuestion(topicId: Int): List<QuestionWithAnswers> {
+    fun loadQuestion(topicId: Int): Observable<List<QuestionWithAnswers>> {
         return questionDao.selectQuestion(topicId) //
     }
 
-    fun loadQuestions(categories: List<CategoryEntity>?): Single<List<QuestionWithAnswers>> {
+//    fun loadQuestions(categories: List<CategoryEntity>?): Single<List<QuestionWithAnswers>> {
+//        return questionDao.selectQuestions(getListOfTopics(categories))
+//    }
 
-        val list: ArrayList<String> = ArrayList()
+    fun getListOfTopics(categories: List<CategoryEntity>?): ArrayList<Int> {
+        val list: ArrayList<Int> = ArrayList()
         for (position in 0..19) {
             categories?.let {
-                list.add(getQuestionTopicByPosition(position, categories).toString())
+                list.add(getTopicByPosition(position, categories))
             }
         }
 
-
-        return questionDao.selectQuestions(list)
+        return list
     }
 
-    private fun getQuestionTopicByPosition(position: Int, categories: List<CategoryEntity>): Int {
+    private fun getTopicByPosition(position: Int, categories: List<CategoryEntity>): Int {
         val topics = arrayListOf<Int>()
         when (position) {
             0 -> {

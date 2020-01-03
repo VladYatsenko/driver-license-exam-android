@@ -22,7 +22,6 @@ class AnswerAdapter @Inject constructor(
 
     var answers: List<AnswerEntity>? = null
     var listener: OnRecyclerItemClickListener? = null
-    var isQuestionAnswered = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {
         val binding = ItemAnswerBinding.inflate(LayoutInflater.from(parent.context))
@@ -44,10 +43,7 @@ class AnswerAdapter @Inject constructor(
 
     inner class AnswerViewHolder constructor(private val binding: ItemAnswerBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(answerEntity: AnswerEntity?) {
-//            binding.isSelected = answerEntity?.isSelected
-//            binding.isSelected = answerEntity?.isSelected
-//            binding.isAnswered = answerEntity?.isAnswered
-            binding.isQuestionAnswered = isQuestionAnswered
+            binding.isQuestionAnswered = answers?.firstOrNull { it.isAnswered == true } != null
             binding.answerItem = answerEntity
             binding.executePendingBindings()
         }

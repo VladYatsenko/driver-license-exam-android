@@ -36,8 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
+            android:background="@{isQuestionAnswered ? (answerItem.isAnswered ? (answerItem.isCorrect ? @drawable/selected_true : @drawable/selected_false)  : answerItem.isCorrect ?  @drawable/selected_true : @drawable/regular) : (answerItem.isSelected ? @drawable/selected : @drawable/regular)}"
             android:padding="8dp">
-<!--            android:background="@{isQuestionAnswered ? (answerItem.isCorrect ? (answerItem.isAnswered ? @drawable/selected_true : @drawable/selected_false) : @drawable/selected_true) : (answerItem.isSelected ? @drawable/selected : @drawable/regular)}"-->
 
             <TextView
                 android:id="@+id/answerTxt"
@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@{answerItem.text}"
+                android:textColor="@{isQuestionAnswered ? (answerItem.isAnswered ? @color/selected  : answerItem.isCorrect ?  @color/selected : @color/colorLightGrey) : (answerItem.isSelected ? @color/colorBlack : @color/colorLightGrey)}"
                 android:textSize="14sp" />
-<!--                android:textColor="@{answerItem.isAnswered ? @color/selected : (answerItem.isSelected ? @color/colorBlack : @color/colorLightGrey) }"-->
 
         </RelativeLayout>
 

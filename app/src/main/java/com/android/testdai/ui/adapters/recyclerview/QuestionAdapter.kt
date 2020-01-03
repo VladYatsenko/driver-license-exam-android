@@ -44,6 +44,7 @@ class QuestionAdapter @Inject constructor(
     inner class QuestionViewHolder constructor(private val binding: ItemQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(questionsEntity: QuestionWithAnswers?) {
             binding.position = adapterPosition.plus(1).toString()
+            binding.isAnswered = questionsEntity?.answers?.firstOrNull { it.isAnswered == true } != null
             binding.isCorrect = questionsEntity?.answers?.firstOrNull { it.isCorrect == true && it.isAnswered == true} != null
             binding.questionItem = questionsEntity?.questionEntity
             binding.executePendingBindings()
