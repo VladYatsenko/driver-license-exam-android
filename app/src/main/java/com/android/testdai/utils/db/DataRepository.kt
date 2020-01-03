@@ -8,12 +8,8 @@ import io.reactivex.Single
 class DataRepository(private val questionDao: QuestionDao) {
 
     fun loadQuestion(topicId: Int): Observable<List<QuestionWithAnswers>> {
-        return questionDao.selectQuestion(topicId) //
+        return questionDao.selectQuestion(topicId)
     }
-
-//    fun loadQuestions(categories: List<CategoryEntity>?): Single<List<QuestionWithAnswers>> {
-//        return questionDao.selectQuestions(getListOfTopics(categories))
-//    }
 
     fun getListOfTopics(categories: List<CategoryEntity>?): ArrayList<Int> {
         val list: ArrayList<Int> = ArrayList()

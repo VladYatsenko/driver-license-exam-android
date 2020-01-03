@@ -24,7 +24,6 @@ import com.android.testdai.model.AnswerEntity;
 import com.android.testdai.model.QuestionEntity;
 
 import com.android.testdai.ui.dialogs.DialogImage;
-import com.android.testdai.ui.dialogs.DialogResult;
 import com.android.testdai.ui.test.abstraction.ITestView;
 import com.google.android.gms.ads.AdView;
 
@@ -408,8 +407,8 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     @Override
     public void showResultDialog(int result) {
 
-        DialogResult dialog = DialogResult.newInstance(result);
-        dialog.show(getFragmentManager(), DIALOG_RESULT);
+//        DialogResult dialog = DialogResult.newInstance(result);
+//        dialog.show(getFragmentManager(), DIALOG_RESULT);
 
     }
 

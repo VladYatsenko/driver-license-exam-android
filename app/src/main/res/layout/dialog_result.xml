@@ -6,7 +6,7 @@
     android:padding="24dp">
 
     <ImageView
-        android:id="@+id/result_image"
+        android:id="@+id/resultImg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/cat" />
@@ -22,7 +22,7 @@
         android:textSize="22sp" />
 
     <TextView
-        android:id="@+id/result_text"
+        android:id="@+id/resultTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

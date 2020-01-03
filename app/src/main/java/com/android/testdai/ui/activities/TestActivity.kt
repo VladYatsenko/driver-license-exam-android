@@ -3,9 +3,9 @@ package com.android.testdai.ui.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,19 +14,19 @@ import com.android.testdai.R
 import com.android.testdai.databinding.ActivityTestBinding
 import com.android.testdai.di.components.DaggerScreenComponent
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
+import com.android.testdai.interfaces.OnResultListener
 import com.android.testdai.managers.SharedPreferencesManager
 import com.android.testdai.model.AnswerEntity
 import com.android.testdai.model.QuestionWithAnswers
 import com.android.testdai.ui.adapters.recyclerview.AnswerAdapter
 import com.android.testdai.ui.adapters.recyclerview.QuestionAdapter
+import com.android.testdai.ui.dialogs.ResultDialog
 import com.android.testdai.utils.CenterLayoutManager
 import com.android.testdai.utils.glide.GlideApp
 import com.android.testdai.viewmodel.TestViewModel
 import com.android.testdai.viewmodel.ViewModelFactory
-import com.bumptech.glide.GenericTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import com.leochuan.CenterSnapHelper
-import com.leochuan.ScrollHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_test.*
@@ -54,7 +54,8 @@ class TestActivity : BaseActivity() {
     private var questions: ArrayList<QuestionWithAnswers>? = null
     private var answers: ArrayList<AnswerEntity>? = null
     private var backButtonPressedOnce = false
-    private var countDownTimerMenu: MenuItem? = null
+    private var isTestAvailable = true
+    private var timer = MutableLiveData<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +71,6 @@ class TestActivity : BaseActivity() {
         setupViewModelCallbacks()
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun setupViewModelCallbacks() {
         viewModel.apply {
 
@@ -80,7 +80,7 @@ class TestActivity : BaseActivity() {
 
             timerValue.observe(this@TestActivity, Observer {
                 it?.let {
-                    countDownTimerMenu?.setTitle(SimpleDateFormat("mm:ss").format(Date(it)))
+                    timer.value = it
                 }
             })
 
@@ -88,17 +88,32 @@ class TestActivity : BaseActivity() {
                 it?.let { list ->
                     this@TestActivity.questions?.clear()
                     this@TestActivity.questions?.addAll(list)
-                    onQuestionSelected(this@TestActivity.questions?.indexOfFirst { it.questionEntity?.isSelected == true } ?: 0, false)
+                    onQuestionSelected(this@TestActivity.questions?.indexOfFirst { it.questionEntity?.isSelected == true } ?: 0)
+                }
+            })
+
+            test.observe(this@TestActivity, Observer {
+                it?.let {
+                    isTestAvailable = it.isTestAvailable
+                    if (!it.isTestAvailable && it.isNeedToShowResultDialog)
+                        showResultDialog()
                 }
             })
 
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_countdown, menu)
-        countDownTimerMenu = menu.findItem(R.id.countdown)
+        val countDownTimerMenu = menu.findItem(R.id.countdown)
+        timer.observe(this@TestActivity, Observer {
+            it?.let {
+                countDownTimerMenu?.title = SimpleDateFormat("mm:ss").format(Date(it))
+            }
+        })
+        countDownTimerMenu?.title = SimpleDateFormat("mm:ss").format(Date(timer.value ?: 0))
         return true
 
     }
@@ -114,13 +129,12 @@ class TestActivity : BaseActivity() {
 //        mAdView.loadAd(adRequest);
     }
 
-
     private fun setupRV() {
         questions = ArrayList()
         questionAdapter.questions = questions
         questionAdapter.listener = object : OnRecyclerItemClickListener {
             override fun onRecyclerItemClick(position: Int) {
-                onQuestionSelected(position)
+                onQuestionSelected(position, true)
             }
         }
         questionRV.layoutManager = CenterLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -140,7 +154,7 @@ class TestActivity : BaseActivity() {
 
     private fun onQuestionSelected(position: Int, needScroll: Boolean = false) {
         if (position == -1) {
-            onQuestionSelected(0, false)
+            onQuestionSelected(0)
             return
         }
 
@@ -172,9 +186,8 @@ class TestActivity : BaseActivity() {
 
     }
 
-
     private fun onAnswerSelected(position: Int) {
-        if (answers?.firstOrNull { it.isAnswered == true } != null)
+        if (answers?.firstOrNull { it.isAnswered == true } != null || !isTestAvailable)
             return
 
         this.questions?.firstOrNull { it.questionEntity?.isSelected == true }?.let {
@@ -204,8 +217,10 @@ class TestActivity : BaseActivity() {
     }
 
     private fun goToNextQuestion() {
-        if (questions?.firstOrNull { it.answers?.firstOrNull { it.isAnswered == true } == null } == null) {
-            showResultDialog()
+        if (questions?.firstOrNull { it.answers?.firstOrNull { it.isAnswered == true } == null } == null
+                || (sharedPreferencesManager.isErrorLimit && isErrorLimit())) {
+
+            viewModel.setTestEnded()
             return
         }
 
@@ -218,23 +233,44 @@ class TestActivity : BaseActivity() {
                 current++
 
             if (questions?.get(current)?.questionEntity?.isAnswered != true) {
-                onQuestionSelected(current)
+                onQuestionSelected(current, true)
                 break
             }
         }
     }
 
     private fun showResultDialog() {
-        //todo result dialog
+
+        var result = 0
+        questions?.forEach {
+            it.answers?.forEach { answer ->
+                if (answer.isCorrect == true && answer.isAnswered == true) {
+                    result++
+                }
+            }
+        }
+
+        ResultDialog.newInstance(result, object : OnResultListener {
+            override fun onRestartTest() {
+                viewModel.recreate()
+                recreate()
+            }
+        }).also { it.show(supportFragmentManager, it.tag) }
+        viewModel.setTestEnded(false)
+
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun isErrorLimit(): Boolean {
+        var result = 0
+        questions?.forEach {
+            it.answers?.forEach { answer ->
+                if (answer.isCorrect != true && answer.isAnswered == true) {
+                    result++
+                }
+            }
+        }
 
-    }
-
-    override fun onPause() {
-        super.onPause()
+        return result > 2
     }
 
     override fun onBackPressed() {

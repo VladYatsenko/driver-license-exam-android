@@ -1,6 +1,5 @@
 package com.android.testdai.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.testdai.managers.ConnectionManager
@@ -9,15 +8,14 @@ import com.android.testdai.model.QuestionWithAnswers
 import com.android.testdai.utils.db.DataRepository
 import io.reactivex.Observable
 import io.reactivex.Observer
-import io.reactivex.Single
-import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import com.android.testdai.model.TestEntity
+
 
 class TestViewModel @Inject constructor(
         var dataRepository: DataRepository,
@@ -28,12 +26,18 @@ class TestViewModel @Inject constructor(
     var inProgress = MutableLiveData<Boolean>()
     var timerValue = MutableLiveData<Long>()
     var questions = MutableLiveData<ArrayList<QuestionWithAnswers>>()
+    var test = MutableLiveData<TestEntity>()
 
     private val TIMER_VALUE = 1200L
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var timerDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
+        requestToDatabase()
+    }
 
+    fun requestToDatabase() {
+        inProgress.value = true
         val list: ArrayList<QuestionWithAnswers> = ArrayList()
         // передаю в Observable список topics id для запроса в бд
         Observable.just(dataRepository.getListOfTopics(sharedPreferencesManager.categories?.filter { it.isSelected == true }))
@@ -66,7 +70,7 @@ class TestViewModel @Inject constructor(
                     override fun onNext(questionsList: List<QuestionWithAnswers>) {
                         //добавляю случайный вопрос в список
                         list.add(questionsList.random())
-                        if (list.size >= 20){
+                        if (list.size >= 20) {
                             this.onComplete()
                         }
                     }
@@ -79,18 +83,31 @@ class TestViewModel @Inject constructor(
                         inProgress.value = false
                     }
                 })
+    }
 
+    fun recreate(){
+        test.value = TestEntity(true, true)
+        timerValue.value = 0
+        timerDisposable = CompositeDisposable()
+        requestToDatabase()
+    }
 
+    fun setTestEnded(isNeedToShowResultDialog: Boolean = true) {
+        test.value = TestEntity(false, isNeedToShowResultDialog)
+        timerDisposable.dispose()
     }
 
     private fun timer() {
-        compositeDisposable.add(
+        timerDisposable.add(
                 Observable.interval(1000, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext { timerValue.value = it*1000 }
+                        .doOnNext { timerValue.value = (TIMER_VALUE - it)*1000 }
                         .takeUntil { aLong -> aLong == TIMER_VALUE }
-                        .doOnComplete {}
-                        .subscribe()
+                        .doOnComplete {
+                            if (test.value?.isTestAvailable == true){
+                                setTestEnded(test.value?.isTestAvailable != true)
+                            }
+                        }.subscribe()
         )
     }
 
@@ -100,4 +117,5 @@ class TestViewModel @Inject constructor(
             compositeDisposable.dispose()
         }
     }
+
 }

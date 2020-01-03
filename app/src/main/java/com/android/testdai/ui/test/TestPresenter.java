@@ -156,6 +156,8 @@ public class TestPresenter {
 //                if (answer.isAnswerTrue() && answer.isSelected()) {
 //                    answerIsTrueCount++;
 //                }
+//            }
+//        }
 //                if (!answer.isAnswerTrue() && answer.isSelected()) {
 //                    answerIsFalseCount++;
 //                }
