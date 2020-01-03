@@ -8,6 +8,9 @@
     <color name="colorGray">#666666</color>
     <color name="colorGrayText">#535353</color>
     <color name="enable">#535353</color>
+    <color name="colorLightGrey">#888888</color>
+    <color name="colorBlack">#000</color>
     <color name="disable">#CBCBCB</color>
     <color name="selected">#ffffff</color>
+    <color name="alabaster">#FAFAFA</color>
 </resources>

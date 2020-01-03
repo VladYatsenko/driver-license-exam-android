@@ -1,6 +1,5 @@
 package com.android.testdai.ui.test;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,9 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,15 +26,9 @@ import com.android.testdai.model.QuestionEntity;
 import com.android.testdai.ui.dialogs.DialogImage;
 import com.android.testdai.ui.dialogs.DialogResult;
 import com.android.testdai.ui.test.abstraction.ITestView;
-import com.android.testdai.utils.AnalyticUtil;
-import com.android.testdai.utils.ProgressUtil;
 import com.google.android.gms.ads.AdView;
 
-import com.google.android.material.snackbar.Snackbar;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -60,7 +50,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
     private TestPresenter presenter;
     private Handler handler;
-    private ProgressUtil progressUtil;
+//    private ProgressUtil progressUtil;
 
     public static Intent newIntent (Context packageContext){
         return new Intent(packageContext, TestActivity.class);
@@ -70,20 +60,20 @@ public class TestActivity extends AppCompatActivity implements ITestView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
+//        AnalyticUtil.getInstance(this).logScreenEvent(getClass().getSimpleName());
 
-        progressUtil = new ProgressUtil(this);
+//        progressUtil = new ProgressUtil(this);
         presenter = new TestPresenter(this);
-
-        mQuestionRecycler = (RecyclerView) findViewById(R.id.question_recycler_view);
-        mLinearLayoutManager = new LinearLayoutManager(TestActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        mQuestionRecycler.setLayoutManager(mLinearLayoutManager);
-
-        mAnswerRecycler = (RecyclerView) findViewById(R.id.answer_recycler_view);
-        mAnswerRecycler.setLayoutManager(new LinearLayoutManager(TestActivity.this));
-
-        mQuestionTextView = (TextView) findViewById(R.id.text_question);
-        mQuestionImage = (ImageView) findViewById(R.id.question_image);
+//
+//        mQuestionRecycler = (RecyclerView) findViewById(R.id.question_recycler_view);
+//        mLinearLayoutManager = new LinearLayoutManager(TestActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        mQuestionRecycler.setLayoutManager(mLinearLayoutManager);
+//
+//        mAnswerRecycler = (RecyclerView) findViewById(R.id.answer_recycler_view);
+//        mAnswerRecycler.setLayoutManager(new LinearLayoutManager(TestActivity.this));
+//
+//        mQuestionTextView = (TextView) findViewById(R.id.text_question);
+//        mQuestionImage = (ImageView) findViewById(R.id.question_image);
 
 //        MobileAds.initialize(this, getString(R.string.app_id));
 //        mAdView = (AdView) findViewById(R.id.adView);
@@ -95,64 +85,64 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
     }
 
-    @SuppressLint("HandlerLeak")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+//    @SuppressLint("HandlerLeak")
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu white) {
+//        super.onCreateOptionsMenu(white);
+//
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.white.menu_countdown, white);
+//        final MenuItem mCountdown = white.findItem(R.id.countdown);
+//        handler = new Handler() {
+//            @SuppressLint("SimpleDateFormat")
+//            public void handleMessage(Message msg) {
+//                int message = msg.getData().getInt("data");
+//                mCountdown.setTitle(new SimpleDateFormat("mm:ss").format(new Date(message)));
+//            };
+//        };
+//
+//        return true;
+//
+//    }
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.fragment_question, menu);
-        final MenuItem mCountdown = menu.findItem(R.id.countdown);
-        handler = new Handler() {
-            @SuppressLint("SimpleDateFormat")
-            public void handleMessage(Message msg) {
-                int message = msg.getData().getInt("data");
-                mCountdown.setTitle(new SimpleDateFormat("mm:ss").format(new Date(message)));
-            };
-        };
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        presenter.attachView();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        mAdView.pause();
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        presenter.onDestroy();
+//        mAdView.destroy();
+//    }
 
-        return true;
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.attachView();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mAdView.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
-        mAdView.destroy();
-    }
-
-    private boolean twice = false;
-    @Override
-    public void onBackPressed() {
-
-        if(twice){
-            finish();
-        }
-        twice = true;
-
-        Snackbar mSnackbar = Snackbar.make(findViewById(android.R.id.content), "Натисніть ще раз для виходу!", Snackbar.LENGTH_LONG);
-        mSnackbar.show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                twice = false;
-            }
-        }, 3000);
-
-    }
+//    private boolean twice = false;
+//    @Override
+//    public void onBackPressed() {
+//
+//        if(twice){
+//            finish();
+//        }
+//        twice = true;
+//
+//        Snackbar mSnackbar = Snackbar.make(findViewById(android.R.id.content), "Натисніть ще раз для виходу!", Snackbar.LENGTH_LONG);
+//        mSnackbar.show();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                twice = false;
+//            }
+//        }, 3000);
+//
+//    }
 
 
     private class ListQuestionHolder extends RecyclerView.ViewHolder
@@ -164,8 +154,8 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
         public ListQuestionHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_question, parent, false));
-            mQuestionCount = (TextView) itemView.findViewById(R.id.number_question);
-            mRelativeLayoutQuestion = (RelativeLayout) itemView.findViewById(R.id.relative_layout_question);
+//            mQuestionCount = (TextView) itemView.findViewById(R.id.number_question);
+//            mRelativeLayoutQuestion = (RelativeLayout) itemView.findViewById(R.id.relative_layout_question);
             itemView.setOnClickListener(this);
         }
 
@@ -173,43 +163,43 @@ public class TestActivity extends AppCompatActivity implements ITestView{
             int position = this.getAdapterPosition()+1;
             mQuestionCount.setText(String.valueOf(position));
 
-            List<AnswerEntity> answers = questionEntity.getAnswerEntities();
-
-            if(questionEntity.isSelected()){
-                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.selected);
-                if(questionEntity.isAnswered()){
-                    for(AnswerEntity answer : answers){
-                        if(answer.isSelected()){
-                            if(answer.isCorrect()){
-                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.selected_true);
-                            }
-                            else {
-                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.selected_false);
-                            }
-                            mQuestionCount.setTextColor(Color.WHITE);
-                        }
-                    }
-                } else if (!questionEntity.isAnswered()){
-                    mQuestionCount.setTextColor(Color.BLACK);
-                }
-            } else {
-                if(questionEntity.isAnswered()){
-                    mQuestionCount.setTextColor(Color.WHITE);
-                    for(AnswerEntity answer : answers){
-                        if(answer.isSelected()){
-                            if(answer.isCorrect()){
-                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.not_selected_true);
-                            }
-                            else {
-                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.not_selected_false);
-                            }
-                        }
-                    }
-                } else if (!questionEntity.isAnswered()){
-                    mRelativeLayoutQuestion.setBackgroundResource(R.drawable.regular);
-                    mQuestionCount.setTextColor(Color.BLACK);
-                }
-            }
+//            List<AnswerEntity> answers = questionEntity.getAnswers();
+//
+//            if(questionEntity.isSelected()){
+//                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.selected);
+//                if(questionEntity.isAnswered()){
+//                    for(AnswerEntity answer : answers){
+//                        if(answer.isSelected()){
+//                            if(answer.isCorrect()){
+//                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.selected_true);
+//                            }
+//                            else {
+//                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.selected_false);
+//                            }
+//                            mQuestionCount.setTextColor(Color.WHITE);
+//                        }
+//                    }
+//                } else if (!questionEntity.isAnswered()){
+//                    mQuestionCount.setTextColor(Color.BLACK);
+//                }
+//            } else {
+//                if(questionEntity.isAnswered()){
+//                    mQuestionCount.setTextColor(Color.WHITE);
+//                    for(AnswerEntity answer : answers){
+//                        if(answer.isSelected()){
+//                            if(answer.isCorrect()){
+//                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.not_selected_true);
+//                            }
+//                            else {
+//                                mRelativeLayoutQuestion.setBackgroundResource(R.drawable.not_selected_false);
+//                            }
+//                        }
+//                    }
+//                } else if (!questionEntity.isAnswered()){
+//                    mRelativeLayoutQuestion.setBackgroundResource(R.drawable.regular);
+//                    mQuestionCount.setTextColor(Color.BLACK);
+//                }
+//            }
         }
 
         @Override
@@ -255,8 +245,8 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_answer, parent, false));
-            mAnswerTextView = (TextView) itemView.findViewById(R.id.answer_text);
-            mRelativeLayoutAnswer = (RelativeLayout) itemView.findViewById(R.id.relative_layout_answer);
+//            mAnswerTextView = (TextView) itemView.findViewById(R.id.answer_text);
+//            mRelativeLayoutAnswer = (RelativeLayout) itemView.findViewById(R.id.relative_layout_answer);
             itemView.setOnClickListener(this);
         }
 
@@ -264,27 +254,27 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
             mAnswerTextView.setText(answer.getText());
 
-            if(questionEntity.isAnswered()){
-                if(answer.isSelected()) {
-                    if (answer.isAnswered()) {
-                        mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_true);
-                        mAnswerTextView.setTextColor(Color.WHITE);
-                    } else if (!answer.isCorrect()) {
-                        mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_false);
-                        mAnswerTextView.setTextColor(Color.WHITE);
-                    }
-                } else {
-                    if(answer.isCorrect()){
-                        mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_true);
-                        mAnswerTextView.setTextColor(Color.WHITE);
-                    }
-                }
-            }else {
-                if(answer.isSelected()){
-                    mRelativeLayoutAnswer.setBackgroundResource(R.drawable.selected);
-                    mAnswerTextView.setTextColor(Color.BLACK);
-                }
-            }
+//            if(questionEntity.isAnswered()){
+//                if(answer.isSelected()) {
+//                    if (answer.isAnswered()) {
+//                        mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_true);
+//                        mAnswerTextView.setTextColor(Color.WHITE);
+//                    } else if (!answer.isCorrect()) {
+//                        mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_false);
+//                        mAnswerTextView.setTextColor(Color.WHITE);
+//                    }
+//                } else {
+//                    if(answer.isCorrect()){
+//                        mRelativeLayoutAnswer.setBackgroundResource(R.drawable.not_selected_true);
+//                        mAnswerTextView.setTextColor(Color.WHITE);
+//                    }
+//                }
+//            }else {
+//                if(answer.isSelected()){
+//                    mRelativeLayoutAnswer.setBackgroundResource(R.drawable.selected);
+//                    mAnswerTextView.setTextColor(Color.BLACK);
+//                }
+//            }
 
         }
 
@@ -303,7 +293,7 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
         public QuestionAdapter(QuestionEntity questionEntity){
             mQuestionEntity = questionEntity;
-            mAnswers = questionEntity.getAnswerEntities();
+//            mAnswers = questionEntity.getAnswers();
         }
 
         @NonNull
@@ -327,12 +317,13 @@ public class TestActivity extends AppCompatActivity implements ITestView{
 
     @Override
     public void startLoading() {
-        progressUtil.showProgress();
+
+//        progressUtil.showProgress();
     }
 
     @Override
     public void stopLoading() {
-        progressUtil.hideProgress();
+//        progressUtil.hideProgress();
     }
 
     @Override

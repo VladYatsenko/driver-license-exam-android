@@ -17,5 +17,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(TestViewModel::class)
-    internal abstract fun loginViewModel(viewModel: TestViewModel): ViewModel
+    internal abstract fun testViewModel(viewModel: TestViewModel): ViewModel
 }

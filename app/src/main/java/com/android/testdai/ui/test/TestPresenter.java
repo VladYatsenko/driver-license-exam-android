@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import com.android.testdai.application.db.DaiRepository;
 import com.android.testdai.model.QuestionEntity;
 import com.android.testdai.ui.test.abstraction.ITestView;
-import com.android.testdai.utils.PreferencesUtil;
 
 import java.util.List;
 
@@ -16,9 +15,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.android.testdai.utils.Constants.APP_PREFERENCES_DOUBLE_CLICK;
-import static com.android.testdai.utils.Constants.APP_PREFERENCES_ERROR_LIMIT;
-import static com.android.testdai.utils.Constants.APP_PREFERENCES_TIME_LIMIT;
 
 public class TestPresenter {
 
@@ -36,16 +32,16 @@ public class TestPresenter {
     public TestPresenter(Context context) {
 
         this.context = context;
-        timeLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_TIME_LIMIT);
-        errorLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_ERROR_LIMIT);
-        doubleClick = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_DOUBLE_CLICK);
+//        timeLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_TIME_LIMIT);
+//        errorLimit = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_ERROR_LIMIT);
+//        doubleClick = PreferencesUtil.getInstance(context).getPreference(APP_PREFERENCES_DOUBLE_CLICK);
 
         iTestView = (ITestView) context;
         iTestView.startLoading();
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                databaseRequest(PreferencesUtil.getInstance(context).getCategory());
+//                databaseRequest(PreferencesUtil.getInstance(context).getCategory());
             }
         }).subscribeOn(Schedulers.io()).andThen(afterRequest()).subscribe();
 
@@ -75,13 +71,13 @@ public class TestPresenter {
     public void selectQuestion(int position) {
 
         for (QuestionEntity questionEntity : questionEntities) {
-            questionEntity.setSelected(false);
-//            for(QuestionEntity.Answer answer : questionEntity.getAnswerEntities()){
+//            questionEntity.setSelected(false);
+//            for(QuestionEntity.Answer answer : questionEntity.getAnswers()){
 //                answer.setChosen(false);
 //            }
 
         }
-        questionEntities.get(position).setSelected(true);
+//        questionEntities.get(position).setSelected(true);
 
         iTestView.updateListQuestion(position, questionEntities);
 
@@ -95,10 +91,10 @@ public class TestPresenter {
 //                questionEntity = q;
 //        }
 //        assert questionEntity != null;
-//        QuestionEntity.Answer answer = questionEntity.getAnswerEntities().get(position);
+//        QuestionEntity.Answer answer = questionEntity.getAnswers().get(position);
 //        if (!questionEntity.isAnswered() && testState) {
 //            if(!answer.isChosen() && doubleClick){
-//                for(QuestionEntity.Answer answerl : questionEntity.getAnswerEntities())
+//                for(QuestionEntity.Answer answerl : questionEntity.getAnswers())
 //                    answerl.setChosen(false);
 //                answer.setChosen(true);
 //                iTestView.updateListQuestion(questionEntities.indexOf(questionEntity), questionEntities);
@@ -122,9 +118,9 @@ public class TestPresenter {
         int pos = 0;
 
         for (QuestionEntity questionEntity : questionEntities) {
-
-            if (questionEntity.isSelected())
-                pos = questionEntities.indexOf(questionEntity);
+//
+//            if (questionEntity.isSelected())
+//                pos = questionEntities.indexOf(questionEntity);
 
         }
 
@@ -134,10 +130,10 @@ public class TestPresenter {
                 pos = 0;
             else
                 pos++;
-            if (!questionEntities.get(pos).isAnswered()) {
-                selectQuestion(pos);
-                break;
-            }
+//            if (!questionEntities.get(pos).isAnswered()) {
+//                selectQuestion(pos);
+//                break;
+//            }
 
         }
 
@@ -155,7 +151,7 @@ public class TestPresenter {
 //            if (questionEntity.isAnswered()) {
 //                questionCount++;
 //            }
-//            answers = questionEntity.getAnswerEntities();
+//            answers = questionEntity.getAnswers();
 //            for (QuestionEntity.Answer answer : answers) {
 //                if (answer.isAnswerTrue() && answer.isSelected()) {
 //                    answerIsTrueCount++;

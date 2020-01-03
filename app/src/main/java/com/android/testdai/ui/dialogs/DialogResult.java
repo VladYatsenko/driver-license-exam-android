@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.android.testdai.R;
 import com.android.testdai.ui.test.TestActivity;
-import com.android.testdai.utils.AnalyticUtil;
 
 public class DialogResult extends DialogFragment {
 
@@ -39,7 +38,6 @@ public class DialogResult extends DialogFragment {
 
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_result, null);
-        AnalyticUtil.getInstance(getActivity().getApplicationContext()).logScreenEvent(getClass().getSimpleName());
 
 
         TextView mResult = (TextView) v.findViewById(R.id.result);

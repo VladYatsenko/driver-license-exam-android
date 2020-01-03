@@ -24,7 +24,7 @@ public class QuestionCursorWrapper extends CursorWrapper {
 //        questionEntity.setSelected(false);
 //        questionEntity.setImageSource(imageSource);
 //        if (answers!=null)
-//            questionEntity.setAnswerEntities(answers);
+//            questionEntity.setAnswers(answers);
 //
 //        return questionEntity;
 //    }

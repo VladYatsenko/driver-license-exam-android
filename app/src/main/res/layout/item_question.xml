@@ -1,19 +1,48 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relative_layout_question"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginRight="7dp"
-    android:layout_marginLeft="7dp"
-    android:padding="3pt">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/number_question"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        tools:text="20"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="14sp" />
+    <data>
 
-</RelativeLayout>
+        <variable
+            name="questionItem"
+            type="com.android.testdai.model.QuestionEntity" />
+
+        <variable
+            name="isCorrect"
+            type="Boolean" />
+
+        <variable
+            name="position"
+            type="String" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/questionLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@{questionItem.isSelected ?  (questionItem.isAnswered ? (isCorrect ? @drawable/selected_true : @drawable/selected_false) : @drawable/selected)  : @drawable/regular}"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/questionNumber"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="@{position}"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</layout>

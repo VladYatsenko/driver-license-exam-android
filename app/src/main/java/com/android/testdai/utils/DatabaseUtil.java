@@ -16,7 +16,7 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 
     private static String DB_PATH = null;
     private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "dai_visual.db";
+    private static final String DATABASE_NAME = "databases/dai_visual.db";
     private SQLiteDatabase mDataBase;
     private Context context;
 

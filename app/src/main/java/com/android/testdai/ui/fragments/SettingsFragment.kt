@@ -2,7 +2,6 @@ package com.android.testdai.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.SwitchPreference
 import android.view.View
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -11,8 +10,6 @@ import com.android.testdai.R
 import com.android.testdai.di.components.DaggerScreenComponent
 import com.android.testdai.managers.SharedPreferencesManager
 import com.android.testdai.ui.activities.BaseActivity
-import com.android.testdai.utils.Constants.*
-import com.android.testdai.utils.PreferencesUtil
 import javax.inject.Inject
 
 class SettingsFragment: PreferenceFragmentCompat() {
@@ -45,14 +42,14 @@ class SettingsFragment: PreferenceFragmentCompat() {
         }
 
         val errorLimit = findPreference<SwitchPreferenceCompat>(ERROR_LIMIT)
-        errorLimit?.isChecked = PreferencesUtil.getInstance(activity).getPreference(APP_PREFERENCES_ERROR_LIMIT)
+        errorLimit?.isChecked = sharedPreferencesManager.isErrorLimit
         errorLimit?.setOnPreferenceClickListener { preference ->
             sharedPreferencesManager.isErrorLimit = errorLimit.isChecked
             true
         }
 
         val doubleClick = findPreference<SwitchPreferenceCompat>(DOUBLE_CLICK)
-        doubleClick?.isChecked = PreferencesUtil.getInstance(activity).getPreference(APP_PREFERENCES_DOUBLE_CLICK)
+        doubleClick?.isChecked = sharedPreferencesManager.isDoubleClick
         doubleClick?.setOnPreferenceClickListener { preference ->
             sharedPreferencesManager.isDoubleClick = doubleClick.isChecked
             true

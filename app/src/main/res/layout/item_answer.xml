@@ -1,18 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relative_layout_answer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="7dp"
-    android:padding="3pt"
-    android:background="@drawable/regular">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/answer_text"
+    <data>
+
+        <variable
+            name="answerItem"
+            type="com.android.testdai.model.AnswerEntity" />
+
+<!--        <variable-->
+<!--            name="isSelected"-->
+<!--            type="Boolean" />-->
+
+<!--        <variable-->
+<!--            name="isAnswered"-->
+<!--            type="Boolean" />-->
+
+<!--        <variable-->
+<!--            name="isCorrect"-->
+<!--            type="Boolean" />-->
+
+        <variable
+            name="isQuestionAnswered"
+            type="Boolean" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        tools:text="Answer text"
-        android:textSize="14sp" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/answerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:padding="8dp">
+<!--            android:background="@{isQuestionAnswered ? (answerItem.isCorrect ? (answerItem.isAnswered ? @drawable/selected_true : @drawable/selected_false) : @drawable/selected_true) : (answerItem.isSelected ? @drawable/selected : @drawable/regular)}"-->
+
+            <TextView
+                android:id="@+id/answerTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@{answerItem.text}"
+                android:textSize="14sp" />
+<!--                android:textColor="@{answerItem.isAnswered ? @color/selected : (answerItem.isSelected ? @color/colorBlack : @color/colorLightGrey) }"-->
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</layout>
