@@ -10,22 +10,22 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.android.testdai.R
-import com.android.testdai.interfaces.OnResultListener
+import com.android.testdai.interfaces.OnResultClickListener
 
 class ResultDialog : DialogFragment() {
 
 
     companion object {
-        fun newInstance(result: Int, onResultListener: OnResultListener): ResultDialog {
+        fun newInstance(result: Int, onResultClickListener: OnResultClickListener): ResultDialog {
             val fragment = ResultDialog()
             fragment.result = result
-            fragment.onResultListener = onResultListener
+            fragment.onResultClickListener = onResultClickListener
             return fragment
         }
     }
 
     var result: Int = 0
-    var onResultListener: OnResultListener? = null
+    var onResultClickListener: OnResultClickListener? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -50,7 +50,7 @@ class ResultDialog : DialogFragment() {
                     .setView(v)
                     .setNeutralButton(R.string.restart) { dialog, which ->
                         dialog?.cancel()
-                        onResultListener?.onRestartTest()
+                        onResultClickListener?.onRestartTest()
                     }
                     .setPositiveButton(android.R.string.ok) { dialog, i -> dialog?.dismiss() }
                     .create()

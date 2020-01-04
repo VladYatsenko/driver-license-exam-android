@@ -1,4 +1,4 @@
-package com.android.testdai.utils.db
+package com.android.testdai.utils.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query

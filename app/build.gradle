@@ -82,6 +82,7 @@ dependencies {
     // image loader
     implementation "com.github.bumptech.glide:glide:$glideVer"
     kapt "com.github.bumptech.glide:compiler:$glideVer"
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     //
     implementation 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'

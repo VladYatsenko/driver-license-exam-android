@@ -2,8 +2,8 @@ package com.android.testdai.utils.db
 
 import com.android.testdai.model.CategoryEntity
 import com.android.testdai.model.QuestionWithAnswers
+import com.android.testdai.utils.db.dao.QuestionDao
 import io.reactivex.Observable
-import io.reactivex.Single
 
 class DataRepository(private val questionDao: QuestionDao) {
 

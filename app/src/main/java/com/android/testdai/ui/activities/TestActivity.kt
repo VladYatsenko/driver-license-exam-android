@@ -1,6 +1,8 @@
 package com.android.testdai.ui.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -14,10 +16,11 @@ import com.android.testdai.R
 import com.android.testdai.databinding.ActivityTestBinding
 import com.android.testdai.di.components.DaggerScreenComponent
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
-import com.android.testdai.interfaces.OnResultListener
+import com.android.testdai.interfaces.OnResultClickListener
 import com.android.testdai.managers.SharedPreferencesManager
 import com.android.testdai.model.AnswerEntity
 import com.android.testdai.model.QuestionWithAnswers
+import com.android.testdai.ui.activities.PhotoActivity.Companion.PHOTO_URL
 import com.android.testdai.ui.adapters.recyclerview.AnswerAdapter
 import com.android.testdai.ui.adapters.recyclerview.QuestionAdapter
 import com.android.testdai.ui.dialogs.ResultDialog
@@ -25,6 +28,8 @@ import com.android.testdai.utils.CenterLayoutManager
 import com.android.testdai.utils.glide.GlideApp
 import com.android.testdai.viewmodel.TestViewModel
 import com.android.testdai.viewmodel.ViewModelFactory
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.leochuan.CenterSnapHelper
 import io.reactivex.Observable
@@ -69,6 +74,16 @@ class TestActivity : BaseActivity() {
         setupRV()
 
         setupViewModelCallbacks()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adView.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adView.pause()
     }
 
     private fun setupViewModelCallbacks() {
@@ -119,14 +134,12 @@ class TestActivity : BaseActivity() {
     }
 
     private fun initAdMob() {
-        //todo admob
-//        MobileAds.initialize(this, getString(R.string.app_id));
-//        mAdView = (AdView) findViewById(R.id.adView);
-//        mAdView.setVisibility(View.VISIBLE);
-//        AdRequest adRequest = new AdRequest.Builder()
-//                .addTestDevice("9489E98FDC7D70F02084422B7D2B18C3")
-//                .build();
-//        mAdView.loadAd(adRequest);
+        MobileAds.initialize(this, getString(R.string.app_id));
+        adView.visibility = View.VISIBLE;
+        val adRequest = AdRequest.Builder()
+                .addTestDevice("9489E98FDC7D70F02084422B7D2B18C3")
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private fun setupRV() {
@@ -167,7 +180,19 @@ class TestActivity : BaseActivity() {
 
             questionWithAnswers.questionEntity?.let {
                 questionTxt.text = it.text
-                questionImg.visibility = if (it.image.isNullOrBlank()) View.GONE else View.VISIBLE
+                questionImg.visibility =
+                        if (it.image.isNullOrBlank())
+                            (if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                                View.INVISIBLE
+                            else View.GONE)
+                        else View.VISIBLE
+
+                questionImg.setOnClickListener {view->
+                    val intent = Intent(this, PhotoActivity::class.java)
+                    intent.putExtra(PHOTO_URL, it.image)
+                    startActivity(intent)
+                }
+
                 GlideApp.with(this)
                         .load(it.image)
                         .placeholder(R.drawable.empty)
@@ -250,7 +275,7 @@ class TestActivity : BaseActivity() {
             }
         }
 
-        ResultDialog.newInstance(result, object : OnResultListener {
+        ResultDialog.newInstance(result, object : OnResultClickListener {
             override fun onRestartTest() {
                 viewModel.recreate()
                 recreate()
@@ -293,7 +318,7 @@ class TestActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-//        mAdView.destroy()
+        adView.destroy()
     }
 
     override fun inject() {

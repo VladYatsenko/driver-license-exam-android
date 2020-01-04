@@ -1,5 +1,5 @@
 package com.android.testdai.interfaces
 
-interface OnResultListener {
+interface OnResultClickListener {
     fun onRestartTest()
 }

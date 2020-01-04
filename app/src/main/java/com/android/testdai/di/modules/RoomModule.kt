@@ -5,7 +5,7 @@ import dagger.Provides
 import javax.inject.Singleton
 import androidx.room.Room
 import android.app.Application
-import com.android.testdai.utils.db.QuestionDao
+import com.android.testdai.utils.db.dao.QuestionDao
 import com.android.testdai.utils.db.AppDatabase
 import com.android.testdai.utils.db.DataRepository
 
