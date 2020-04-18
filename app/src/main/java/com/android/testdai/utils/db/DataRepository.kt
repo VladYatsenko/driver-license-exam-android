@@ -4,10 +4,11 @@ import com.android.testdai.model.CategoryEntity
 import com.android.testdai.model.QuestionWithAnswers
 import com.android.testdai.utils.db.dao.QuestionDao
 import io.reactivex.Observable
+import io.reactivex.Single
 
 class DataRepository(private val questionDao: QuestionDao) {
 
-    fun loadQuestion(topicId: Int): Observable<List<QuestionWithAnswers>> {
+    fun loadQuestion(topicId: Int): Single<List<QuestionWithAnswers>> {
         return questionDao.selectQuestion(topicId)
     }
 

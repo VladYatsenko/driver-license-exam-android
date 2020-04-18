@@ -10,7 +10,7 @@ import io.reactivex.Single
 interface QuestionDao {
 
     @Query("SELECT * FROM question WHERE fk_topic = :topicId")
-    fun selectQuestion(topicId: Int): Observable<List<QuestionWithAnswers>>//questionId: Int
+    fun selectQuestion(topicId: Int): Single<List<QuestionWithAnswers>>//questionId: Int
 
     @Query("SELECT * FROM question WHERE fk_topic IN (:topics)")
     fun selectQuestions(topics: List<String>): Single<List<QuestionWithAnswers>>

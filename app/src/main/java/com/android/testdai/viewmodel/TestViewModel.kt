@@ -5,16 +5,16 @@ import androidx.lifecycle.ViewModel
 import com.android.testdai.managers.ConnectionManager
 import com.android.testdai.managers.SharedPreferencesManager
 import com.android.testdai.model.QuestionWithAnswers
+import com.android.testdai.model.TestEntity
 import com.android.testdai.utils.db.DataRepository
 import io.reactivex.Observable
-import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import com.android.testdai.model.TestEntity
 
 
 class TestViewModel @Inject constructor(
@@ -36,56 +36,41 @@ class TestViewModel @Inject constructor(
         requestToDatabase()
     }
 
-    fun requestToDatabase() {
+    private fun requestToDatabase() {
+
         inProgress.value = true
-        val list: ArrayList<QuestionWithAnswers> = ArrayList()
-        // передаю в Observable список topics id для запроса в бд
-        Observable.just(dataRepository.getListOfTopics(sharedPreferencesManager.categories?.filter { it.isSelected == true }))
-                .flatMap {
-                    return@flatMap Observable.fromIterable(it)
-                }
-                .flatMap {
-                    //для каждого topic id запрашиваю список вопросов
-                    return@flatMap dataRepository.loadQuestion(it)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                }
-//                .concatMap{
-//                    return@concatMap dataRepository.loadQuestion(it)
-//                            .subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                }
-//                .toList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<List<QuestionWithAnswers>> {
-                    override fun onComplete() {
-                        //TODO dont work
-                        questions.value = list
-                        inProgress.value = false
-                        if (sharedPreferencesManager.isTimeLimit)
-                            timer()
-                    }
-
-                    override fun onNext(questionsList: List<QuestionWithAnswers>) {
-                        //добавляю случайный вопрос в список
-                        list.add(questionsList.random())
-                        if (list.size >= 20) {
-                            this.onComplete()
+        compositeDisposable.add(
+                Single.just(dataRepository.getListOfTopics(sharedPreferencesManager.categories?.filter { it.isSelected == true }))
+                        .flatMap {
+                            val list: ArrayList<QuestionWithAnswers> = ArrayList()
+                            return@flatMap Observable.fromIterable(it)
+                                    .flatMapCompletable { id ->
+                                        return@flatMapCompletable dataRepository.loadQuestion(id)
+                                                .doOnSuccess {
+                                                    list.add(it.random())
+                                                }
+                                                .ignoreElement()
+                                    }
+                                    .andThen(Single.just(list))
                         }
-                    }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeBy(
+                                onSuccess = {
+                                    questions.value = it
+                                    inProgress.value = false
+                                    if (sharedPreferencesManager.isTimeLimit)
+                                        timer()
+                                },
+                                onError = {
+                                    inProgress.value = false
+                                }
+                        )
+        )
 
-                    override fun onSubscribe(d: Disposable) {
-                        compositeDisposable.add(d)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        inProgress.value = false
-                    }
-                })
     }
 
-    fun recreate(){
+    fun recreate() {
         test.value = TestEntity(true, true)
         timerValue.value = 0
         timerDisposable = CompositeDisposable()
@@ -101,10 +86,10 @@ class TestViewModel @Inject constructor(
         timerDisposable.add(
                 Observable.interval(1000, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext { timerValue.value = (TIMER_VALUE - it)*1000 }
+                        .doOnNext { timerValue.value = (TIMER_VALUE - it) * 1000 }
                         .takeUntil { aLong -> aLong == TIMER_VALUE }
                         .doOnComplete {
-                            if (test.value?.isTestAvailable == true){
+                            if (test.value?.isTestAvailable == true) {
                                 setTestEnded(test.value?.isTestAvailable != true)
                             }
                         }.subscribe()
