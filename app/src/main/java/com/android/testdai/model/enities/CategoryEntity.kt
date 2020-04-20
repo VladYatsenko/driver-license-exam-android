@@ -1,4 +1,4 @@
-package com.android.testdai.model
+package com.android.testdai.model.enities
 
 class CategoryEntity constructor(
         var name: String?,

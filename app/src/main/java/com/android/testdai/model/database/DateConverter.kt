@@ -1,7 +1,6 @@
-package com.android.testdai.utils.db
+package com.android.testdai.model.database
 
 import androidx.room.TypeConverter
-import java.util.*
 
 class DateConverter {
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.android.testdai.R
-import com.android.testdai.model.CategoryEntity
+import com.android.testdai.model.enities.CategoryEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

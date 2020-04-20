@@ -1,4 +1,4 @@
-package com.android.testdai.model
+package com.android.testdai.model.enities
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

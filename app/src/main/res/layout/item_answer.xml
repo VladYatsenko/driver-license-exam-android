@@ -7,7 +7,7 @@
 
         <variable
             name="answerItem"
-            type="com.android.testdai.model.AnswerEntity" />
+            type="com.android.testdai.model.enities.AnswerEntity" />
 
 <!--        <variable-->
 <!--            name="isSelected"-->

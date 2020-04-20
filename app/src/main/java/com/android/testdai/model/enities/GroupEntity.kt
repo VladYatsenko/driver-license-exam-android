@@ -1,6 +1,4 @@
-package com.android.testdai.model
-
-import com.google.gson.annotations.SerializedName
+package com.android.testdai.model.enities
 
 
 class GroupEntity constructor(

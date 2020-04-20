@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.testdai.databinding.ItemAnswerBinding
 import com.android.testdai.di.scopes.ScreenScope
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
-import com.android.testdai.model.AnswerEntity
+import com.android.testdai.model.enities.AnswerEntity
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_answer.view.*
@@ -20,7 +20,7 @@ class AnswerAdapter @Inject constructor(
         private val context: Context
 ) : RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
 
-    var answers: List<AnswerEntity>? = null
+    var answers: ArrayList<AnswerEntity>? = null
     var listener: OnRecyclerItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {

@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.testdai.managers.ConnectionManager
 import com.android.testdai.managers.SharedPreferencesManager
-import com.android.testdai.model.QuestionWithAnswers
-import com.android.testdai.model.TestEntity
-import com.android.testdai.utils.db.DataRepository
+import com.android.testdai.model.enities.QuestionWithAnswers
+import com.android.testdai.model.enities.TestEntity
+import com.android.testdai.model.database.DataRepository
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,14 +19,13 @@ import javax.inject.Inject
 
 class TestViewModel @Inject constructor(
         var dataRepository: DataRepository,
-        var sharedPreferencesManager: SharedPreferencesManager,
-        var connectionDetector: ConnectionManager
+        var sharedPreferencesManager: SharedPreferencesManager
 ) : ViewModel() {
 
     var inProgress = MutableLiveData<Boolean>()
     var timerValue = MutableLiveData<Long>()
     var questions = MutableLiveData<ArrayList<QuestionWithAnswers>>()
-    var test = MutableLiveData<TestEntity>()
+    var test = MutableLiveData<TestEntity>(TestEntity())
 
     private val TIMER_VALUE = 1200L
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -70,14 +69,7 @@ class TestViewModel @Inject constructor(
 
     }
 
-    fun recreate() {
-        test.value = TestEntity(true, true)
-        timerValue.value = 0
-        timerDisposable = CompositeDisposable()
-        requestToDatabase()
-    }
-
-    fun setTestEnded(isNeedToShowResultDialog: Boolean = true) {
+    fun endTest(isNeedToShowResultDialog: Boolean = true) {
         test.value = TestEntity(false, isNeedToShowResultDialog)
         timerDisposable.dispose()
     }
@@ -90,7 +82,7 @@ class TestViewModel @Inject constructor(
                         .takeUntil { aLong -> aLong == TIMER_VALUE }
                         .doOnComplete {
                             if (test.value?.isTestAvailable == true) {
-                                setTestEnded(test.value?.isTestAvailable != true)
+                                endTest(test.value?.isTestAvailable != true)
                             }
                         }.subscribe()
         )
@@ -98,6 +90,9 @@ class TestViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        if (!timerDisposable.isDisposed) {
+            timerDisposable.dispose()
+        }
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
         }

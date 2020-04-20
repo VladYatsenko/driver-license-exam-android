@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.android.testdai.viewmodel.TestViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@android:color/white"
+            android:elevation="8dp"
+            ads:title="Іспит ПДР" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingTop="8dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/questionRV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/questionTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            android:textColor="#000000"
+                            android:textSize="18sp"
+                            tools:text="Question Text" />
+
+                        <ImageView
+                            android:id="@+id/questionImg"
+                            android:layout_width="match_parent"
+                            android:layout_height="175dp"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            tools:srcCompat="@drawable/empty" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/answerRV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:padding="8dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/banner_ad_unit_id" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/progressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/alabaster"
+                android:visibility="visible"
+                tools:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

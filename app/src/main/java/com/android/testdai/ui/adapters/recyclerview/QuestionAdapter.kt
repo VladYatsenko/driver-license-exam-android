@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.testdai.databinding.ItemQuestionBinding
 import com.android.testdai.di.scopes.ScreenScope
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
-import com.android.testdai.model.QuestionWithAnswers
+import com.android.testdai.model.enities.QuestionWithAnswers
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_question.view.*

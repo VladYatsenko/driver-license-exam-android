@@ -3,7 +3,6 @@ package com.android.testdai.ui.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.testdai.R
 import com.android.testdai.interfaces.OnCategorySelectedListener
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
-import com.android.testdai.model.CategoryEntity
+import com.android.testdai.model.enities.CategoryEntity
 import com.android.testdai.ui.adapters.recyclerview.CategoryAdapter
-import kotlinx.android.synthetic.main.dialog_category.*
-import okhttp3.internal.notify
 
 class CategoryDialog : DialogFragment() {
 

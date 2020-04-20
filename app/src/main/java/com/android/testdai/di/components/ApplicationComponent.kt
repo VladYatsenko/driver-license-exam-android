@@ -6,7 +6,7 @@ import com.android.testdai.di.modules.RoomModule
 import com.android.testdai.di.modules.ViewModelModule
 import com.android.testdai.managers.ConnectionManager
 import com.android.testdai.managers.SharedPreferencesManager
-import com.android.testdai.utils.db.DataRepository
+import com.android.testdai.model.database.DataRepository
 import com.android.testdai.viewmodel.ViewModelFactory
 import dagger.Component
 import javax.inject.Singleton

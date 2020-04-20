@@ -6,7 +6,7 @@
 
         <variable
             name="categoryItem"
-            type="com.android.testdai.model.CategoryEntity" />
+            type="com.android.testdai.model.enities.CategoryEntity" />
 
         <variable
             name="isSelected"

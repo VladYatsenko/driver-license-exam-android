@@ -1,6 +1,6 @@
 package com.android.testdai.interfaces
 
-import com.android.testdai.model.CategoryEntity
+import com.android.testdai.model.enities.CategoryEntity
 import java.util.ArrayList
 
 interface OnCategorySelectedListener {

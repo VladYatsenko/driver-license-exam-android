@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.testdai.databinding.ItemCategoryBinding
 import com.android.testdai.interfaces.OnRecyclerItemClickListener
-import com.android.testdai.model.CategoryEntity
-import com.android.testdai.model.GroupEnum
+import com.android.testdai.model.enities.CategoryEntity
+import com.android.testdai.model.enities.GroupEnum
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_category.view.*

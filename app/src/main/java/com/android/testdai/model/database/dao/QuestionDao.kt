@@ -1,9 +1,8 @@
-package com.android.testdai.utils.db.dao
+package com.android.testdai.model.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.android.testdai.model.QuestionWithAnswers
-import io.reactivex.Observable
+import com.android.testdai.model.enities.QuestionWithAnswers
 import io.reactivex.Single
 
 @Dao
