@@ -1,4 +1,4 @@
-package com.android.testdai;
+package com.testdai;
 
 import org.junit.Test;
 

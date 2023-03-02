@@ -1,4 +1,4 @@
-package com.android.testdai;
+package com.testdai;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.android.testdai", appContext.getPackageName());
+        assertEquals("com.testdai", appContext.getPackageName());
     }
 }

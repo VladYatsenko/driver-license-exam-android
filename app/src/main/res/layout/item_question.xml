@@ -5,21 +5,6 @@
 
     <data>
 
-        <variable
-            name="questionItem"
-            type="com.android.testdai.model.enities.QuestionEntity" />
-
-        <variable
-            name="isCorrect"
-            type="Boolean" />
-
-        <variable
-            name="isAnswered"
-            type="Boolean" />
-
-        <variable
-            name="position"
-            type="String" />
 
     </data>
 
@@ -33,17 +18,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@{questionItem.isSelected ?  (isAnswered ? (isCorrect ? @drawable/selected_true : @drawable/selected_false) : @drawable/selected)  : (isAnswered ? (isCorrect ? @drawable/not_selected_true : @drawable/not_selected_false) : @drawable/regular)}"
             android:padding="8dp">
 
             <TextView
                 android:id="@+id/questionNumber"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:text="@{position}"
                 android:textAlignment="center"
-                android:textColor="@{isAnswered ? @color/selected : (questionItem.isSelected ? @color/colorBlack : @color/colorLightGrey)}"
-
                 android:textSize="14sp" />
 
         </RelativeLayout>

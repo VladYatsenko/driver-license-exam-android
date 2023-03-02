@@ -1,28 +1,31 @@
 <resources>
-    <string name="app_name">Іспит ПДР</string>
-    <string name="result_title">Результат іспиту</string>
-    <string name="start">Розпочати іспит</string>
-    <string name="select_category">Оберіть категорію</string>
-    <string name="first">ІСПИТ</string>
-    <string name="second">ПДР</string>
-    <string name="restart">Заново</string>
+    <string name="app_name">Driver license exam</string>
+    <string name="result_title">Exam result</string>
+    <string name="start_exam">Start exam</string>
+    <string name="choose_category">Choose category</string>
+    <string name="choose_category_description">Questions on exam choose according to selected categories</string>
+
+    <string name="first">Driver</string>
+    <string name="second">license exam</string>
+    <string name="restart">Again</string>
     <string name="app_id">ca-app-pub-9843587739295513~8480241007</string>
     <string name="banner_ad_unit_id">ca-app-pub-9843587739295513/3858469710</string>
 
     <!--Settings-->
-    <string name="settings">Налаштування</string>
-    <string name="test_settings">Налаштування тесту</string>
-    <string name="time_limit">Ліміт часу</string>
-    <string name="error_limit">Ліміт помилок</string>
-    <string name="double_click">Подвійний натиск для відповіді</string>
-    <string name="other">Інше</string>
-    <string name="send_share">Поділитися</string>
+    <string name="settings">Settings</string>
+    <string name="test_settings">Exam settings</string>
+    <string name="time_limit">Time limit</string>
+    <string name="error_limit">Error limit</string>
+    <string name="double_click">Double tap to answer</string>
+    <string name="other">Other</string>
+    <string name="send_share">Share</string>
 
     <!--CategoryEntity-->
-    <string name="category">Категорія</string>
+    <string name="category">Category</string>
 
     <!--Share-->
     <string name="app_source">https://play.google.com/store/apps/details?id=com.testdai</string>
-    <string name="share_text">Проходьте іспит ПДР за новими питаннями на вашому смартфоні \n</string>
+    <string name="share_text">Share text</string>
+    <string name="change">Change</string>
 
 </resources>
