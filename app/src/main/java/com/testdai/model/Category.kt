@@ -6,20 +6,47 @@ enum class Category {
     A, B, C, D, T,
     BE, CE, DE;
 
-    val group: CategoryGroup
-        get() = when (this) {
-            A1, B1, C1, D1,
-            A, B, C, D -> CategoryGroup.A_B_C_D
-            C1E, BE, CE -> CategoryGroup.C1E_BE_CE
-            D1E, DE -> CategoryGroup.D1E_DE
-            T -> CategoryGroup.T
-        }
+    val groupName: String
+        get() = name.replace("1", "")
 
     companion object {
         fun typeOf(value: String?) = values().firstOrNull { it.name == value }
-    }
-}
 
-enum class CategoryGroup {
-    A_B_C_D, C1E_BE_CE, D1E_DE, T
+        /**
+         * ['A']
+         * ['B']
+         * ['A', 'B']
+         * ['C']
+         * ['B', 'C']
+         * ['A', 'B', 'C']
+         * ['A', 'C']
+         * ['D']
+         * ['A', 'D']
+         * ['B', 'D']
+         * ['C', 'D']
+         * ['T']
+         * ['BE', 'CE']
+         * ['BE', 'CE', 'A']
+         * ['BE', 'CE', 'D']
+         * ['DE']
+         */
+        val groups = listOf(
+            setOf(A.name),
+            setOf(B.name),
+            setOf(A.name, B.name),
+            setOf(C.name),
+            setOf(B.name, C.name),
+            setOf(A.name, B.name, C.name),
+            setOf(A.name, C.name),
+            setOf(D.name),
+            setOf(A.name, D.name),
+            setOf(B.name, D.name),
+            setOf(C.name, D.name),
+            setOf(T.name),
+            setOf(BE.name, CE.name),
+            setOf(BE.name, CE.name, A.name),
+            setOf(BE.name, CE.name, D.name),
+            setOf(DE.name),
+        )
+    }
 }
