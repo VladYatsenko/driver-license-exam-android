@@ -1,6 +1,7 @@
 package com.testdai.ui.screen.category
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -8,6 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,8 +31,7 @@ fun CategorySheet(
     viewModel: HomeViewModel
 ) {
 
-    val list = (1..10).map { it.toString() }
-
+    val categorySelector by viewModel.categorySelector.observeAsState(CategorySelectorState())
 
     Column(
         modifier = Modifier
@@ -68,7 +70,7 @@ fun CategorySheet(
         )
 
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(128.dp),
+            columns = GridCells.Fixed(5),
 
             // content padding
             contentPadding = PaddingValues(
@@ -78,19 +80,38 @@ fun CategorySheet(
                 bottom = 16.dp
             ),
             content = {
-                items(list.size) { index ->
+                items(categorySelector.categories.size) { index ->
+
                     Card(
-                        backgroundColor = Color.Red,
+                        backgroundColor = Color.White,
                         modifier = Modifier
                             .padding(4.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .clickable {
+                                val item = categorySelector.categories[index]
+                                if (item is CategoryItem.Item)
+                                    viewModel.onCategoryClicked(item)
+                            },
                         elevation = 8.dp,
                     ) {
+                        val text = when (val item = categorySelector.categories[index]) {
+                            is CategoryItem.Item -> item.category.name
+                            CategoryItem.Empty -> ""
+                        }
+
+                        val color = when (val item = categorySelector.categories[index]) {
+                            is CategoryItem.Item -> when (item.state) {
+                                CategoryItem.SelectionState.Common -> Color.Black
+                                CategoryItem.SelectionState.Selected -> Color.Green
+                                CategoryItem.SelectionState.Disabled -> Color.Gray
+                            }
+                            CategoryItem.Empty -> Color.White
+                        }
                         Text(
-                            text = list[index],
+                            text = text,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 30.sp,
-                            color = Color(0xFFFFFFFF),
+                            fontSize = 14.sp,
+                            color = color,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(16.dp)
                         )

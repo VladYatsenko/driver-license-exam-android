@@ -35,7 +35,7 @@ fun HomeScreen(
     navigate: (NavActions.Destination) -> Unit = {}
 ) {
 
-    val categories: String? by viewModel.categories.observeAsState()
+    val categories: String by viewModel.categories.observeAsState("")
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
