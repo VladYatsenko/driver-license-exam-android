@@ -1,10 +1,9 @@
 package com.testdai.model
 
 enum class Category {
-    A1, B1, C1, D1,
-    C1E, D1E,
-    A, B, C, D, T,
-    BE, CE, DE;
+    A1, A, B1, B, C1, C,
+    D1, D, C1E, D1E,
+    T, BE, CE, DE;
 
     val groupName: String
         get() = name.replace("1", "")

@@ -39,6 +39,7 @@ fun HomeScreen(
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true,
         confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
     val coroutineScope = rememberCoroutineScope()
@@ -57,7 +58,9 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         sheetState = sheetState,
         sheetContent = {
-            CategorySheet(viewModel)
+            CategorySheet(viewModel) {
+                hideBottomSheet()
+            }
         },
         sheetBackgroundColor = colorResource(id = R.color.black),
         sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
@@ -75,27 +78,16 @@ fun HomeScreen(
                 text = stringResource(id = R.string.app_name),
                 color = colorResource(id = R.color.white)
             )
-            /*IconButton(
-                modifier = Modifier.size(32.dp),
-                onClick = { }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_settings),
-                    null,
-                    tint = Color.Unspecified
-                )
-            }*/
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
             ) {}
-
             CategorySelector(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                categories = categories.orEmpty(),
+                categories = categories,
                 onClick = {
+                    viewModel.refreshCategorySelector()
                     coroutineScope.launch {
                         sheetState.show()
                     }

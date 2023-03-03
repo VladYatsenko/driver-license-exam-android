@@ -24,7 +24,7 @@ fun AppButton(
     containerColor: Color,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     textSize: TextUnit = 16.sp,
-    fontFamily: FontFamily = com.testdai.compose.Fonts.medium,
+    fontFamily: FontFamily = Fonts.medium,
     text: String,
     textColor: Color,
     onClick: () -> Unit

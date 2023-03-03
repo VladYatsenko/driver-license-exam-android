@@ -5,7 +5,7 @@ import com.testdai.model.Category
 
 data class CategorySelectorState(
     val categories: List<CategoryItem> = emptyList(),
-    val changed: Boolean = false
+    val selectedCategories: Set<Category> = emptySet()
 )
 
 sealed class CategoryItem {

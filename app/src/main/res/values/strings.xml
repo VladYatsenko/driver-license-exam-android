@@ -22,6 +22,7 @@
 
     <!--CategoryEntity-->
     <string name="category">Category</string>
+    <string name="button_save">Save</string>
 
     <!--Share-->
     <string name="app_source">https://play.google.com/store/apps/details?id=com.testdai</string>

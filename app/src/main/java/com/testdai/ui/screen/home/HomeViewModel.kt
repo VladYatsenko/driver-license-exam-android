@@ -37,7 +37,6 @@ class HomeViewModel constructor(application: Application) : BaseAndroidViewModel
     private val _categorySelector = MutableLiveData<CategorySelectorState>()
     val categorySelector: LiveData<CategorySelectorState> = _categorySelector
 
-    private val selectedCategories = mutableSetOf<Category>()
     private var categorySelectorState = CategorySelectorState()
         set(value) {
             field = value
@@ -46,26 +45,42 @@ class HomeViewModel constructor(application: Application) : BaseAndroidViewModel
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            selectedCategories.addAll(examPreferences.categories)
-            _categories.postValue(selectedCategories.joinToString(", "))
+            //selectedCategories.addAll(examPreferences.categories)
+            val categories = examPreferences.categories
+            _categories.postValue(CategoryUseCase.provideCategoriesString(categories))
 
-            refreshCategorySelector()
+            refreshCategorySelector(categories)
         }
     }
 
+    fun refreshCategorySelector() {
+        refreshCategorySelector(examPreferences.categories)
+    }
+
     fun onCategoryClicked(item: CategoryItem.Item) {
+        val selectedCategories = categorySelectorState.selectedCategories.toMutableSet()
+
         when (item.state) {
             CategoryItem.SelectionState.Common -> selectedCategories.add(item.category)
             CategoryItem.SelectionState.Selected -> selectedCategories.remove(item.category)
             CategoryItem.SelectionState.Disabled -> return
         }
 
-        refreshCategorySelector()
+        refreshCategorySelector(selectedCategories)
     }
 
-    private fun refreshCategorySelector() {
-        val categorySelectorList = CategoryUseCase.provideSelector(selectedCategories)
-        categorySelectorState = categorySelectorState.copy(categories = categorySelectorList)
+    private fun refreshCategorySelector(categories: Set<Category>) {
+        val categorySelectorList = CategoryUseCase.provideSelector(categories)
+        categorySelectorState = categorySelectorState.copy(
+            categories = categorySelectorList,
+            selectedCategories = categories
+        )
+    }
+
+    fun saveSelectedCategories() {
+        val selectedCategories = categorySelectorState.selectedCategories
+        examPreferences.categories = selectedCategories
+        _categories.postValue(CategoryUseCase.provideCategoriesString(selectedCategories))
     }
 
 }

@@ -5,7 +5,7 @@ import com.testdai.ui.screen.category.CategoryItem
 
 object CategoryUseCase {
 
-    fun provideSelector(categories: MutableSet<Category>): List<CategoryItem> {
+    fun provideSelector(categories: Set<Category>): List<CategoryItem> {
 
         return mutableListOf<CategoryItem>().apply {
             //first line
@@ -54,6 +54,15 @@ object CategoryUseCase {
             selectedCategories.contains(category) -> CategoryItem.SelectionState.Selected
             else -> CategoryItem.SelectionState.Common
         }
+    }
+
+    fun provideCategoriesString(categories: Set<Category>): String {
+        return mutableSetOf<Category>().apply {
+            Category.values().forEach {
+                if (categories.contains(it))
+                    this.add(it)
+            }
+        }.joinToString(", ")
     }
 
 }
