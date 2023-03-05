@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.testdai.ui.screen.exam.ExamScreen
 import com.testdai.ui.screen.home.HomeScreen
 
 @Composable
@@ -29,15 +30,8 @@ fun DriverLicenseExamNavGraph(
                 navigationActions.navigateByDestination(it)
             }
         }
-//        composable(NavActions.Destination.Exam.route) {
-//            val interestsViewModel: InterestsViewModel = viewModel(
-//                factory = InterestsViewModel.provideFactory(appContainer.interestsRepository)
-//            )
-//            InterestsRoute(
-//                interestsViewModel = interestsViewModel,
-//                isExpandedScreen = isExpandedScreen,
-//                openDrawer = openDrawer
-//            )
-//        }
+        composable(NavActions.Destination.Exam.route) {
+            ExamScreen()
+        }
     }
 }

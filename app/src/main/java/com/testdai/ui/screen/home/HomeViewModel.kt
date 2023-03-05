@@ -13,7 +13,7 @@ import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel constructor(application: Application) : BaseAndroidViewModel(application) {
+class HomeViewModel private constructor(application: Application) : BaseAndroidViewModel(application) {
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {

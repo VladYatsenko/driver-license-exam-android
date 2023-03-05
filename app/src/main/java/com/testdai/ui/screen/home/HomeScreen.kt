@@ -94,7 +94,7 @@ fun HomeScreen(
                 }
             )
             ExamButton {
-
+                navigate(NavActions.Destination.Exam)
             }
         }
     }

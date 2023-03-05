@@ -1,11 +1,10 @@
 package com.testdai.utils.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.testdai.core.database.DataRepository
 
 
 class TestViewModel constructor(
-    var dataRepository: DataRepository
+//    var dataRepository: ExamRepository
     ) : ViewModel() {
 
 //    var inProgress = MutableLiveData<Boolean>()

@@ -1,18 +1,21 @@
 package com.testdai.model
 
-class TopicModel constructor(
+data class TopicModel constructor(
     val id: Int,
     val name: String
 )
 
-class QuestionModel constructor(
+data class QuestionModel constructor(
     val id: Int,
     val text: String,
     val image: String?,
-    val topicId: Int,
+    val topic: TopicModel,
     val answers: List<AnswerModel>,
-    val selected: Boolean? = false
+    val selected: Boolean = false
 ) {
+
+    val hasImage: Boolean
+        get() = !image.isNullOrBlank()
 
     val answered: Boolean
         get() = answers.any { it.answered }
@@ -20,9 +23,12 @@ class QuestionModel constructor(
     val correct: Boolean
         get() = answers.any { it.correct && it.answered }
 
+    val incorrect: Boolean
+        get() = answers.any { !it.correct && it.answered }
+
 }
 
-class AnswerModel constructor(
+data class AnswerModel constructor(
     val id: Int,
     val text: String,
     val correct: Boolean,

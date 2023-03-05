@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.testdai.compose.Fonts
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -22,16 +23,18 @@ fun AppButton(
     modifier: Modifier,
     borderColor: Color? = null,
     containerColor: Color,
+    roundedCornerSize: Dp = 12.dp,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     textSize: TextUnit = 16.sp,
     fontFamily: FontFamily = Fonts.medium,
     text: String,
     textColor: Color,
+    textAlign: TextAlign = TextAlign.Center,
     onClick: () -> Unit
 ) {
     OutlinedButton(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(roundedCornerSize),
         border = BorderStroke(1.dp, borderColor ?: containerColor), //colorResource(id = R.color.skeptic)),
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = containerColor //colorResource(id = R.color.skeptic)
@@ -41,7 +44,7 @@ fun AppButton(
     ) {
         Text(
             fontSize = textSize,
-            textAlign = TextAlign.Center,
+            textAlign = textAlign,
             fontFamily = fontFamily,
             text = text,
             color = textColor

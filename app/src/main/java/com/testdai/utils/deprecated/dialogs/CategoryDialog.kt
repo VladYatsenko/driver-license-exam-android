@@ -2,24 +2,20 @@ package com.testdai.utils.deprecated.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
-import com.testdai.R
-import com.testdai.core.database.models.CategoryEntity
 
 class CategoryDialog : DialogFragment() {
 
     companion object {
-        fun newInstance(categories: ArrayList<CategoryEntity>?): CategoryDialog {
+        fun newInstance(categories: ArrayList<String>?): CategoryDialog {
             val fragment = CategoryDialog()
             fragment.categories = categories
             return fragment
         }
     }
 
-    var categories: ArrayList<CategoryEntity>? = null
+    var categories: ArrayList<String>? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)

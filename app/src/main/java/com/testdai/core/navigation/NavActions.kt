@@ -13,10 +13,6 @@ class NavActions(private val navController: NavHostController) {
         Exam("exam")
     }
 
-    val openHome: () -> Unit = {
-        navigateByDestination(Destination.Home)
-    }
-
     fun navigateByDestination(
         destination: Destination,
         args: Bundle = Bundle(),
