@@ -2,6 +2,7 @@ package com.testdai.ui.screen.exam
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,8 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -93,14 +96,26 @@ fun ExamScreen(
                         viewModel.onAnswerClick(it)
                     }
                 )
-            } ?: LoadingState()
+            } ?: ErrorState()
         }
     }
 }
 
 @Composable
 fun LoadingState() {
-    CircularProgressIndicator()
+    Placeholder("Loading questions") {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun ErrorState() {
+    Placeholder("Something went wrong") {
+        Image(
+            painter = painterResource(R.drawable.ic_warning),
+            contentDescription = ""
+        )
+    }
 }
 
 @Composable
@@ -115,8 +130,7 @@ fun ExamState(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.black)),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LazyRow(
@@ -266,4 +280,42 @@ fun Answer(
             color = textColor
         )
     }
+}
+
+@Composable
+fun Placeholder(
+    message: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        content()
+        Text(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            fontSize = 16.sp,
+            textAlign = TextAlign.Center,
+            fontFamily = Fonts.medium,
+            text = message,
+            color = colorResource(id = R.color.white)
+        )
+    }
+}
+
+@Preview
+@Composable
+fun LoadingStatePreview() {
+    LoadingState()
+}
+
+@Preview
+@Composable
+fun ErrorStatePreview() {
+    ErrorState()
 }
