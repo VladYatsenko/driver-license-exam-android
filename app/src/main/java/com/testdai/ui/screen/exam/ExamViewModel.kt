@@ -8,9 +8,10 @@ import com.testdai.core.repository.ExamRepository
 import com.testdai.model.AnswerModel
 import com.testdai.model.QuestionModel
 import com.testdai.model.State
-import com.testdai.model.TopicModel
+import com.testdai.utils.CountdownTimer
 import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.*
+import java.util.*
 
 class ExamViewModel private constructor(application: Application): BaseAndroidViewModel(application) {
 
@@ -37,9 +38,24 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
 
     private var examScreenState = ExamScreenState()
 
-    private val _exam = MutableLiveData<State<ExamScreenState>>()
+    private val _exam = MutableLiveData<State<ExamScreenState>>(State.Loading())
     val exam: LiveData<State<ExamScreenState>> = _exam
 
+    private val totalTime = 20 * 60 * 1000L
+    val initialTime = totalTime.formatDuration()
+
+    private val _timer = MutableLiveData(initialTime)
+    val timer: LiveData<String> = _timer
+
+    private val countdownTimer by lazy {
+        CountdownTimer(totalTime) {
+            _timer.value = it.formatDuration()
+            if (it == 0L && examScreenState.isActiveExam) {
+                examScreenState = examScreenState.copy(isActiveExam = false)
+                _exam.value = State.Success(examScreenState)
+            }
+        }
+    }
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val data = examRepository.loadExamQuestions()
@@ -50,6 +66,9 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
                 true
             )
             internalOnQuestionClick(questions.first())
+            withContext(Dispatchers.Main) {
+                countdownTimer.start()
+            }
         }
     }
 
@@ -103,6 +122,11 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             }
             val isFinished = remappedQuestions.all { it.answered }
                     || (errorLimit && remappedQuestions.filter { it.incorrect }.size >= 2)
+            if (isFinished) {
+                withContext(Dispatchers.Main) {
+                    countdownTimer.stop()
+                }
+            }
             examScreenState = examScreenState.copy(
                 questions = remappedQuestions,
                 question = remappedQuestion,
@@ -139,4 +163,20 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
         return null
     }
 
+    private fun Long.formatDuration(): String {
+        var seconds = this / 1000
+        val minutes = seconds / 60
+        if (minutes >= 1) {
+            seconds -= 60 * minutes
+        }
+        return when {
+            minutes >= 1 -> String.format(Locale.US, "%02d:%02d", minutes, seconds)
+            else -> String.format(Locale.US, "00:%02d", seconds)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        countdownTimer.stop()
+    }
 }

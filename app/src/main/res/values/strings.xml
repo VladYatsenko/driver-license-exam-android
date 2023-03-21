@@ -5,6 +5,8 @@
     <string name="choose_category">Choose category</string>
     <string name="choose_category_description">Questions on exam choose according to selected categories</string>
 
+    <string name="toolbar_exam">Exam</string>
+
     <string name="first">Driver</string>
     <string name="second">license exam</string>
     <string name="restart">Again</string>
