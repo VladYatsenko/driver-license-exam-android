@@ -1,4 +1,4 @@
-package com.testdai.ui.screen.exam.result
+package com.testdai.ui.bottom.result
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

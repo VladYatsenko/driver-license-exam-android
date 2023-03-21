@@ -1,4 +1,4 @@
-package com.testdai.ui.screen.exam.result
+package com.testdai.ui.bottom.result
 
 data class ResultScreenState(
     val rightAnsweredCount: Int = -1,

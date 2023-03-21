@@ -1,7 +1,7 @@
 package com.testdai.core.usecase
 
 import com.testdai.model.Category
-import com.testdai.ui.screen.category.CategoryItem
+import com.testdai.ui.bottom.category.CategoryItem
 
 object CategoryUseCase {
 

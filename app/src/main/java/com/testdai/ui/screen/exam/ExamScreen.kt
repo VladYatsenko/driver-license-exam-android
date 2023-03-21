@@ -39,8 +39,8 @@ import com.testdai.compose.Fonts
 import com.testdai.model.AnswerModel
 import com.testdai.model.QuestionModel
 import com.testdai.model.State
+import com.testdai.ui.bottom.result.ResultBottomSheet
 import com.testdai.ui.screen.exam.data.ExamScreenState
-import com.testdai.ui.screen.exam.result.ResultBottomSheet
 import com.testdai.widget.AppButton
 import kotlinx.coroutines.launch
 

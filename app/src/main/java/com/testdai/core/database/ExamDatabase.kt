@@ -8,6 +8,8 @@ abstract class ExamDatabase: RoomDatabase() {
 
     abstract fun questionDao(): QuestionDao
 
+    abstract fun topicDao(): TopicDao
+
 }
 
 class DateConverter {

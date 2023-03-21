@@ -1,9 +1,25 @@
 <resources>
     <string name="app_name">Driver license exam</string>
+
+    <!--Home-->
     <string name="start_exam">Start exam</string>
+
+    <string name="mode_exam">Exam</string>
+    <string name="mode_training">Training</string>
+    <string name="mode_topic">Questions by topic</string>
+
+    <string name="mode_exam_description">Time limit - 20 min. Error limit - 2 times</string>
+    <string name="mode_training_description">No limits of time or errors</string>
+    <string name="mode_topic_description">%s (Tap to change)</string>
+
+    <string name="choose_topic">Choose topic</string>
+
+
+    <!--Category selector-->
     <string name="choose_category">Choose category</string>
     <string name="choose_category_description">Questions on exam choose according to selected categories</string>
-
+    <string name="category">Category</string>
+    <string name="button_save">Save</string>
 
     <!--Exam-->
     <string name="toolbar_exam">Exam</string>
@@ -33,10 +49,6 @@
     <string name="double_click">Double tap to answer</string>
     <string name="other">Other</string>
     <string name="send_share">Share</string>
-
-    <!--CategoryEntity-->
-    <string name="category">Category</string>
-    <string name="button_save">Save</string>
 
     <!--Share-->
     <string name="app_source">https://play.google.com/store/apps/details?id=com.testdai</string>

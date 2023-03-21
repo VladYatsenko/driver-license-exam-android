@@ -1,4 +1,4 @@
-package com.testdai.ui.screen.exam.data
+package com.testdai.core.mapper
 
 import com.testdai.core.database.AnswerEntity
 import com.testdai.core.database.QuestionWithAnswers

@@ -1,4 +1,4 @@
-package com.testdai.ui.screen.category
+package com.testdai.ui.bottom.category
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

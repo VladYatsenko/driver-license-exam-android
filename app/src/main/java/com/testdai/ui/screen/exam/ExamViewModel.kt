@@ -5,12 +5,13 @@ import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.testdai.core.preferences.ExamPreferences
 import com.testdai.core.repository.ExamRepository
+import com.testdai.core.repository.TopicRepository
 import com.testdai.model.AnswerModel
+import com.testdai.model.ExamMode
 import com.testdai.model.QuestionModel
 import com.testdai.model.State
-import com.testdai.ui.screen.exam.data.ExamMapper
+import com.testdai.ui.bottom.result.ResultScreenState
 import com.testdai.ui.screen.exam.data.ExamScreenState
-import com.testdai.ui.screen.exam.result.ResultScreenState
 import com.testdai.utils.CountdownTimer
 import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.*
@@ -32,12 +33,11 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
         }
     }
 
-    private val examRepository by lazy { ExamRepository(application) }
-    private val examPreferences by lazy { ExamPreferences(context) }
-    private val mapper by lazy { ExamMapper() }
+    private val topicRepository = TopicRepository(application)
+    private val examRepository = ExamRepository(application)
+    private val examPreferences = ExamPreferences(application)
 
-    private val doubleClick by lazy { examPreferences.doubleClick }
-    private val errorLimit by lazy { examPreferences.errorLimit }
+    private val mode: ExamMode = ExamMode.valueOf(examPreferences.examMode)
 
     private var examScreenState = ExamScreenState()
 
@@ -47,7 +47,7 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
     private val _examResult = MutableLiveData(ResultScreenState())
     val examResult: LiveData<ResultScreenState> = _examResult
 
-    private val totalTime = 20 * 60 * 1000L
+    private val totalTime = if (mode.timeLimit) 20 * 60 * 1000L else -1
     val initialTime = totalTime.formatDuration()
 
     private val _timer = MutableLiveData(initialTime)
@@ -63,22 +63,36 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             }
         }
     }
+
     init {
         loadQuestions()
     }
 
     fun loadQuestions() {
         viewModelScope.launch(Dispatchers.IO) {
-            val data = examRepository.loadExamQuestions()
-            val questions = mapper.mapQuestions(data)
+            val questions = if (mode is ExamMode.Topic) {
+                val topicId = examPreferences.topicId
+                val topic = topicRepository.loadTopicById(topicId)
+                examRepository.loadTopicQuestions(topicId)
+            } else {
+                examRepository.loadExamQuestions()
+            }
+
+            if (questions.isEmpty()) {
+                _exam.postValue(State.Error())
+                return@launch
+            }
+
+            val question = questions.first()
             examScreenState = ExamScreenState(
                 questions = questions,
-                question = questions.first(),
+                question = question,
                 true
             )
-            internalOnQuestionClick(questions.first())
+            internalOnQuestionClick(question)
             withContext(Dispatchers.Main) {
-                countdownTimer.start()
+                if (mode.timeLimit)
+                    countdownTimer.start()
             }
         }
     }
@@ -108,7 +122,7 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             return
         viewModelScope.launch(Dispatchers.IO) {
             val remappedAnswers = question.answers.map {
-                if (doubleClick) {
+                /*if (doubleClick) {
                     if (it.selected) {
                         if (it.id == answer.id) {
                             it.copy(selected = false, answered = true)
@@ -124,7 +138,9 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
                     }
                 } else {
                     answer.copy(answered = it.id == answer.id)
-                }
+                }*/
+
+                answer.copy(answered = it.id == answer.id)
             }
 
             val remappedQuestion = question.copy(answers = remappedAnswers)
@@ -132,7 +148,7 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
                 if (it.id == remappedQuestion.id) remappedQuestion else it
             }
             val isFinished = remappedQuestions.all { it.answered }
-                    || (errorLimit && remappedQuestions.filter { it.incorrect }.size >= 2)
+                    || (mode.errorLimit && remappedQuestions.filter { it.incorrect }.size >= 2)
             examScreenState = examScreenState.copy(
                 questions = remappedQuestions,
                 question = remappedQuestion,
@@ -140,7 +156,8 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             )
             if (isFinished) {
                 withContext(Dispatchers.Main) {
-                    countdownTimer.stop()
+                    if (mode.timeLimit)
+                        countdownTimer.stop()
                 }
                 showExamResult()
             }
@@ -189,6 +206,8 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
     }
 
     private fun Long.formatDuration(): String {
+        if (this == -1L) return ""
+
         var seconds = this / 1000
         val minutes = seconds / 60
         if (minutes >= 1) {
@@ -202,6 +221,7 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
 
     override fun onCleared() {
         super.onCleared()
-        countdownTimer.stop()
+        if (mode.timeLimit)
+            countdownTimer.stop()
     }
 }

@@ -3,13 +3,16 @@ package com.testdai.core.repository
 import android.app.Application
 import com.testdai.core.database.ExamDatabaseModule
 import com.testdai.core.database.QuestionDao
-import com.testdai.core.database.QuestionWithAnswers
+import com.testdai.core.mapper.ExamMapper
 import com.testdai.core.preferences.ExamPreferences
 import com.testdai.model.Category
-import kotlinx.coroutines.*
-import kotlinx.coroutines.GlobalScope.coroutineContext
+import com.testdai.model.QuestionModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 class ExamRepository(application: Application) {
 
@@ -41,19 +44,23 @@ class ExamRepository(application: Application) {
 
     private val mutex = Mutex()
 
-    suspend fun loadExamQuestions(): List<QuestionWithAnswers?> {
+    private val mapper by lazy { ExamMapper() }
+    suspend fun loadExamQuestions(): List<QuestionModel> {
         return withContext(Dispatchers.IO) {
-            List(20, ::topicIdByQuestionPosition).map {
+            val questions = List(20, ::topicIdByQuestionPosition).map {
                 async {
                     mutex.withLock {
                         questionDao.selectQuestion(it)
                     }
                 }
             }.awaitAll()
+            mapper.mapQuestions(questions)
         }
     }
 
-    suspend fun loadTopicQuestions(topicId: String) {}
+    suspend fun loadTopicQuestions(topicId: Int): List<QuestionModel> {
+        return mapper.mapQuestions(questionDao.selectQuestions(topicId))
+    }
 
     private fun topicIdByQuestionPosition(position: Int): Int {
         //find random topic id by question position

@@ -1,4 +1,4 @@
-package com.testdai.ui.screen.category
+package com.testdai.ui.bottom.category
 
 import com.testdai.core.usecase.CategoryUseCase
 import com.testdai.model.Category

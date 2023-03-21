@@ -5,10 +5,17 @@ import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.testdai.core.preferences.ExamPreferences
+import com.testdai.core.repository.TopicRepository
 import com.testdai.core.usecase.CategoryUseCase
 import com.testdai.model.Category
-import com.testdai.ui.screen.category.CategoryItem
-import com.testdai.ui.screen.category.CategorySelectorState
+import com.testdai.model.ExamMode
+import com.testdai.model.TopicModel
+import com.testdai.ui.bottom.category.CategoryItem
+import com.testdai.ui.bottom.category.CategorySelectorState
+import com.testdai.ui.bottom.topic.ExamModeState
+import com.testdai.ui.bottom.topic.ExamModeWrapper
+import com.testdai.ui.bottom.topic.TopicWrapper
+import com.testdai.ui.bottom.topic.noopTopic
 import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +36,17 @@ class HomeViewModel private constructor(application: Application) : BaseAndroidV
         }
     }
 
+    private val topicRepository by lazy { TopicRepository(context) }
     private val examPreferences by lazy { ExamPreferences(context) }
+
+    private val _examMode = MutableLiveData<ExamModeState>()
+    val examMode: LiveData<ExamModeState> = _examMode
+
+    private var examModeState = ExamModeState()
+        set(value) {
+            field = value
+            _examMode.postValue(value)
+        }
 
     private val _categories = MutableLiveData<String>()
     val categories: LiveData<String> = _categories
@@ -45,12 +62,61 @@ class HomeViewModel private constructor(application: Application) : BaseAndroidV
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            //selectedCategories.addAll(examPreferences.categories)
             val categories = examPreferences.categories
             _categories.postValue(CategoryUseCase.provideCategoriesString(categories))
 
             refreshCategorySelector(categories)
+
+            val topics = topicRepository.loadTopics()
+            val topic = topics.firstOrNull { it.id == examPreferences.topicId }
+                ?: topics.firstOrNull() ?: noopTopic
+
+            val mode = ExamMode.valueOf(examPreferences.examMode)
+            val mods = listOf(
+                ExamModeWrapper.create(ExamMode.Exam, mode),
+                ExamModeWrapper.create(ExamMode.Training, mode),
+                ExamModeWrapper.create(ExamMode.Topic, mode, topic)
+            )
+
+            examModeState = examModeState.copy(
+                mods = mods,
+                selectedMode = mode,
+                topics = topics.map { TopicWrapper.create(it, topic) },
+                selectedTopic = topic
+            )
         }
+    }
+
+    fun changeExamMode(mode: ExamMode) {
+        if (examModeState.selectedMode == mode) return
+
+        val mods = examModeState.mods.map {
+            it.copy(selected = it.mode::value == mode::value)
+        }
+        examModeState = examModeState.copy(mods = mods, selectedMode = mode)
+
+        examPreferences.examMode = mode.value
+    }
+
+    fun changeTopic(topic: TopicModel) {
+        if (examModeState.selectedTopic == topic) return
+
+        val topics = examModeState.topics.map {
+            it.copy(selected = it.topic.id == topic.id)
+        }
+
+        val selectedMode = examModeState.selectedMode
+        val state = if (selectedMode is ExamMode.Topic) {
+            val mods = examModeState.mods.map {
+                if (it.mode is ExamMode.Topic) it.copy(topic = topic) else it
+            }
+
+            examModeState.copy(mods = mods)
+        } else examModeState
+
+        examModeState = state.copy(topics = topics, selectedTopic = topic)
+
+        examPreferences.topicId = topic.id
     }
 
     fun refreshCategorySelector() {
