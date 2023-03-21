@@ -1,15 +1,27 @@
 <resources>
     <string name="app_name">Driver license exam</string>
-    <string name="result_title">Exam result</string>
     <string name="start_exam">Start exam</string>
     <string name="choose_category">Choose category</string>
     <string name="choose_category_description">Questions on exam choose according to selected categories</string>
 
+
+    <!--Exam-->
     <string name="toolbar_exam">Exam</string>
+
+    <string name="placeholder_loading">Loading questions</string>
+    <string name="placeholder_error">Something went wrong</string>
+
+    <!--Exam Result-->
+    <string name="result_title">Exam result</string>
+
+    <string name="exam_passed">The exam is passed</string>
+    <string name="exam_not_passed">The exam is not passed</string>
+    <string name="result_right_answers">Right answers count %s/%s</string>
+    <string name="restart_exam">Restart exam</string>
+
 
     <string name="first">Driver</string>
     <string name="second">license exam</string>
-    <string name="restart">Again</string>
     <string name="app_id">ca-app-pub-9843587739295513~8480241007</string>
     <string name="banner_ad_unit_id">ca-app-pub-9843587739295513/3858469710</string>
 

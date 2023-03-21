@@ -20,13 +20,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
 import com.testdai.compose.Fonts
 import com.testdai.core.navigation.NavActions
-import com.testdai.ui.screen.category.CategorySheet
+import com.testdai.ui.screen.category.CategoryBottomSheet
 import com.testdai.widget.AppButton
 import kotlinx.coroutines.launch
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -58,7 +58,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         sheetState = sheetState,
         sheetContent = {
-            CategorySheet(viewModel) {
+            CategoryBottomSheet(viewModel) {
                 hideBottomSheet()
             }
         },

@@ -5,14 +5,14 @@
     <color name="black">#17171b</color>
 
     <color name="shark">#1f2023</color>
+    <color name="light_gray">#888888</color>
+    <color name="gray">#535353</color>
 
     <color name="skeptic">#d3e9e6</color>
     <color name="selago">#f5f5fe</color>
     <color name="solitude">#e8f6ff</color>
     <color name="solitaire">#fef3e4</color>
     <color name="lavender_blush">#ffeef2</color>
-
-    <color name="gray">#535353</color>
 
 
     <color name="colorGrayText">#535353</color>

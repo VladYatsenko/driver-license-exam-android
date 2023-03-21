@@ -8,6 +8,9 @@ import com.testdai.core.repository.ExamRepository
 import com.testdai.model.AnswerModel
 import com.testdai.model.QuestionModel
 import com.testdai.model.State
+import com.testdai.ui.screen.exam.data.ExamMapper
+import com.testdai.ui.screen.exam.data.ExamScreenState
+import com.testdai.ui.screen.exam.result.ResultScreenState
 import com.testdai.utils.CountdownTimer
 import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.*
@@ -41,6 +44,9 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
     private val _exam = MutableLiveData<State<ExamScreenState>>(State.Loading())
     val exam: LiveData<State<ExamScreenState>> = _exam
 
+    private val _examResult = MutableLiveData(ResultScreenState())
+    val examResult: LiveData<ResultScreenState> = _examResult
+
     private val totalTime = 20 * 60 * 1000L
     val initialTime = totalTime.formatDuration()
 
@@ -53,10 +59,15 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             if (it == 0L && examScreenState.isActiveExam) {
                 examScreenState = examScreenState.copy(isActiveExam = false)
                 _exam.value = State.Success(examScreenState)
+                showExamResult()
             }
         }
     }
     init {
+        loadQuestions()
+    }
+
+    fun loadQuestions() {
         viewModelScope.launch(Dispatchers.IO) {
             val data = examRepository.loadExamQuestions()
             val questions = mapper.mapQuestions(data)
@@ -122,16 +133,17 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             }
             val isFinished = remappedQuestions.all { it.answered }
                     || (errorLimit && remappedQuestions.filter { it.incorrect }.size >= 2)
-            if (isFinished) {
-                withContext(Dispatchers.Main) {
-                    countdownTimer.stop()
-                }
-            }
             examScreenState = examScreenState.copy(
                 questions = remappedQuestions,
                 question = remappedQuestion,
                 isActiveExam = !isFinished
             )
+            if (isFinished) {
+                withContext(Dispatchers.Main) {
+                    countdownTimer.stop()
+                }
+                showExamResult()
+            }
             if (remappedQuestion.answered && !isFinished) {
                 findNextQuestion()?.let {
                     onQuestionClick(it)
@@ -161,6 +173,19 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
         }
 
         return null
+    }
+
+    private fun showExamResult() {
+        val questions = examScreenState.questions
+        val rightAnsweredCount = questions.count { it.correct }
+        val totalCount = questions.size
+        val isExamPassed = totalCount - rightAnsweredCount <= 2 || !examPreferences.errorLimit
+        val result = ResultScreenState(
+            rightAnsweredCount = rightAnsweredCount,
+            totalCount = totalCount,
+            isExamPassed = isExamPassed
+        )
+        _examResult.postValue(result)
     }
 
     private fun Long.formatDuration(): String {

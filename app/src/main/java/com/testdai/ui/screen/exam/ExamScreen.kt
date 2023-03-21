@@ -1,20 +1,23 @@
 package com.testdai.ui.screen.exam
 
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.*
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,8 +39,12 @@ import com.testdai.compose.Fonts
 import com.testdai.model.AnswerModel
 import com.testdai.model.QuestionModel
 import com.testdai.model.State
+import com.testdai.ui.screen.exam.data.ExamScreenState
+import com.testdai.ui.screen.exam.result.ResultBottomSheet
 import com.testdai.widget.AppButton
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ExamScreen(
     viewModel: ExamViewModel = viewModel(factory = ExamViewModel.Factory)
@@ -46,71 +53,111 @@ fun ExamScreen(
     val examState by viewModel.exam.observeAsState(State.Loading())
     val timer by viewModel.timer.observeAsState(viewModel.initialTime)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.black))
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .weight(1f),
-                fontSize = 22.sp,
-                textAlign = TextAlign.Start,
-                fontFamily = Fonts.bold,
-                text = stringResource(id = R.string.toolbar_exam),
-                color = colorResource(id = R.color.white)
-            )
-            Text(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = Fonts.regular,
-                text = timer,
-                color = colorResource(id = R.color.white)
-            )
-        }
-        when (val exam = examState) {
-            is State.Loading -> LoadingState()
-            is State.Success -> ExamState(
-                state = exam.data,
-                onQuestionClick = {
-                    viewModel.onQuestionClick(it)
-                },
-                onAnswerClick = {
-                    viewModel.onAnswerClick(it)
-                }
-            )
-            is State.Error -> exam.data?.let { state ->
-                ExamState(
-                    state = state,
-                    onQuestionClick = {
-                        viewModel.onQuestionClick(it)
-                    },
-                    onAnswerClick = {
-                        viewModel.onAnswerClick(it)
-                    }
-                )
-            } ?: ErrorState()
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    fun hideBottomSheet() {
+        coroutineScope.launch {
+            sheetState.hide()
         }
     }
+
+    BackHandler(sheetState.isVisible) {
+        hideBottomSheet()
+    }
+
+    ModalBottomSheetLayout(
+        modifier = Modifier.fillMaxSize(),
+        sheetState = sheetState,
+        sheetContent = {
+            ResultBottomSheet(viewModel) {
+                viewModel.loadQuestions()
+                hideBottomSheet()
+            }
+        },
+        sheetBackgroundColor = colorResource(id = R.color.black),
+        sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(id = R.color.black))
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .weight(1f),
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Start,
+                    fontFamily = Fonts.bold,
+                    text = stringResource(id = R.string.toolbar_exam),
+                    color = colorResource(id = R.color.white)
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = Fonts.regular,
+                    text = timer,
+                    color = colorResource(id = R.color.white)
+                )
+            }
+            when (val exam = examState) {
+                is State.Loading -> LoadingState()
+                is State.Success -> {
+                    if (exam.data.isActiveExam.not()) {
+                        LaunchedEffect(Unit) {
+                            coroutineScope.launch {
+                                sheetState.show()
+                            }
+                        }
+                    }
+                    ExamState(
+                        state = exam.data,
+                        onQuestionClick = {
+                            viewModel.onQuestionClick(it)
+                        },
+                        onAnswerClick = {
+                            viewModel.onAnswerClick(it)
+                        }
+                    )
+                }
+                is State.Error -> exam.data?.let { state ->
+                    ExamState(
+                        state = state,
+                        onQuestionClick = {
+                            viewModel.onQuestionClick(it)
+                        },
+                        onAnswerClick = {
+                            viewModel.onAnswerClick(it)
+                        }
+                    )
+                } ?: ErrorState()
+            }
+        }
+    }
+
 }
 
 @Composable
 fun LoadingState() {
-    Placeholder("Loading questions") {
+    Placeholder(stringResource(id = R.string.placeholder_loading)) {
         CircularProgressIndicator()
     }
 }
 
 @Composable
 fun ErrorState() {
-    Placeholder("Something went wrong") {
+    Placeholder(stringResource(id = R.string.placeholder_error)) {
         Image(
             painter = painterResource(R.drawable.ic_warning),
             contentDescription = ""
@@ -118,12 +165,16 @@ fun ErrorState() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExamState(
     state: ExamScreenState,
     onQuestionClick: (QuestionModel) -> Unit = {},
     onAnswerClick: (AnswerModel) -> Unit = {}
 ) {
+    val listState = rememberLazyListState()
+    val flingBehavior = rememberSnapFlingBehavior(listState)
+
     val questions = state.questions
     val question = state.question
     val answers = question.answers
@@ -134,11 +185,13 @@ fun ExamState(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LazyRow(
+            state = listState,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            flingBehavior = flingBehavior
         ) {
             items(count = questions.size, itemContent = { index ->
                 Question(
@@ -185,7 +238,7 @@ fun ExamState(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(8.dp)
         ) {
-            items(count = answers.size, key = { answers[it].id }, itemContent = { index ->
+            items(count = answers.size, itemContent = { index ->
                 val answer = answers[index]
                 Answer(
                     question = question,

@@ -1,4 +1,4 @@
-package com.testdai.ui.screen.exam
+package com.testdai.ui.screen.exam.data
 
 import com.testdai.core.database.AnswerEntity
 import com.testdai.core.database.QuestionWithAnswers

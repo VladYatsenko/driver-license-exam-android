@@ -45,7 +45,7 @@ class ResultDialog : DialogFragment() {
         return context?.let {
             AlertDialog.Builder(it)
                     .setView(v)
-                    .setNeutralButton(R.string.restart) { dialog, which ->
+                    .setNeutralButton(R.string.restart_exam) { dialog, which ->
                         dialog?.cancel()
                     }
                     .setPositiveButton(android.R.string.ok) { dialog, i -> dialog?.dismiss() }

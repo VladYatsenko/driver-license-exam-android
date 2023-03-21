@@ -41,7 +41,7 @@ class ExamPreferences constructor(private val context: Context) {
         }
 
     var doubleClick: Boolean
-        get() = preferences.getBoolean(doubleClickKey, true)
+        get() = preferences.getBoolean(doubleClickKey, false)
         set(value) {
             preferences.putBoolean(doubleClickKey, value)
         }
