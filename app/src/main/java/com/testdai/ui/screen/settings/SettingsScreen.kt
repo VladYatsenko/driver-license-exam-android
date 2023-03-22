@@ -1,13 +1,14 @@
 package com.testdai.ui.screen.settings
 
-import androidx.compose.foundation.BorderStroke
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -19,91 +20,140 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
 import com.testdai.compose.Fonts
-import com.testdai.core.navigation.NavActions
+import com.testdai.ui.bottom.BottomSheet
+import com.testdai.ui.bottom.language.LanguageBottomSheet
+import com.testdai.ui.bottom.theme.ThemeBottomSheet
+import com.testdai.ui.screen.settings.state.Settings
+import com.testdai.ui.screen.settings.state.SettingsScreenState
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory),
-    navigate: (NavActions.Destination) -> Unit = {}
+    viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
 ) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.black))
+    val settings by viewModel.settings.observeAsState(SettingsScreenState())
+
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = false,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    var bottomSheet by remember { mutableStateOf(BottomSheet.Category) }
+
+    fun showLanguageSheet() {
+        bottomSheet = BottomSheet.Language
+        coroutineScope.launch {
+            sheetState.show()
+        }
+    }
+
+    fun showThemeSheet() {
+        bottomSheet = BottomSheet.Theme
+        coroutineScope.launch {
+            sheetState.show()
+        }
+    }
+
+    fun hideBottomSheet() {
+        coroutineScope.launch {
+            sheetState.hide()
+        }
+    }
+
+    BackHandler(sheetState.isVisible) {
+        hideBottomSheet()
+    }
+
+    ModalBottomSheetLayout(
+        modifier = Modifier.fillMaxSize(),
+        sheetState = sheetState,
+        sheetContent = {
+            when (bottomSheet) {
+                BottomSheet.Language -> LanguageBottomSheet(viewModel) {
+                    hideBottomSheet()
+                }
+                else -> ThemeBottomSheet(viewModel) {
+                    hideBottomSheet()
+                }
+            }
+
+        },
+        sheetBackgroundColor = colorResource(id = R.color.black),
+        sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
     ) {
-        Text(
-            modifier = Modifier.padding(16.dp),
-            fontSize = 22.sp,
-            textAlign = TextAlign.Center,
-            fontFamily = Fonts.bold,
-            text = stringResource(id = R.string.app_name),
-            color = colorResource(id = R.color.white)
-        )
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {}
-
+                .fillMaxSize()
+                .background(colorResource(id = R.color.black))
+        ) {
+            Text(
+                modifier = Modifier.padding(16.dp),
+                fontSize = 22.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.bold,
+                text = stringResource(id = R.string.toolbar_settings),
+                color = colorResource(id = R.color.white)
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                contentPadding = PaddingValues(horizontal = 12.dp)
+            ) {
+                items(count = settings.list.size, itemContent = { index ->
+                    val item = settings.list[index]
+                    SettingsItem(
+                        item = item,
+                        onClick = {
+                            when (item) {
+                                is Settings.LanguageItem -> showLanguageSheet()
+                                is Settings.ThemeItem -> showThemeSheet()
+                            }
+                        }
+                    )
+                })
+            }
+        }
     }
 }
 
 @Composable
-fun CategorySelector(
+fun SettingsItem(
     modifier: Modifier = Modifier,
-    categories: String = "",
+    item: Settings,
     onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(colorResource(id = R.color.shark), RoundedCornerShape(12.dp))
-            .padding(vertical = 8.dp, horizontal = 12.dp),
+            .padding(16.dp)
+            .clickable {
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .padding(start = 4.dp)
-        ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                fontSize = 16.sp,
-                textAlign = TextAlign.Start,
-                fontFamily = Fonts.medium,
-                text = stringResource(id = R.string.category),
-                color = colorResource(id = R.color.white)
-            )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                fontSize = 12.sp,
-                textAlign = TextAlign.Start,
-                fontFamily = Fonts.medium,
-                text = categories,
-                color = colorResource(id = R.color.gray)
-            )
-        }
-        OutlinedButton(
-            modifier = Modifier,
-            shape = RoundedCornerShape(12.dp),
-            border = BorderStroke(0.dp, colorResource(id = R.color.selago)),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = colorResource(id = R.color.selago)
-            ),
-            contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
-            onClick = onClick
-        ) {
-            Text(
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = Fonts.medium,
-                text = stringResource(id = R.string.change),
-                color = colorResource(id = R.color.black)
-            )
-        }
+        Text(
+            modifier = Modifier.weight(1f),
+            fontSize = 16.sp,
+            textAlign = TextAlign.Start,
+            fontFamily = Fonts.medium,
+            text = stringResource(id = item.titleRes),
+            color = colorResource(id = R.color.white)
+        )
+        Text(
+            modifier = Modifier.wrapContentWidth(),
+            fontSize = 12.sp,
+            textAlign = TextAlign.Start,
+            fontFamily = Fonts.medium,
+            text = stringResource(id = item.valueRes),
+            color = colorResource(id = R.color.gray)
+        )
     }
 }
 

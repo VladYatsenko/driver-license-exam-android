@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.testdai.ui.screen.exam.ExamScreen
 import com.testdai.ui.screen.home.HomeScreen
+import com.testdai.ui.screen.settings.SettingsScreen
 
 @Composable
 fun DriverLicenseExamNavGraph(
@@ -32,6 +33,9 @@ fun DriverLicenseExamNavGraph(
         }
         composable(NavActions.Destination.Exam.route) {
             ExamScreen()
+        }
+        composable(NavActions.Destination.Settings.route) {
+            SettingsScreen()
         }
     }
 }

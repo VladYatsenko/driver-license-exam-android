@@ -10,7 +10,8 @@ class NavActions(private val navController: NavHostController) {
 
     enum class Destination(val route: String) {
         Home("home"),
-        Exam("exam")
+        Exam("exam"),
+        Settings("settings")
     }
 
     fun navigateByDestination(

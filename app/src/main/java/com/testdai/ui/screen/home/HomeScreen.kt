@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
 import com.testdai.compose.Fonts
 import com.testdai.core.navigation.NavActions
+import com.testdai.core.navigation.Navigate
 import com.testdai.model.ExamMode
 import com.testdai.ui.bottom.BottomSheet
 import com.testdai.ui.bottom.category.CategoryBottomSheet
@@ -38,12 +39,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
-    navigate: (NavActions.Destination) -> Unit = {}
+    navigate: Navigate = {}
 ) {
 
     val categories: String by viewModel.categories.observeAsState("")
     val examMode: ExamModeState by viewModel.examMode.observeAsState(ExamModeState())
-
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -100,14 +100,29 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(colorResource(id = R.color.black))
         ) {
-            Text(
-                modifier = Modifier.padding(16.dp),
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = Fonts.bold,
-                text = stringResource(id = R.string.app_name),
-                color = colorResource(id = R.color.white)
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .weight(1f),
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Start,
+                    fontFamily = Fonts.bold,
+                    text = stringResource(id = R.string.app_name),
+                    color = colorResource(id = R.color.white)
+                )
+                Image(
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .clickable {
+                            navigate(NavActions.Destination.Settings)
+                        },
+                    painter = painterResource(id = R.drawable.ic_settings),
+                    contentDescription = ""
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -202,7 +217,7 @@ fun CategorySelector(
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
                 fontFamily = Fonts.medium,
-                text = stringResource(id = R.string.change),
+                text = stringResource(id = R.string.button_change),
                 color = colorResource(id = R.color.black)
             )
         }
