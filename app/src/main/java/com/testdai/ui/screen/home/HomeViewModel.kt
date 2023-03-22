@@ -68,8 +68,11 @@ class HomeViewModel private constructor(application: Application) : BaseAndroidV
             refreshCategorySelector(categories)
 
             val topics = topicRepository.loadTopics()
-            val topic = topics.firstOrNull { it.id == examPreferences.topicId }
-                ?: topics.firstOrNull() ?: noopTopic
+            val topic = topics.firstOrNull { it.id == examPreferences.topicId } ?: kotlin.run {
+                val topic = topics.firstOrNull()?: noopTopic
+                examPreferences.topicId = topic.id
+                topic
+            }
 
             val mode = ExamMode.valueOf(examPreferences.examMode)
             val mods = listOf(

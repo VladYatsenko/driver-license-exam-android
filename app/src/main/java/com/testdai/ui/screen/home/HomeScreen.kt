@@ -113,16 +113,18 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .weight(1f)
             ) {}
-            ExamModeSelector(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                mods = examMode.mods,
-                onClick = {
-                    when {
-                        it.mode is ExamMode.Topic && it.selected -> showTopicsSheet()
-                        else -> viewModel.changeExamMode(it.mode)
+            if (examMode.mods.isNotEmpty()) {
+                ExamModeSelector(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    mods = examMode.mods,
+                    onClick = {
+                        when {
+                            it.mode is ExamMode.Topic && it.selected -> showTopicsSheet()
+                            else -> viewModel.changeExamMode(it.mode)
+                        }
                     }
-                }
-            )
+                )
+            }
             CategorySelector(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 categories = categories,
