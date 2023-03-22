@@ -23,6 +23,7 @@
 
     <!--Exam-->
     <string name="toolbar_exam">Exam</string>
+    <string name="toolbar_training">Training</string>
 
     <string name="placeholder_loading">Loading questions</string>
     <string name="placeholder_error">Something went wrong</string>

@@ -12,6 +12,7 @@ import com.testdai.model.QuestionModel
 import com.testdai.model.State
 import com.testdai.ui.bottom.result.ResultScreenState
 import com.testdai.ui.screen.exam.data.ExamScreenState
+import com.testdai.ui.screen.exam.data.Toolbar
 import com.testdai.utils.CountdownTimer
 import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.*
@@ -38,6 +39,9 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
     private val examPreferences = ExamPreferences(application)
 
     private val mode: ExamMode = ExamMode.valueOf(examPreferences.examMode)
+
+    private val _toolbar = MutableLiveData<Toolbar>()
+    val toolbar: LiveData<Toolbar> = _toolbar
 
     private var examScreenState = ExamScreenState()
 
@@ -70,10 +74,17 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
 
     fun loadQuestions() {
         viewModelScope.launch(Dispatchers.IO) {
+            _toolbar.postValue(when (mode) {
+                ExamMode.Exam -> Toolbar.Exam
+                ExamMode.Training -> Toolbar.Training
+                ExamMode.Topic -> {
+                    val topic = topicRepository.loadTopicById(examPreferences.topicId)
+                    Toolbar.Topic(topic.name)
+                }
+            })
+
             val questions = if (mode is ExamMode.Topic) {
-                val topicId = examPreferences.topicId
-                val topic = topicRepository.loadTopicById(topicId)
-                examRepository.loadTopicQuestions(topicId)
+                examRepository.loadTopicQuestions(examPreferences.topicId)
             } else {
                 examRepository.loadExamQuestions()
             }
@@ -84,10 +95,10 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             }
 
             val question = questions.first()
-            examScreenState = ExamScreenState(
+            examScreenState = examScreenState.copy(
                 questions = questions,
                 question = question,
-                true
+                isActiveExam = true
             )
             internalOnQuestionClick(question)
             withContext(Dispatchers.Main) {

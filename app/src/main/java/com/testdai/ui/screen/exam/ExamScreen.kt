@@ -28,6 +28,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +42,7 @@ import com.testdai.model.QuestionModel
 import com.testdai.model.State
 import com.testdai.ui.bottom.result.ResultBottomSheet
 import com.testdai.ui.screen.exam.data.ExamScreenState
+import com.testdai.ui.screen.exam.data.Toolbar
 import com.testdai.widget.AppButton
 import kotlinx.coroutines.launch
 
@@ -50,6 +52,7 @@ fun ExamScreen(
     viewModel: ExamViewModel = viewModel(factory = ExamViewModel.Factory)
 ) {
 
+    val toolbar by viewModel.toolbar.observeAsState(Toolbar.Noop)
     val examState by viewModel.exam.observeAsState(State.Loading())
     val timer by viewModel.timer.observeAsState(viewModel.initialTime)
 
@@ -68,6 +71,13 @@ fun ExamScreen(
 
     BackHandler(sheetState.isVisible) {
         hideBottomSheet()
+    }
+
+    val toolbarTitle = when (val t = toolbar) {
+        Toolbar.Exam -> stringResource(id = R.string.toolbar_exam)
+        Toolbar.Training -> stringResource(id = R.string.toolbar_training)
+        is Toolbar.Topic -> t.name
+        Toolbar.Noop -> ""
     }
 
     ModalBottomSheetLayout(
@@ -97,19 +107,23 @@ fun ExamScreen(
                     fontSize = 22.sp,
                     textAlign = TextAlign.Start,
                     fontFamily = Fonts.bold,
-                    text = stringResource(id = R.string.toolbar_exam),
+                    text = toolbarTitle,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = colorResource(id = R.color.white)
                 )
-                Text(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .wrapContentHeight(align = Alignment.CenterVertically),
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = Fonts.regular,
-                    text = timer,
-                    color = colorResource(id = R.color.white)
-                )
+                if (timer.isNotBlank()) {
+                    Text(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .wrapContentHeight(align = Alignment.CenterVertically),
+                        fontSize = 14.sp,
+                        textAlign = TextAlign.Center,
+                        fontFamily = Fonts.regular,
+                        text = timer,
+                        color = colorResource(id = R.color.white)
+                    )
+                }
             }
             when (val exam = examState) {
                 is State.Loading -> LoadingState()
