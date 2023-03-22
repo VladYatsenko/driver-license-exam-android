@@ -1,6 +1,5 @@
 package com.testdai.ui.screen.exam
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -33,8 +32,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.size.Size
 import com.testdai.R
 import com.testdai.compose.Fonts
 import com.testdai.model.AnswerModel
@@ -193,6 +194,13 @@ fun ExamState(
     val question = state.question
     val answers = question.answers
 
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(question.image)
+            .size(Size.ORIGINAL)
+            .build()
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -228,22 +236,19 @@ fun ExamState(
             text = question.text,
             color = colorResource(id = R.color.white)
         )
-        AsyncImage(
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .padding(horizontal = 16.dp, vertical = if (question.hasImage) 4.dp else 0.dp)
-                .fillMaxWidth()
-                .heightIn(max = if (question.hasImage) 300.dp else 0.dp),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(question.image)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
-            onState = {
-                Log.i("testLog", it.toString())
-            },
-            contentScale = ContentScale.Fit
-        )
+        if (question.hasImage && painter.state is AsyncImagePainter.State.Success) {
+            Image(
+                painter = painter,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .clip(RoundedCornerShape(8.dp))
+                    .heightIn(min = 150.dp, max = 300.dp),
+                contentDescription = null,
+                contentScale = ContentScale.Fit
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
