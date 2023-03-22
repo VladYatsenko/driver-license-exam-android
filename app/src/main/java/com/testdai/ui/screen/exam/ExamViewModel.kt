@@ -133,25 +133,7 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             return
         viewModelScope.launch(Dispatchers.IO) {
             val remappedAnswers = question.answers.map {
-                /*if (doubleClick) {
-                    if (it.selected) {
-                        if (it.id == answer.id) {
-                            it.copy(selected = false, answered = true)
-                        } else {
-                            it.copy(selected = false)
-                        }
-                    } else {
-                        if (it.id == answer.id) {
-                            it.copy(selected = true)
-                        } else {
-                            it
-                        }
-                    }
-                } else {
-                    answer.copy(answered = it.id == answer.id)
-                }*/
-
-                answer.copy(answered = it.id == answer.id)
+                it.copy(answered = it.id == answer.id)
             }
 
             val remappedQuestion = question.copy(answers = remappedAnswers)
@@ -194,9 +176,9 @@ class ExamViewModel private constructor(application: Application): BaseAndroidVi
             else
                 position++
 
-            val question = questions.getOrNull(position)
-            if (question?.answered != true) {
-                return question
+            val nextQuestion = questions.getOrNull(position)
+            if (nextQuestion?.answered != true) {
+                return nextQuestion
             }
         }
 
