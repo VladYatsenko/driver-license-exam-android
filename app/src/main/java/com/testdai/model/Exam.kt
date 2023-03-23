@@ -32,6 +32,5 @@ data class AnswerModel constructor(
     val id: Int,
     val text: String,
     val correct: Boolean,
-    val selected: Boolean = false,
     val answered: Boolean = false
 )

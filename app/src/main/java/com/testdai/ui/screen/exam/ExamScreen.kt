@@ -27,7 +27,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,14 +36,15 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.testdai.R
-import com.testdai.compose.Fonts
 import com.testdai.model.AnswerModel
 import com.testdai.model.QuestionModel
 import com.testdai.model.State
 import com.testdai.ui.bottom.result.ResultBottomSheet
 import com.testdai.ui.screen.exam.data.ExamScreenState
 import com.testdai.ui.screen.exam.data.Toolbar
-import com.testdai.widget.AppButton
+import com.testdai.ui.theme.*
+import com.testdai.widget.ButtonWidget
+import com.testdai.widget.ToolbarWidget
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -90,29 +90,15 @@ fun ExamScreen(
                 hideBottomSheet()
             }
         },
-        sheetBackgroundColor = colorResource(id = R.color.black),
+        sheetBackgroundColor = MaterialTheme.colors.background,
         sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.black))
+                .background(MaterialTheme.colors.background)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .weight(1f),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Start,
-                    fontFamily = Fonts.bold,
-                    text = toolbarTitle,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = colorResource(id = R.color.white)
-                )
+            ToolbarWidget(toolbarTitle = toolbarTitle) {
                 if (timer.isNotBlank()) {
                     Text(
                         modifier = Modifier
@@ -122,7 +108,7 @@ fun ExamScreen(
                         textAlign = TextAlign.Center,
                         fontFamily = Fonts.regular,
                         text = timer,
-                        color = colorResource(id = R.color.white)
+                        color = MaterialTheme.colors.primary
                     )
                 }
             }
@@ -227,14 +213,14 @@ fun ExamState(
         }
         Text(
             modifier = Modifier
-                .padding(vertical = 4.dp, horizontal = 16.dp)
+                .padding(vertical = 8.dp, horizontal = 16.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
             fontSize = 18.sp,
             textAlign = TextAlign.Start,
             fontFamily = Fonts.medium,
             text = question.text,
-            color = colorResource(id = R.color.white)
+            color = MaterialTheme.colors.primary
         )
         if (question.hasImage && painter.state is AsyncImagePainter.State.Success) {
             Image(
@@ -279,22 +265,22 @@ fun Question(
     onClick: () -> Unit = {}
 ) {
     val textColor = when {
-        question.answered -> colorResource(id = R.color.black)
-        else -> colorResource(id = R.color.white)
+        question.answered -> Black
+        else -> MaterialTheme.colors.primary
     }
     val borderColor = when {
-        question.selected -> colorResource(id = R.color.white)
+        question.selected -> MaterialTheme.colors.primary
         else -> Color.Gray
     }
     val containerColor = when {
-        question.answered && question.correct -> colorResource(id = R.color.skeptic)
-        question.answered -> colorResource(id = R.color.lavender_blush)
-        else -> colorResource(id = R.color.shark)
+        question.answered && question.correct -> Skeptic
+        question.answered -> LavenderBlush
+        else -> MaterialTheme.colors.secondary
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AppButton(
+        ButtonWidget(
             modifier = Modifier.size(40.dp),
             borderColor = borderColor,
             containerColor = containerColor,
@@ -316,18 +302,15 @@ fun Answer(
     onClick: () -> Unit = {}
 ) {
     val textColor = when {
-        question.answered && answer.correct -> colorResource(id = R.color.shark)
-        answer.answered -> colorResource(id = R.color.shark)
-        else -> colorResource(id = R.color.white)
+        question.answered && answer.correct -> Shark
+        answer.answered -> Shark
+        else -> MaterialTheme.colors.primary
     }
-    val borderColor = when {
-        answer.selected -> colorResource(id = R.color.white)
-        else -> Color.Gray
-    }
+    val borderColor = Color.Gray
     val containerColor = when {
-        question.answered && answer.correct -> colorResource(id = R.color.skeptic)
-        answer.answered -> colorResource(id = R.color.lavender_blush)
-        else -> colorResource(id = R.color.shark)
+        question.answered && answer.correct -> Skeptic
+        answer.answered -> LavenderBlush
+        else -> MaterialTheme.colors.secondary
     }
     OutlinedButton(
         modifier = Modifier
@@ -375,7 +358,7 @@ fun Placeholder(
             textAlign = TextAlign.Center,
             fontFamily = Fonts.medium,
             text = message,
-            color = colorResource(id = R.color.white)
+            color = colorResource(id = R.color.alabaster)
         )
     }
 }

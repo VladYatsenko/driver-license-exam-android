@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.testdai.core.localization.LangPreferences
 import com.testdai.core.localization.Language
+import com.testdai.core.localization.LocalizationContextWrapper
 import com.testdai.core.theme.Theme
 import com.testdai.core.theme.ThemePreferences
 import com.testdai.ui.screen.settings.state.LanguageWrapper
@@ -15,6 +16,7 @@ import com.testdai.ui.screen.settings.state.ThemeWrapper
 import com.testdai.utils.viewmodel.BaseAndroidViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsViewModel private constructor(application: Application) :
     BaseAndroidViewModel(application) {
@@ -82,6 +84,9 @@ class SettingsViewModel private constructor(application: Application) :
             _settings.postValue(settingsState)
 
             langPreferences.language = language
+            withContext(Dispatchers.Main) {
+                LocalizationContextWrapper.changeLocale(language.locale)
+            }
         }
     }
 

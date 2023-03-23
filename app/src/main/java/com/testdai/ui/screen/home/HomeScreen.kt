@@ -14,6 +14,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
-import com.testdai.compose.Fonts
 import com.testdai.core.navigation.NavActions
 import com.testdai.core.navigation.Navigate
 import com.testdai.model.ExamMode
@@ -32,7 +33,12 @@ import com.testdai.ui.bottom.category.CategoryBottomSheet
 import com.testdai.ui.bottom.topic.ExamModeState
 import com.testdai.ui.bottom.topic.ExamModeWrapper
 import com.testdai.ui.bottom.topic.TopicsBottomSheet
-import com.testdai.widget.AppButton
+import com.testdai.ui.theme.Emperor
+import com.testdai.ui.theme.Fonts
+import com.testdai.ui.theme.Selago
+import com.testdai.ui.theme.Skeptic
+import com.testdai.widget.ButtonWidget
+import com.testdai.widget.ToolbarWidget
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -92,27 +98,15 @@ fun HomeScreen(
             }
 
         },
-        sheetBackgroundColor = colorResource(id = R.color.black),
+        sheetBackgroundColor = MaterialTheme.colors.background,
         sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.black))
+                .background(MaterialTheme.colors.background)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .weight(1f),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Start,
-                    fontFamily = Fonts.bold,
-                    text = stringResource(id = R.string.app_name),
-                    color = colorResource(id = R.color.white)
-                )
+            ToolbarWidget(toolbarTitle = stringResource(id = R.string.app_name)) {
                 Image(
                     modifier = Modifier
                         .padding(end = 16.dp)
@@ -120,6 +114,7 @@ fun HomeScreen(
                             navigate(NavActions.Destination.Settings)
                         },
                     painter = painterResource(id = R.drawable.ic_settings),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.primary),
                     contentDescription = ""
                 )
             }
@@ -148,23 +143,18 @@ fun HomeScreen(
                     showCategorySheet()
                 }
             )
-            ExamButton {
-                navigate(NavActions.Destination.Exam)
-            }
+            ButtonWidget(
+                modifier = Modifier
+                    .padding(bottom = 16.dp, start = 16.dp, end = 16.dp, top = 8.dp),
+                containerColor = Skeptic,
+                text = stringResource(id = R.string.start_exam),
+                textColor = colorResource(id = R.color.black),
+                onClick = {
+                    navigate(NavActions.Destination.Exam)
+                }
+            )
         }
     }
-}
-
-@Composable
-fun ExamButton(onClick: () -> Unit) {
-    AppButton(
-        modifier = Modifier
-            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp, top = 8.dp),
-        containerColor = colorResource(id = R.color.skeptic),
-        text = stringResource(id = R.string.start_exam),
-        textColor = colorResource(id = R.color.black),
-        onClick = onClick
-    )
 }
 
 @Composable
@@ -176,7 +166,7 @@ fun CategorySelector(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.shark), RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colors.surface, RoundedCornerShape(12.dp))
             .padding(vertical = 8.dp, horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -192,7 +182,7 @@ fun CategorySelector(
                 textAlign = TextAlign.Start,
                 fontFamily = Fonts.medium,
                 text = stringResource(id = R.string.category),
-                color = colorResource(id = R.color.white)
+                color = MaterialTheme.colors.primary
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -200,16 +190,14 @@ fun CategorySelector(
                 textAlign = TextAlign.Start,
                 fontFamily = Fonts.medium,
                 text = categories,
-                color = colorResource(id = R.color.gray)
+                color = Emperor
             )
         }
         OutlinedButton(
             modifier = Modifier,
             shape = RoundedCornerShape(12.dp),
-            border = BorderStroke(0.dp, colorResource(id = R.color.selago)),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = colorResource(id = R.color.selago)
-            ),
+            border = BorderStroke(0.dp, Selago),
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = Selago),
             contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
             onClick = onClick
         ) {
@@ -233,8 +221,8 @@ fun ExamModeSelector(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.shark), RoundedCornerShape(12.dp))
-            .padding(vertical = 8.dp, horizontal = 12.dp),
+            .background(MaterialTheme.colors.surface, RoundedCornerShape(12.dp))
+            .padding(vertical = 8.dp, horizontal = 8.dp),
     ) {
         mods.forEach { modeWrapper ->
             ExamModeItem(
@@ -266,6 +254,7 @@ fun ExamModeItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
             .clickable {
                 onClick()
             },
@@ -274,7 +263,7 @@ fun ExamModeItem(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(4.dp)
+                .padding(vertical = 4.dp, horizontal = 8.dp)
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -282,7 +271,7 @@ fun ExamModeItem(
                 textAlign = TextAlign.Start,
                 fontFamily = Fonts.medium,
                 text = stringResource(id = mode.titleRes),
-                color = colorResource(id = R.color.white)
+                color = MaterialTheme.colors.primary
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -290,12 +279,13 @@ fun ExamModeItem(
                 textAlign = TextAlign.Start,
                 fontFamily = Fonts.medium,
                 text = subtitle,
-                color = colorResource(id = R.color.gray)
+                color = MaterialTheme.colors.primaryVariant
             )
         }
         if (selected) {
             Image(
                 painter = painterResource(id = R.drawable.ic_check),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.primary),
                 contentDescription = ""
             )
         }

@@ -34,7 +34,7 @@
 
     <string name="exam_passed">Іспит пройдено</string>
     <string name="exam_not_passed">Іспит провалено</string>
-    <string name="result_right_answers">Right answers count %s/%s</string>
+    <string name="result_right_answers">Кількість правильних відповідей %s/%s</string>
     <string name="restart_exam">Розпочати заново</string>
 
     <!--Settings-->

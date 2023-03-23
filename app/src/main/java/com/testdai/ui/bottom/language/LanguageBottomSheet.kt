@@ -12,7 +12,7 @@ import com.testdai.widget.ChooseBottomSheet
 @Composable
 fun LanguageBottomSheet(
     viewModel: SettingsViewModel,
-    dismiss: () -> Unit
+    dismiss: (() -> Unit) -> Unit
 ) {
 
     val settings by viewModel.settings.observeAsState(SettingsScreenState())
@@ -21,8 +21,9 @@ fun LanguageBottomSheet(
         title = stringResource(id = R.string.change_language),
         list = settings.languages
     ) { language ->
-        dismiss()
-        viewModel.changeLanguage(language)
+        dismiss {
+            viewModel.changeLanguage(language)
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -13,22 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.testdai.R
-import com.testdai.compose.Fonts
+import com.testdai.ui.theme.Fonts
 
 @Composable
-fun <T> ChooseBottomSheet(
+fun BottomSheetWidget(
     title: String = "",
-    list: List<ChooseItem<T>> = emptyList(),
-    contentModifier: (Int, String) -> String = { pos, text -> text },
-    changed: (T) -> Unit = {}
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -41,19 +39,33 @@ fun <T> ChooseBottomSheet(
             modifier = Modifier
                 .size(40.dp, 5.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(colorResource(id = R.color.gray))
+                .background(MaterialTheme.colors.primaryVariant)
         )
         Text(
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 4.dp)
+                .padding(vertical = 12.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
             fontSize = 18.sp,
             textAlign = TextAlign.Center,
             fontFamily = Fonts.medium,
             text = title,
-            color = colorResource(id = R.color.white)
+            color = MaterialTheme.colors.primary
         )
+        content()
+    }
+}
+
+@Composable
+fun <T> ChooseBottomSheet(
+    title: String = "",
+    list: List<ChooseItem<T>> = emptyList(),
+    contentModifier: (Int, String) -> String = { pos, text -> text },
+    changed: (T) -> Unit = {}
+) {
+    BottomSheetWidget(
+        title
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -64,30 +76,34 @@ fun <T> ChooseBottomSheet(
             items(count = list.size, itemContent = { index ->
                 val item = list[index]
                 val text = item.titleRes?.let { stringResource(id = it) } ?: item.title.orEmpty()
-                Item(text = contentModifier(index, text), selected = item.selected, onClick = {
-                    changed(item.value)
-                })
+                ChooseItemWidget(
+                    text = contentModifier(index, text),
+                    selected = item.selected,
+                    onClick = {
+                        changed(item.value)
+                    })
             })
         }
     }
 }
 
 @Composable
-fun Item(
+fun ChooseItemWidget(
     text: String, selected: Boolean, onClick: () -> Unit
 ) {
     OutlinedButton(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, colorResource(id = R.color.shark)),
+        border = BorderStroke(1.dp, MaterialTheme.colors.surface),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = colorResource(id = R.color.shark)
+            containerColor = MaterialTheme.colors.surface
         ),
-        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
+        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
         onClick = onClick
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.weight(1f),
@@ -95,11 +111,13 @@ fun Item(
                 textAlign = TextAlign.Start,
                 fontFamily = Fonts.regular,
                 text = text,
-                color = Color.White
+                color = MaterialTheme.colors.primary
             )
             if (selected) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_check), contentDescription = ""
+                    painter = painterResource(id = R.drawable.ic_check),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.primary),
+                    contentDescription = ""
                 )
             }
         }
@@ -107,7 +125,7 @@ fun Item(
 
 }
 
-interface ChooseItem <T> {
+interface ChooseItem<T> {
     val value: T
 
     val title: String?

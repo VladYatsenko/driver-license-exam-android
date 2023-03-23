@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import com.testdai.core.localization.LocalizationContextWrapper
 import com.testdai.core.navigation.DriverLicenseExamNavGraph
-import com.testdai.core.theme.DriverLicenseExamTheme
 import com.testdai.core.theme.ThemePreferences
+import com.testdai.ui.theme.DriverLicenseExamTheme
 
 class MainActivity : AppCompatActivity() {
 

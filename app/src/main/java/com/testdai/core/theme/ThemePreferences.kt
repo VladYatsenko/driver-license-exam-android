@@ -39,7 +39,7 @@ class ThemePreferences private constructor(context: Context) {
         context.getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE)
     private val themeKey = "theme"
 
-    private val _themeState = MutableLiveData<Theme>()
+    private val _themeState = MutableLiveData(theme)
     val themeState: LiveData<Theme> = _themeState
 
     var theme: Theme

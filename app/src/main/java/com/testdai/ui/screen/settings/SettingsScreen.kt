@@ -11,7 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,12 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
-import com.testdai.compose.Fonts
 import com.testdai.ui.bottom.BottomSheet
 import com.testdai.ui.bottom.language.LanguageBottomSheet
 import com.testdai.ui.bottom.theme.ThemeBottomSheet
 import com.testdai.ui.screen.settings.state.Settings
 import com.testdai.ui.screen.settings.state.SettingsScreenState
+import com.testdai.ui.theme.Fonts
+import com.testdai.ui.theme.Gray
+import com.testdai.widget.ToolbarWidget
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -58,9 +60,10 @@ fun SettingsScreen(
         }
     }
 
-    fun hideBottomSheet() {
+    fun hideBottomSheet(action: () -> Unit = {}) {
         coroutineScope.launch {
             sheetState.hide()
+            action()
         }
     }
 
@@ -73,30 +76,19 @@ fun SettingsScreen(
         sheetState = sheetState,
         sheetContent = {
             when (bottomSheet) {
-                BottomSheet.Theme -> ThemeBottomSheet(viewModel) {
-                    hideBottomSheet()
-                }
-                else -> LanguageBottomSheet(viewModel) {
-                    hideBottomSheet()
-                }
+                BottomSheet.Theme -> ThemeBottomSheet(viewModel, ::hideBottomSheet)
+                else -> LanguageBottomSheet(viewModel, ::hideBottomSheet)
             }
         },
-        sheetBackgroundColor = colorResource(id = R.color.black),
+        sheetBackgroundColor = MaterialTheme.colors.background,
         sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.black))
+                .background(MaterialTheme.colors.background)
         ) {
-            Text(
-                modifier = Modifier.padding(16.dp),
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = Fonts.bold,
-                text = stringResource(id = R.string.toolbar_settings),
-                color = colorResource(id = R.color.white)
-            )
+            ToolbarWidget(toolbarTitle = stringResource(id = R.string.toolbar_settings))
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,16 +117,17 @@ fun SettingsScreen(
 fun SettingsItem(
     modifier: Modifier = Modifier,
     item: Settings,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.shark), RoundedCornerShape(12.dp))
-            .padding(16.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colors.surface)
             .clickable {
                 onClick()
-            },
+            }
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -143,7 +136,7 @@ fun SettingsItem(
             textAlign = TextAlign.Start,
             fontFamily = Fonts.medium,
             text = stringResource(id = item.titleRes),
-            color = colorResource(id = R.color.white)
+            color = MaterialTheme.colors.primary
         )
         Text(
             modifier = Modifier.wrapContentWidth(),
@@ -151,7 +144,7 @@ fun SettingsItem(
             textAlign = TextAlign.Start,
             fontFamily = Fonts.medium,
             text = stringResource(id = item.valueRes),
-            color = colorResource(id = R.color.gray)
+            color = Gray
         )
     }
 }

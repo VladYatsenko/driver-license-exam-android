@@ -10,16 +10,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.testdai.compose.Fonts
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
+import com.testdai.ui.theme.Fonts
 
 @Composable
-fun AppButton(
+fun ButtonWidget(
     modifier: Modifier,
     borderColor: Color? = null,
     containerColor: Color,
@@ -35,11 +35,11 @@ fun AppButton(
     OutlinedButton(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(roundedCornerSize),
-        border = BorderStroke(1.dp, borderColor ?: containerColor), //colorResource(id = R.color.skeptic)),
+        border = BorderStroke(1.dp, borderColor ?: containerColor),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = containerColor //colorResource(id = R.color.skeptic)
+            containerColor = containerColor
         ),
-        contentPadding = contentPadding,//PaddingValues(16.dp),
+        contentPadding = contentPadding,
         onClick = onClick
     ) {
         Text(

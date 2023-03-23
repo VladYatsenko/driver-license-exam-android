@@ -12,7 +12,7 @@ import com.testdai.widget.ChooseBottomSheet
 @Composable
 fun ThemeBottomSheet(
     viewModel: SettingsViewModel,
-    dismiss: () -> Unit
+    dismiss: (() -> Unit) -> Unit
 ) {
 
     val settings by viewModel.settings.observeAsState(SettingsScreenState())
@@ -21,8 +21,9 @@ fun ThemeBottomSheet(
         title = stringResource(id = R.string.change_theme),
         list = settings.themes
     ) { theme ->
-        viewModel.changeTheme(theme)
-        dismiss()
+        dismiss {
+            viewModel.changeTheme(theme)
+        }
     }
 
 }

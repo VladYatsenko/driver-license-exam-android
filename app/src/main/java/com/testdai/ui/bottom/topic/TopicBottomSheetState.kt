@@ -2,6 +2,7 @@ package com.testdai.ui.bottom.topic
 
 import com.testdai.model.ExamMode
 import com.testdai.model.TopicModel
+import com.testdai.widget.ChooseItem
 
 data class ExamModeState(
     val mods: List<ExamModeWrapper> = emptyList(),
@@ -26,9 +27,13 @@ data class ExamModeWrapper(
 }
 
 data class TopicWrapper(
-    val topic: TopicModel,
-    val selected: Boolean
-) {
+    override val value: TopicModel,
+    override val selected: Boolean
+): ChooseItem<TopicModel> {
+
+    override val title: String = value.name
+
+    override val titleRes: Int? = null
 
     companion object {
         fun create(topic: TopicModel, selectedTopic: TopicModel) =

@@ -62,7 +62,6 @@ class LangPreferences(context: Context) {
                 sharedPreferences.edit(true) {
                     putString(langKey, language.name)
                 }
-                LocalizationContextWrapper.changeLocale(language.locale)
             }
         }
 

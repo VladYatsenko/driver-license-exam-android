@@ -105,7 +105,7 @@ class HomeViewModel private constructor(application: Application) : BaseAndroidV
         if (examModeState.selectedTopic == topic) return
 
         val topics = examModeState.topics.map {
-            it.copy(selected = it.topic.id == topic.id)
+            it.copy(selected = it.value.id == topic.id)
         }
 
         val selectedMode = examModeState.selectedMode
