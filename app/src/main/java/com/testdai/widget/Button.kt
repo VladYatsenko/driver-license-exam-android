@@ -4,19 +4,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.testdai.ui.theme.Fonts
 
 @Composable
 fun ButtonWidget(
@@ -25,8 +23,7 @@ fun ButtonWidget(
     containerColor: Color,
     roundedCornerSize: Dp = 12.dp,
     contentPadding: PaddingValues = PaddingValues(16.dp),
-    textSize: TextUnit = 16.sp,
-    fontFamily: FontFamily = Fonts.medium,
+    style: TextStyle = MaterialTheme.typography.subtitle1,
     text: String,
     textColor: Color,
     textAlign: TextAlign = TextAlign.Center,
@@ -43,9 +40,8 @@ fun ButtonWidget(
         onClick = onClick
     ) {
         Text(
-            fontSize = textSize,
+            style = style,
             textAlign = textAlign,
-            fontFamily = fontFamily,
             text = text,
             color = textColor
         )

@@ -13,12 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
 import com.testdai.ui.screen.home.HomeViewModel
 import com.testdai.ui.theme.Black
-import com.testdai.ui.theme.Fonts
 import com.testdai.ui.theme.Skeptic
 import com.testdai.widget.BottomSheetWidget
 import com.testdai.widget.ButtonWidget
@@ -117,8 +115,6 @@ fun CategoryItemWidget(
             borderColor = borderColor,
             containerColor = containerColor,
             contentPadding = PaddingValues(0.dp),
-            textSize = 16.sp,
-            fontFamily = Fonts.medium,
             text = item.category.name,
             textColor = textColor,
             onClick = onClick

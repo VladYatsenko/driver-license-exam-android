@@ -8,35 +8,54 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.testdai.R
 
-// Set of Material typography styles to start with
+private object Fonts {
+    val regular = FontFamily(Font(R.font.montserrat_regular))
+    val medium = FontFamily(Font(R.font.montserrat_medium))
+    val bold = FontFamily(Font(R.font.montserrat_semibold))
+}
+
+// style = MaterialTheme.typography.subtitle1,
 val Typography = Typography(
     h1 = TextStyle(
         fontFamily = Fonts.bold,
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
-        lineHeight = 22.sp,
-        letterSpacing = 0.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.sp
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+    h2 = TextStyle(
+        fontFamily = Fonts.medium,
         fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 18.sp,
+        lineHeight = 19.sp,
+        letterSpacing = 0.25.sp
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = Fonts.medium,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 17.sp,
+        letterSpacing = 0.sp
+    ),
+    body1 = TextStyle(
+        fontFamily = Fonts.medium,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 15.sp,
+        letterSpacing = 0.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = Fonts.regular,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 15.sp,
+        letterSpacing = 0.sp
+    ),
+    overline = TextStyle(
+        fontFamily = Fonts.medium,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+        lineHeight = 13.sp,
+        letterSpacing = 0.sp
     )
-    */
 )
-
-object Fonts {
-    val regular = FontFamily(Font(R.font.montserrat_regular))
-    val medium = FontFamily(Font(R.font.montserrat_medium))
-    val bold = FontFamily(Font(R.font.montserrat_semibold))
-}

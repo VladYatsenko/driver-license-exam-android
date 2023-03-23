@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -104,9 +103,8 @@ fun ExamScreen(
                         modifier = Modifier
                             .padding(16.dp)
                             .wrapContentHeight(align = Alignment.CenterVertically),
-                        fontSize = 14.sp,
+                        style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Center,
-                        fontFamily = Fonts.regular,
                         text = timer,
                         color = MaterialTheme.colors.primary
                     )
@@ -216,9 +214,8 @@ fun ExamState(
                 .padding(vertical = 8.dp, horizontal = 16.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.h2,
             textAlign = TextAlign.Start,
-            fontFamily = Fonts.medium,
             text = question.text,
             color = MaterialTheme.colors.primary
         )
@@ -286,8 +283,7 @@ fun Question(
             containerColor = containerColor,
             roundedCornerSize = 8.dp,
             contentPadding = PaddingValues(0.dp),
-            textSize = 16.sp,
-            fontFamily = Fonts.medium,
+            style = MaterialTheme.typography.h2,
             text = position.toString(),
             textColor = textColor,
             onClick = onClick
@@ -328,9 +324,8 @@ fun Answer(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 8.dp, vertical = 4.dp),
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.body1,
             textAlign = TextAlign.Start,
-            fontFamily = Fonts.medium,
             text = answer.text,
             color = textColor
         )
@@ -354,9 +349,8 @@ fun Placeholder(
                 .padding(16.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            fontSize = 16.sp,
+            style = MaterialTheme.typography.subtitle1,
             textAlign = TextAlign.Center,
-            fontFamily = Fonts.medium,
             text = message,
             color = colorResource(id = R.color.alabaster)
         )

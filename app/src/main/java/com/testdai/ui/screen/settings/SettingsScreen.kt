@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
 import com.testdai.ui.bottom.BottomSheet
@@ -24,7 +23,6 @@ import com.testdai.ui.bottom.language.LanguageBottomSheet
 import com.testdai.ui.bottom.theme.ThemeBottomSheet
 import com.testdai.ui.screen.settings.state.Settings
 import com.testdai.ui.screen.settings.state.SettingsScreenState
-import com.testdai.ui.theme.Fonts
 import com.testdai.ui.theme.Gray
 import com.testdai.widget.ToolbarWidget
 import kotlinx.coroutines.launch
@@ -132,17 +130,15 @@ fun SettingsItem(
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            fontSize = 16.sp,
+            style = MaterialTheme.typography.subtitle1,
             textAlign = TextAlign.Start,
-            fontFamily = Fonts.medium,
             text = stringResource(id = item.titleRes),
             color = MaterialTheme.colors.primary
         )
         Text(
             modifier = Modifier.wrapContentWidth(),
-            fontSize = 12.sp,
+            style = MaterialTheme.typography.overline,
             textAlign = TextAlign.Start,
-            fontFamily = Fonts.medium,
             text = stringResource(id = item.valueRes),
             color = Gray
         )

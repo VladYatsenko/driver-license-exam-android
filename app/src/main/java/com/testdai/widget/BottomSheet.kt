@@ -19,9 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.testdai.R
-import com.testdai.ui.theme.Fonts
 
 @Composable
 fun BottomSheetWidget(
@@ -46,9 +44,8 @@ fun BottomSheetWidget(
                 .padding(vertical = 12.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.h2,
             textAlign = TextAlign.Center,
-            fontFamily = Fonts.medium,
             text = title,
             color = MaterialTheme.colors.primary
         )
@@ -107,9 +104,8 @@ fun ChooseItemWidget(
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.subtitle1,
                 textAlign = TextAlign.Start,
-                fontFamily = Fonts.regular,
                 text = text,
                 color = MaterialTheme.colors.primary
             )

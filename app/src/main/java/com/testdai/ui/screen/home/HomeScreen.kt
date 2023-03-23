@@ -22,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.testdai.R
 import com.testdai.core.navigation.NavActions
@@ -34,7 +33,6 @@ import com.testdai.ui.bottom.topic.ExamModeState
 import com.testdai.ui.bottom.topic.ExamModeWrapper
 import com.testdai.ui.bottom.topic.TopicsBottomSheet
 import com.testdai.ui.theme.Emperor
-import com.testdai.ui.theme.Fonts
 import com.testdai.ui.theme.Selago
 import com.testdai.ui.theme.Skeptic
 import com.testdai.widget.ButtonWidget
@@ -178,17 +176,15 @@ fun CategorySelector(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.subtitle1,
                 textAlign = TextAlign.Start,
-                fontFamily = Fonts.medium,
                 text = stringResource(id = R.string.category),
                 color = MaterialTheme.colors.primary
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.overline,
                 textAlign = TextAlign.Start,
-                fontFamily = Fonts.medium,
                 text = categories,
                 color = Emperor
             )
@@ -202,9 +198,8 @@ fun CategorySelector(
             onClick = onClick
         ) {
             Text(
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.overline,
                 textAlign = TextAlign.Center,
-                fontFamily = Fonts.medium,
                 text = stringResource(id = R.string.button_change),
                 color = colorResource(id = R.color.black)
             )
@@ -267,17 +262,15 @@ fun ExamModeItem(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.subtitle1,
                 textAlign = TextAlign.Start,
-                fontFamily = Fonts.medium,
                 text = stringResource(id = mode.titleRes),
                 color = MaterialTheme.colors.primary
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.overline,
                 textAlign = TextAlign.Start,
-                fontFamily = Fonts.medium,
                 text = subtitle,
                 color = MaterialTheme.colors.primaryVariant
             )
