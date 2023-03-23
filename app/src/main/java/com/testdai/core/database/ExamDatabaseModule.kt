@@ -8,7 +8,6 @@ class ExamDatabaseModule private constructor(application: Application) {
 
     companion object {
 
-        // For Singleton instantiation
         @Volatile private var instance: ExamDatabase? = null
 
         fun getInstance(context: Context): ExamDatabase {

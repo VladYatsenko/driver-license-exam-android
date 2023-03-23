@@ -5,7 +5,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.colorResource
+import androidx.lifecycle.LiveData
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.testdai.R
 
@@ -31,7 +33,18 @@ private val LightPalette = lightColors(
 )
 
 @Composable
-fun DriverLicenseExamTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun DriverLicenseExamTheme(
+    themeState: LiveData<Theme>,
+    content: @Composable () -> Unit
+) {
+
+    val theme = themeState.observeAsState(Theme.System)
+
+    val darkTheme = when (theme.value) {
+        Theme.System -> isSystemInDarkTheme()
+        else -> theme.value == Theme.Dark
+    }
+
     val systemUiController = rememberSystemUiController()
     if (darkTheme) {
         systemUiController.setSystemBarsColor(
@@ -39,7 +52,7 @@ fun DriverLicenseExamTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: 
         )
     } else {
         systemUiController.setSystemBarsColor(
-            color = colorResource(id = R.color.black)
+            color = colorResource(id = R.color.white)
         )
     }
 

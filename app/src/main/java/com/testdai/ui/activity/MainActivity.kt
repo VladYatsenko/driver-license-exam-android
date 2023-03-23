@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import com.testdai.core.localization.LocalizationContextWrapper
 import com.testdai.core.navigation.DriverLicenseExamNavGraph
 import com.testdai.core.theme.DriverLicenseExamTheme
+import com.testdai.core.theme.ThemePreferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,8 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val themePreferences = ThemePreferences.getInstance(this)
+
         setContent {
-            DriverLicenseExamTheme {
+            DriverLicenseExamTheme(themePreferences.themeState) {
                 DriverLicenseExamApp()
             }
         }

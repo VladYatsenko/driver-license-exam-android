@@ -33,7 +33,7 @@ class SettingsViewModel private constructor(application: Application) :
         }
     }
 
-    private val themePreferences by lazy { ThemePreferences(context) }
+    private val themePreferences by lazy { ThemePreferences.getInstance(context) }
     private val langPreferences by lazy { LangPreferences(context) }
 
     private var settingsState = SettingsScreenState()

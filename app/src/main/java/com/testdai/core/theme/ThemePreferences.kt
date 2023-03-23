@@ -2,6 +2,8 @@ package com.testdai.core.theme
 
 import android.content.Context
 import androidx.core.content.edit
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.testdai.R
 
 enum class Theme {
@@ -19,7 +21,17 @@ enum class Theme {
     }
 }
 
-class ThemePreferences(context: Context) {
+class ThemePreferences private constructor(context: Context) {
+
+    companion object {
+        @Volatile private var instance: ThemePreferences? = null
+
+        fun getInstance(context: Context): ThemePreferences {
+            return instance ?: synchronized(this) {
+                instance ?: ThemePreferences(context).also { instance = it }
+            }
+        }
+    }
 
     private val preferencesFileName = "theme"
 
@@ -27,6 +39,8 @@ class ThemePreferences(context: Context) {
         context.getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE)
     private val themeKey = "theme"
 
+    private val _themeState = MutableLiveData<Theme>()
+    val themeState: LiveData<Theme> = _themeState
 
     var theme: Theme
         get() = Theme.valueOf(sharedPreferences.getString(themeKey, null))
@@ -34,6 +48,7 @@ class ThemePreferences(context: Context) {
             sharedPreferences.edit(true) {
                 putString(themeKey, theme.name)
             }
+            _themeState.postValue(theme)
         }
 
 }
