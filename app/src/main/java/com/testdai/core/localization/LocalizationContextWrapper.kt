@@ -4,15 +4,21 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import java.util.*
 
 object LocalizationContextWrapper {
+
+    fun changeLocale(locale: Locale) {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
+    }
 
     fun updateBaseContextLocale(context: Context?, applyOverrideConfiguration: (Configuration) -> Unit): Context? {
         return context?.let {
             val languagePreferences = LangPreferences(context)
 
-            val locale = languagePreferences.defaultLang.locale
+            val locale = languagePreferences.language.locale
             Locale.setDefault(locale)
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 updateResourcesLocale(context, locale, applyOverrideConfiguration)

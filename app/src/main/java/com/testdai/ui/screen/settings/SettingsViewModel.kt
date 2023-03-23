@@ -43,7 +43,7 @@ class SettingsViewModel private constructor(application: Application) :
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val language = langPreferences.defaultLang
+            val language = langPreferences.language
             val theme = themePreferences.theme
 
             val settings = listOf(
@@ -69,8 +69,6 @@ class SettingsViewModel private constructor(application: Application) :
         if (settingsState.language == language) return
 
         viewModelScope.launch(Dispatchers.IO) {
-            langPreferences.lang = language
-
             val settings = settingsState.list.map {
                 if (it is Settings.LanguageItem) it.copy(language) else it
             }
@@ -82,6 +80,8 @@ class SettingsViewModel private constructor(application: Application) :
                 language = language
             )
             _settings.postValue(settingsState)
+
+            langPreferences.language = language
         }
     }
 

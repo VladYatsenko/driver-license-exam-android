@@ -21,8 +21,8 @@ fun LanguageBottomSheet(
         title = stringResource(id = R.string.change_language),
         list = settings.languages
     ) { language ->
-        viewModel.changeLanguage(language)
         dismiss()
+        viewModel.changeLanguage(language)
     }
 
 }

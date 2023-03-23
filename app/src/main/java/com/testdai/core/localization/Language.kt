@@ -1,6 +1,8 @@
 package com.testdai.core.localization
 
 import android.content.Context
+import android.content.res.Resources
+import android.os.Build
 import androidx.core.content.edit
 import com.testdai.R
 import java.util.*
@@ -30,6 +32,8 @@ enum class Language {
 
     companion object {
         fun valueOf(lang: String?) = values().firstOrNull { it.name == lang }
+
+        fun fromLocale(locale: Locale) = values().firstOrNull { it.locale.language == locale.language }
     }
 
 }
@@ -42,22 +46,23 @@ class LangPreferences(context: Context) {
         context.getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE)
     private val langKey = "language"
 
-    var languageChanged: (Language) -> Unit = {}
-
-    val defaultLang: Language
-        get() = lang ?: Language.Ukrainian
-
-    var lang: Language?
-        get() {
-            return Language.valueOf(sharedPreferences.getString(langKey, null))
+    private val deviceLocale: Locale
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Resources.getSystem().configuration.locales.get(0)
+        } else {
+            Resources.getSystem().configuration.locale
         }
+
+    var language: Language
+        get() = Language.valueOf(sharedPreferences.getString(langKey, null))
+                ?: Language.fromLocale(deviceLocale)
+                ?: Language.Ukrainian
         set(language) {
-            language ?: return
-//            if (this.lang != language) {
-//                languageChanged(language)
-//            }
-            sharedPreferences.edit(true) {
-                putString(langKey, language.name)
+            if (this.language != language) {
+                sharedPreferences.edit(true) {
+                    putString(langKey, language.name)
+                }
+                LocalizationContextWrapper.changeLocale(language.locale)
             }
         }
 

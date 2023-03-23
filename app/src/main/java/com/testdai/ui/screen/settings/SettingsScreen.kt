@@ -73,14 +73,13 @@ fun SettingsScreen(
         sheetState = sheetState,
         sheetContent = {
             when (bottomSheet) {
-                BottomSheet.Language -> LanguageBottomSheet(viewModel) {
+                BottomSheet.Theme -> ThemeBottomSheet(viewModel) {
                     hideBottomSheet()
                 }
-                else -> ThemeBottomSheet(viewModel) {
+                else -> LanguageBottomSheet(viewModel) {
                     hideBottomSheet()
                 }
             }
-
         },
         sheetBackgroundColor = colorResource(id = R.color.black),
         sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
