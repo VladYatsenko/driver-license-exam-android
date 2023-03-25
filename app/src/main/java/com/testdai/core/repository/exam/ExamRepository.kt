@@ -1,9 +1,8 @@
-package com.testdai.core.repository
+package com.testdai.core.repository.exam
 
 import android.app.Application
-import com.testdai.core.database.ExamDatabaseModule
-import com.testdai.core.database.QuestionDao
-import com.testdai.core.mapper.ExamMapper
+import com.testdai.core.database.ExamDatabaseProvider
+import com.testdai.core.database.dao.QuestionDao
 import com.testdai.core.preferences.ExamPreferences
 import com.testdai.model.Category
 import com.testdai.model.QuestionModel
@@ -17,7 +16,7 @@ import kotlinx.coroutines.withContext
 class ExamRepository(application: Application) {
 
     private val categories by lazy { ExamPreferences(application).categories.map { it.groupName } }
-    private val databaseModule = ExamDatabaseModule.getInstance(application)
+    private val databaseModule = ExamDatabaseProvider.getInstance(application)
 
     private val questionDao: QuestionDao
         get() = databaseModule.questionDao()

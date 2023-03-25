@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.testdai.core.preferences.ExamPreferences
-import com.testdai.core.repository.ExamRepository
-import com.testdai.core.repository.TopicRepository
+import com.testdai.core.repository.exam.ExamRepository
+import com.testdai.core.repository.topic.TopicRepository
 import com.testdai.model.AnswerModel
 import com.testdai.model.ExamMode
 import com.testdai.model.QuestionModel

@@ -1,10 +1,21 @@
 package com.testdai.core.database
 
 import androidx.room.*
+import com.testdai.core.database.dao.QuestionDao
+import com.testdai.core.database.dao.TopicDao
 
-@Database(entities = [QuestionEntity::class, AnswerEntity::class, TopicEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        QuestionEntity::class,
+        AnswerEntity::class,
+        TopicEntity::class,
+        QuestionStatisticEntity::class
+    ],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(DateConverter::class)
-abstract class ExamDatabase: RoomDatabase() {
+abstract class ExamDatabase : RoomDatabase() {
 
     abstract fun questionDao(): QuestionDao
 

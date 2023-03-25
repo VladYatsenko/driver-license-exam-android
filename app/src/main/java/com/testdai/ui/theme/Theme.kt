@@ -15,9 +15,7 @@ private val DarkPalette = darkColors(
     primaryVariant = Emperor,
     secondary = Shark,
     surface = Shark,
-
-    background = Black,
-
+    background = Black
 )
 
 private val LightPalette = lightColors(
@@ -25,17 +23,7 @@ private val LightPalette = lightColors(
     primaryVariant = Gray,
     secondary = Alabaster,
     surface = Gallery,
-
-    background = Alabaster,
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    background = Alabaster
 )
 
 @Composable

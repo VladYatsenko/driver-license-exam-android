@@ -1,7 +1,8 @@
-package com.testdai.core.database
+package com.testdai.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.testdai.core.database.QuestionWithAnswers
 
 @Dao
 interface QuestionDao {

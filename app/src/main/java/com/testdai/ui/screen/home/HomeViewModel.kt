@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.testdai.core.preferences.ExamPreferences
-import com.testdai.core.repository.TopicRepository
+import com.testdai.core.repository.topic.TopicRepository
 import com.testdai.core.usecase.CategoryUseCase
 import com.testdai.model.Category
 import com.testdai.model.ExamMode

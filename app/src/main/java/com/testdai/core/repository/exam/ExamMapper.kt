@@ -1,4 +1,4 @@
-package com.testdai.core.mapper
+package com.testdai.core.repository.exam
 
 import com.testdai.core.database.AnswerEntity
 import com.testdai.core.database.QuestionWithAnswers

@@ -27,7 +27,6 @@ class SettingsViewModel private constructor(application: Application) :
                 modelClass: Class<T>,
                 extras: CreationExtras
             ): T {
-                // Get the Application object from extras
                 val application = checkNotNull(extras[APPLICATION_KEY])
                 return SettingsViewModel(application) as T
             }

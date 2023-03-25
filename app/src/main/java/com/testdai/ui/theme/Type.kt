@@ -14,7 +14,6 @@ private object Fonts {
     val bold = FontFamily(Font(R.font.montserrat_semibold))
 }
 
-// style = MaterialTheme.typography.subtitle1,
 val Typography = Typography(
     h1 = TextStyle(
         fontFamily = Fonts.bold,

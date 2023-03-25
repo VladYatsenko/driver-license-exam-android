@@ -1,14 +1,13 @@
-package com.testdai.core.repository
+package com.testdai.core.repository.topic
 
 import android.content.Context
-import com.testdai.core.database.ExamDatabaseModule
-import com.testdai.core.database.TopicDao
-import com.testdai.core.mapper.TopicMapper
+import com.testdai.core.database.ExamDatabaseProvider
+import com.testdai.core.database.dao.TopicDao
 import com.testdai.model.TopicModel
 
 class TopicRepository (context: Context) {
 
-    private val databaseModule = ExamDatabaseModule.getInstance(context)
+    private val databaseModule = ExamDatabaseProvider.getInstance(context)
 
     private val topicDao: TopicDao
         get() = databaseModule.topicDao()

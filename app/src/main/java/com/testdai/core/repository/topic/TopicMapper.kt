@@ -1,4 +1,4 @@
-package com.testdai.core.mapper
+package com.testdai.core.repository.topic
 
 import com.testdai.core.database.TopicEntity
 import com.testdai.model.TopicModel
