@@ -12,6 +12,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +25,7 @@ import com.testdai.ui.bottom.theme.ThemeBottomSheet
 import com.testdai.ui.screen.settings.state.Settings
 import com.testdai.ui.screen.settings.state.SettingsScreenState
 import com.testdai.ui.theme.Gray
+import com.testdai.utils.activity
 import com.testdai.widget.ToolbarWidget
 import kotlinx.coroutines.launch
 
@@ -34,6 +36,13 @@ fun SettingsScreen(
 ) {
 
     val settings by viewModel.settings.observeAsState(SettingsScreenState())
+
+    if (settings.languageChanged) {
+        val activity = LocalContext.current.activity
+        LaunchedEffect(Unit) {
+            activity?.recreate()
+        }
+    }
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,

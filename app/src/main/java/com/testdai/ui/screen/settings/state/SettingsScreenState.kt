@@ -10,7 +10,8 @@ data class SettingsScreenState(
     val languages: List<LanguageWrapper> = emptyList(),
     val language: Language = Language.Ukrainian,
     val themes: List<ThemeWrapper> = emptyList(),
-    val theme: Theme = Theme.System
+    val theme: Theme = Theme.System,
+    val languageChanged: Boolean = false
 )
 
 sealed class Settings {

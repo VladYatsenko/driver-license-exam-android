@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.testdai.core.localization.LangPreferences
 import com.testdai.core.localization.Language
-import com.testdai.core.localization.LocalizationContextWrapper
 import com.testdai.core.theme.Theme
 import com.testdai.core.theme.ThemePreferences
 import com.testdai.ui.screen.settings.state.LanguageWrapper
@@ -70,23 +69,25 @@ class SettingsViewModel private constructor(application: Application) :
     fun changeLanguage(language: Language) {
         if (settingsState.language == language) return
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val settings = settingsState.list.map {
-                if (it is Settings.LanguageItem) it.copy(language) else it
-            }
-            val languages = Language.values().map { LanguageWrapper(it, it == language) }
+        viewModelScope.launch {
+            settingsState = withContext(Dispatchers.IO) {
+                val settings = settingsState.list.map {
+                    if (it is Settings.LanguageItem) it.copy(language) else it
+                }
+                val languages = Language.values().map { LanguageWrapper(it, it == language) }
+                langPreferences.language = language
 
-            settingsState = settingsState.copy(
-                list = settings,
-                languages = languages,
-                language = language
-            )
+                settingsState.copy(
+                    list = settings,
+                    languages = languages,
+                    language = language,
+                    languageChanged = true
+                )
+            }
+            _settings.value = settingsState
+
+            settingsState = settingsState.copy(languageChanged = false)
             _settings.postValue(settingsState)
-
-            langPreferences.language = language
-            withContext(Dispatchers.Main) {
-                LocalizationContextWrapper.changeLocale(language.locale)
-            }
         }
     }
 
