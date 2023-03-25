@@ -49,7 +49,7 @@ fun CategoryBottomSheet(
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(5),
-            contentPadding = PaddingValues(horizontal = 28.dp, vertical = 8.dp),
+            contentPadding = PaddingValues(horizontal = 48.dp, vertical = 8.dp),
             content = {
                 items(categorySelector.categories.size) { index ->
                     when (val item = categorySelector.categories[index]) {
@@ -92,7 +92,7 @@ fun CategoryItemWidget(
 
     val borderColor = when (item.state) {
         CategoryItem.SelectionState.Common -> MaterialTheme.colors.primary
-        CategoryItem.SelectionState.Selected -> Skeptic
+        CategoryItem.SelectionState.Selected -> MaterialTheme.colors.primary
         CategoryItem.SelectionState.Disabled -> MaterialTheme.colors.primaryVariant
     }
 
