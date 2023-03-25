@@ -1,6 +1,32 @@
-# Іспит ПДР
-Додаток дає можливість перевірити свої знання з правил дорожнього руху для здачі іспиту на отримання водійських прав
+# Driver license exam
 
-<img src="https://user-images.githubusercontent.com/12252813/44461168-7c526280-a618-11e8-8ca9-2d652f0bea08.jpg" width="200"/>  <img src="https://user-images.githubusercontent.com/12252813/44461169-7c526280-a618-11e8-815b-b1d8a40d9b8a.jpg" width="200"/>  <img src="https://user-images.githubusercontent.com/12252813/44461170-7c526280-a618-11e8-9e8d-0d9cf507bea2.jpg" width="200"/>  <img src="https://user-images.githubusercontent.com/12252813/44461543-f7684880-a619-11e8-8c31-0ef9cd98dc26.jpg" width="200"/>
+The application provides an opportunity to test your knowledge of traffic rules in order to pass a driver's license exam.
 
-[Завантажити додаток](https://github.com/VladYatsenko/TestDAI/blob/master/app/release/app-release.apk)
+## Home Screen
+
+Oh the home screen we can see selected categories and exam mode selector.
+
+Exam mode selector has 3 states:
+* Exam;
+* Training;
+* Questions by topic;
+
+<img src="media/home_light.png" width="200"/> <img src="media/home_dark.png" width="200"/>
+
+## Category Selector
+
+Category selector opens from the home screen. A few categories can be chosen. Questions selection algorithm depends on chosen categories.
+
+<img src="media/category_selector_light.png" width="200"/> <img src="media/category_selector_dark.png" width="200"/>
+
+## Exam Screen
+
+Chosen mode and countdown timer displays at the top of Exam screen. The name of topic displays for "Questions by topic" mode.
+
+<img src="media/exam_light.png" width="200"/> <img src="media/exam_dark.png" width="200"/>
+
+## Settings Screen
+
+The language and the application theme can be changed in the settings screen.
+
+<img src="media/settings_light.png" width="200"/> <img src="media/settings_dark.png" width="200"/>
