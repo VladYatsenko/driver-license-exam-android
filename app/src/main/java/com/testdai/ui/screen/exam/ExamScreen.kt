@@ -12,16 +12,14 @@ import androidx.compose.material.*
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -42,6 +40,7 @@ import com.testdai.ui.bottom.result.ResultBottomSheet
 import com.testdai.ui.screen.exam.data.ExamScreenState
 import com.testdai.ui.screen.exam.data.Toolbar
 import com.testdai.ui.theme.*
+import com.testdai.utils.dpToPx
 import com.testdai.widget.ButtonWidget
 import com.testdai.widget.ToolbarWidget
 import kotlinx.coroutines.launch
@@ -171,12 +170,30 @@ fun ExamState(
     onQuestionClick: (QuestionModel) -> Unit = {},
     onAnswerClick: (AnswerModel) -> Unit = {}
 ) {
+    val configuration = LocalConfiguration.current
+
+    val screenWidth = configuration.screenWidthDp.dp.dpToPx()
+
+    val horizontalPadding = 16.dp
+    val horizontalPaddingPx = horizontalPadding.dpToPx()
+    val horizontalSpacing = 8.dp
+    val horizontalSpacingPx = horizontalSpacing.dpToPx()
+
     val listState = rememberLazyListState()
     val flingBehavior = rememberSnapFlingBehavior(listState)
 
     val questions = state.questions
     val question = state.question
     val answers = question.answers
+
+    LaunchedEffect(key1 = question) {
+        questions.indexOf(question)
+            .takeIf { it != 0 }
+            ?.let {  index ->
+                val offset = -screenWidth / 2 + horizontalPaddingPx * 2 + horizontalSpacingPx / 2
+                listState.animateScrollToItem(index,  offset)
+            }
+    }
 
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
@@ -195,8 +212,8 @@ fun ExamState(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(horizontalSpacing),
+            contentPadding = PaddingValues(horizontal = horizontalPadding),
             flingBehavior = flingBehavior
         ) {
             items(count = questions.size, itemContent = { index ->
