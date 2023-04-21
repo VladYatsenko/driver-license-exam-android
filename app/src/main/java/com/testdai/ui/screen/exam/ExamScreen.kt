@@ -237,12 +237,17 @@ fun ExamState(
             color = MaterialTheme.colors.primary
         )
         if (question.hasImage && painter.state is AsyncImagePainter.State.Success) {
+            val painterState = painter.state as AsyncImagePainter.State.Success
+            val ratio = painterState.result.drawable.let {
+                it.intrinsicWidth.toFloat() / it.intrinsicHeight
+            }
             Image(
                 painter = painter,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 4.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .aspectRatio(ratio)
                     .clip(RoundedCornerShape(8.dp))
                     .heightIn(min = 150.dp, max = 300.dp),
                 contentDescription = null,
